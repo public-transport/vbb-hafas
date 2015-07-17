@@ -1,0 +1,36 @@
+{
+	"name": "vbb",
+	"description": "A JavaScript API for Berlin & Brandenburg public transport.",
+	"version": "0.1.0",
+	"main": "src/index.js",
+	"keywords": [
+		"vbb",
+		"berlin",
+		"brandenburg",
+		"public transport",
+		"api",
+		"hafas",
+		"json",
+		"rest",
+		"fahrinfo",
+		"javascript"
+	],
+	"author": {
+		"name": "Jannis R",
+		"email": "mail@jannisr.de",
+		"url": "http://jannisr.de"
+	},
+	"homepage": "https://github.com/derhuerst/vbb",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/derhuerst/vbb.git"
+	},
+	"bugs": {
+		"url": "https://github.com/derhuerst/vbb/issues"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"request":				"^2.58.0",
+		"extend":				"^3.0.0"
+	}
+}
