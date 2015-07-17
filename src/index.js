@@ -1,6 +1,8 @@
 url =		require('url');
 path =		require('path');
 request =	require('request');
+extend =	require('extend');
+sDate =		require('s-date');
 
 
 
@@ -186,6 +188,65 @@ factory.Client = {
 			// todo: parsing & beautifying
 			callback(error, data);
 		}).bind(this));
+	}
+
+
+
+	_arrivalsDefaults: {
+		direction: null,
+		when: null,
+		products: {
+			suburban:	true,
+			subway:		true,
+			tram:		true,
+			bus:		true,
+			ferry:		true,
+			express:	true,
+			regional:	true
+		},
+		timeSpan: null,
+	}
+
+	// arrivalBoard & departureBoard
+	arrivals: function (id, options, callback) {
+		if (typeof id != 'number')
+			throw new Error('Missing `id`.');
+		if (typeof options === 'function') {
+			callback = options;
+			options = {};
+		} else if (!callback)
+			throw new Error('Missing `callback`.');
+
+		options = extend(true, {}, this._stationArrivalsDefaults, options);
+		var params = {};
+
+		if (options.direction && typeof options.direction != 'number')
+			params.direction = options.direction;
+
+		if (!options.when)
+			options.when = new Date();
+		params.date = sDate('{yyyy}-{mm}-{dd}', options.when);
+		params.time = sDate('{hh24}:{Minutes}:{Seconds}', options.when);
+
+		if (!options.products.suburban)
+			// todo
+		if (!options.products.subway)
+			// todo
+		if (!options.products.tram)
+			params.useTram = 0;
+		if (!options.products.bus)
+			params.useBus = 0;
+		if (!options.products.ferry)
+			// todo
+		if (!options.products.express)
+			// todo
+		if (!options.products.regional)
+			// todo
+
+		if (options.timeSpan)
+			params.timeSpan = options.timeSpan;
+
+		// todo: actual request & parsing
 	}
 
 
