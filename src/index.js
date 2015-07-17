@@ -168,6 +168,28 @@ factory.Client = {
 
 
 
+	// location.nearbystops
+	nearby: function (latitude, longitude, callback) {
+		if (typeof latitude != 'number')
+			throw new Error('`latitude` is invalid.');
+		if (typeof longitude != 'number')
+			throw new Error('`longitude` is invalid.');
+		if (!callback)
+			throw new Error('Missing `callback`.');
+
+		this._request('location.nearbystops', {
+			originCoordLat: latitude,
+			originCoordLong: longitude
+		}, (function (error, data) {
+			if (error)
+				return callback(error);
+			// todo: parsing & beautifying
+			callback(error, data);
+		}).bind(this));
+	}
+
+
+
 };
 
 
