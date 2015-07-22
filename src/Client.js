@@ -3,6 +3,9 @@ path =		require('path');
 request =	require('request');
 extend =	require('extend');
 sDate =		require('s-date');
+url =			require('url');
+extend =		require('extend');
+request =		require('request-promise');
 
 products =	require('./products');
 locations =	require('./locations');
@@ -44,39 +47,30 @@ module.exports = {
 
 
 
-	_request: function (method, params, callback) {
+	_request: function (method, params) {
 		var target = url.parse(this.endpoint, true);
 		target.pathname = path.join(target.pathname, method);
 
 		target.query.format = 'json';
 		target.query.accessId = this.accessId;
-		var property;
-		for (property in params) {
+		extend(target.query, params);
+		for (var property in params) {
 			target.query[property] = params[property];
 		}
 
-		target = url.format(target);
-		request(target, function (error, response, body) {
-			if (error)
-				return callback(error);
-			if (response.statusCode != 200)
-				return callback(new Error('HTTP ' + response.statusCode + ' – ' + response.statusMessage));
-
-			try {
-				body = JSON.parse(body);
-			} catch (error) {
-				return callback(error);
-			}
-
-			if (body.errorCode)
-				return callback(new Error(body.errorCode + ' – ' + body.errorText));
-
-			callback(null, body);
-		});
+		return request(target)   // promise
+		.then(this._requestOnSuccess, this._requestOnError);
 	},
 
+	_requestOnSuccess: function (body) {
+		body = JSON.parse(body);
+		if (body.errorCode) throw new Error(body.errorCode + ' – ' + body.errorText));   // todo: use `.code` & `.message`?
+		return body;
 	},
 
+	// todo: is this unnecessary?
+	_requestOnError: function (err) {
+		throw err
 	}
 
 
