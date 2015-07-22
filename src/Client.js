@@ -4,63 +4,19 @@ request =	require('request');
 extend =	require('extend');
 sDate =		require('s-date');
 
-
-
-
-
-var factory = function () {
-	instance = Object.create(factory.Client);
-	instance.init.apply(instance, arguments);
-	return instance;
-}
+products =	require('./products');
+locations =	require('./locations');
 
 
 
 
 
-factory.Client = {
+module.exports = {
 
 
 
-	products: [
-		{
-			id: 1,
-			name: 'S',
-			type: 'suburban'
-		}
-		{
-			id: 2,
-			name: 'U',
-			type: 'subway'
-		}
-		{
-			id: 4,
-			name: 'Tram',
-			type: 'tram'
-		}
-		{
-			id: 8,
-			name: 'B',
-			type: 'bus'
-		}
-		{
-			id: 16,
-			name: 'F',
-			type: 'ferry'
-		}
-		{
-			id: 32,
-			name: 'IC/ICE',
-			type: 'express'
-		}
-		{
-			id: 64,
-			name: 'RB/RE',
-			type: 'regional'
-		}
-	],
-
-
+	products: products,
+	locations: locations,
 
 	endpoint: 'http://demo.hafas.de/openapi/vbb-proxy/',
 	accessId: null,
@@ -74,6 +30,8 @@ factory.Client = {
 
 		if (endpoint)
 			this.endpoint = endpoint;
+
+		return this;
 	},
 
 
@@ -188,7 +146,7 @@ factory.Client = {
 			// todo: parsing & beautifying
 			callback(error, data);
 		}).bind(this));
-	}
+	},
 
 
 
@@ -205,7 +163,7 @@ factory.Client = {
 			regional:	true
 		},
 		timeSpan: null,
-	}
+	},
 
 	// arrivalBoard & departureBoard
 	arrivals: function (id, options, callback) {
@@ -252,9 +210,3 @@ factory.Client = {
 
 
 };
-
-
-
-
-
-module.exports = factory;
