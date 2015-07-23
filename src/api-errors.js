@@ -5,16 +5,16 @@
 var e = module.exports = {
 	R: [],
 	S: [],
-	T: [],
+	H: [],
 	SQ: [],
 	TI: []
 };
 
 e.R.name = 'REST request error';
 e.S.name = 'backend server error';
-e.T.name = 'trip search error';
+e.H.name = 'trip search error';
 e.SQ.name = 'departure and arrival board error';
-e.T.name = 'journey details error';
+e.TI.name = 'journey details error';
 
 e.R[1] = {
 	'code':		'R0001',

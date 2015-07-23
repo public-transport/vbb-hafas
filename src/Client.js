@@ -2,9 +2,7 @@ url =			require('url');
 extend =		require('extend');
 request =		require('request-promise');
 
-products =		require('./products');
-locations =		require('./locations');
-
+errors =		require('./errors');
 services =		require('./services');
 
 
@@ -15,8 +13,7 @@ var Client = module.exports = {
 
 
 
-	products: products,
-	locations: locations,   // todo: move to `./services/locations`?
+	errors: errors,
 
 	endpoint: 'http://demo.hafas.de/openapi/vbb-proxy/',
 	accessId: null,
@@ -29,8 +26,7 @@ var Client = module.exports = {
 		if (!accessId) throw new Error('Missing `accessId`.');
 		this.accessId = accessId;
 
-		if (!endpoint) throw new Error('Missing `endpoint`.');
-		this.endpoint = endpoint;
+		if (endpoint) this.endpoint = endpoint;
 
 		for (var service in this.services) {
 			this[service] = Object.create(this.services[service]);
@@ -42,9 +38,9 @@ var Client = module.exports = {
 
 
 
-	_request: function (method, params) {
+	_request: function (service, params) {
 		var target = url.parse(this.endpoint, true);
-		target.pathname = path.join(target.pathname, method);
+		target.pathname = path.join(target.pathname, service);
 
 		target.query.format = 'json';
 		target.query.accessId = this.accessId;
