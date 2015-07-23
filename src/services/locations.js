@@ -93,6 +93,41 @@ var locations = module.exports = {
 			}
 
 		return results;
+	},
+
+
+
+	_nearbyDefaults: {
+		results:	10,
+		products: {
+			suburban:	true,
+			subway:		true,
+			tram:		true,
+			bus:		true,
+			ferry:		true,
+			express:	false,
+			regional:	true
+		}
+	},
+
+	// returns a promise
+	// todo: test with proper API access
+	nearby: function (latitude, longitude, options) {
+		if (!latitude) throw new Error('Missing `latitude` parameter.');
+		if (!longitude) throw new Error('Missing `longitude` parameter.');
+
+		options = extend(true, {}, this._searchDefaults, options || {});
+
+		params = {
+			originCoordLat:		latitude,
+			originCoordLong:	longitude,
+			maxNo:				options.results,
+			products:			products.typesToNumber(options.products)
+		};
+
+		return this.client._request('location.nearbystops', params)
+		.then(this._nearbyOnSuccess, console.error)   // remove `console` parts
+		.then(console.log);
 	}
 
 
