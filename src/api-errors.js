@@ -1,6 +1,6 @@
 // todo:
 // - find out what these shitty errors mean
-// - reasonable, grammatically correct, helpful error messages
+// - write reasonable, grammatically correct, helpful error messages
 
 var e = module.exports = {
 	R: [],

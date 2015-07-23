@@ -49,18 +49,18 @@ var locations = module.exports = {
 		options = extend(true, {}, this._searchDefaults, options || {});
 
 		params = {
-			input:		query,
-			maxNo:		options.results,
+			input:			query,
+			maxNo:			options.results,
 			type: this.locations.typesToString({
 				station:	options.stations,
 				address:	options.addresses,
 				poi:		options.pois
 			}),
-			products:	products.typesToNumber(options.products)
+			products:		products.typesToNumber(options.products)
 		};
 
 		return this.client._request('location.name', params)
-		.then(this._searchOnSuccess, console.error)
+		.then(this._searchOnSuccess, console.error)   // remove `console` parts
 		.then(console.log);
 	},
 
