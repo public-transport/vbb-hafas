@@ -23,10 +23,10 @@ var stations = module.exports = {
 
 
 	arrivals: function (station, options) {
-		return this._request('arrivalBoard', this._arrivalsOnSuccess, station, options);
+		return this._request('arrivalBoard', station, options);
 	},
 	departures: function (station, options) {
-		return this._request('departureBoard', this._departuresOnSuccess, station, options);
+		return this._request('departureBoard', station, options);
 	},
 
 
@@ -47,9 +47,8 @@ var stations = module.exports = {
 	},
 
 	// returns a promise
-	_request: function (service, handler, station, options) {
+	_request: function (service, station, options) {
 		if (!service) throw new Error('Missing `service` parameter.');
-		if (!handler) throw new Error('Missing `handler` parameter.');
 		if (!station) throw new Error('Missing `station` parameter.');
 
 		options = extend(true, {}, this._requestDefaults, options || {});
@@ -65,46 +64,30 @@ var stations = module.exports = {
 		if (options.direction) params.direction = options.direction;
 
 		return this.client._request(service, params)
-		.then(handler, console.error);   // todo: remove `console.error`
+		.then(this._requestOnSuccess, console.error);   // todo: remove `console.error`
 	},
 
-	_arrivalsOnSuccess: function (data) {
+	_requestOnSuccess: function (data) {
 		var results = [];
-		var i, length, departure;
+		var list, i, length, departure;
 
-		if (data.Arrival)
-			for (i = 0, length = data.Arrival.length; i < length; i++) {
-				departure = data.Arrival[i];
-				// todo: what is `departure.type`?
-				results.push({
-					name:		departure.Product.name,
-					line:		departure.Product.line,
-					product:	products[departure.trainCategory].type,
-					when:		new Date(departure.date + ' ' + departure.time),
-					realtime:	new Date(departure.rtDate + ' ' + departure.rtTime)
-				});
-			}
+		if (data.Arrival) list = data.Arrival;
+		else if (data.Departure) list = data.Departure;
+		else return [];
 
-		return results;
-	},
-
-	_departuresOnSuccess: function (data) {
-		var results = [];
-		var i, length, departure;
-
-		if (data.Departure)
-			for (i = 0, length = data.Departure.length; i < length; i++) {
-				departure = data.Departure[i];
-				// todo: what is `departure.type`?
-				results.push({
-					name:		departure.Product.name,
-					line:		departure.Product.line,
-					direction:	departure.direction,
-					product:	products[departure.trainCategory].type,
-					when:		new Date(departure.date + ' ' + departure.time),
-					realtime:	new Date(departure.rtDate + ' ' + departure.rtTime)
-				});
-			}
+		for (i = 0, length = list.length; i < length; i++) {
+			// todo: what is `list[i].type`?
+			departure = {
+				name:		list[i].Product.name,
+				line:		list[i].Product.line,
+				product:	products[list[i].trainCategory].type,
+				when:		new Date(list[i].date + ' ' + list[i].time),
+				realtime:	new Date(list[i].rtDate + ' ' + list[i].rtTime)
+			};
+			if (data.Arrival) departure.origin = list[i].origin;
+			else if (data.Departure) departure.destination = list[i].destination;
+			results.push(departure);
+		}
 
 		return results;
 	}
