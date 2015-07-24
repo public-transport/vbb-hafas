@@ -1,38 +1,45 @@
 var products = module.exports = [];
 
-products.suburban = products[1] = {
+products.suburban = products.S = products[1] = {
 	id:		1,
-	name:	'S',
+	name:	'S-Bahn',
+	short:	'S',
 	type:	'suburban'
 };
-products.subway = products[2] = {
+products.subway = products.U = products[2] = {
 	id:		2,
-	name:	'U',
+	name:	'U-Bahn',
+	short:	'U',
 	type:	'subway'
 };
-products.tram = products[4] = {
+products.tram = products.T = products.MT = products[4] = {
 	id:		4,
 	name:	'Tram',
+	short:	'T',
 	type:	'tram'
 };
-products.bus = products[8] = {
+products.bus = products.B = products.MB = products[8] = {
 	id:		8,
-	name:	'B',
+	name:	'Bus',
+	short:	'B',
 	type:	'bus'
 };
-products.ferry = products[16] = {
+products.ferry = products.F = products[16] = {
 	id:		16,
-	name:	'F',
+	name:	'Fähre',
+	short:	'F',
 	type:	'ferry'
 };
-products.express = products[32] = {
+products.express = products.todo = products[32] = {
 	id:		32,
 	name:	'IC/ICE',
+	short:	'todo',
 	type:	'express'
 };
-products.regional = products[64] = {
+products.regional = products.todo = products[64] = {
 	id:		64,
 	name:	'RB/RE',
+	short:	'todo',
 	type:	'regional'
 };
 

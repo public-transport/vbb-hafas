@@ -28,8 +28,8 @@ e.R[7] = {
 	'code':		'R0007',
 	'message':	'Internal communication error'
 };
-e.R[100] = {
-	'code':		'R500',
+e.R[5000] = {
+	'code':		'R5000',
 	'message':	'Access denied'
 };
 

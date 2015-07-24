@@ -1,5 +1,4 @@
 extend =		require('extend');
-url =			require('url');
 
 products =		require('../products');
 locations =		require('../locations');
@@ -60,13 +59,13 @@ var locations = module.exports = {
 		};
 
 		return this.client._request('location.name', params)
-		.then(this._searchOnSuccess, console.error)   // remove `console` parts
-		.then(console.log);
+		.then(this._searchOnSuccess, console.error);   // remove `console` parts
 	},
 
 	_searchOnSuccess: function (data) {
 		var results = [];
 		var i, length, location;
+
 		if (data.StopLocation)
 			for (i = 0, length = data.StopLocation.length; i < length; i++) {
 				location = data.StopLocation[i];
@@ -77,7 +76,7 @@ var locations = module.exports = {
 					latitude:	location.lat,
 					longitude:	location.lon,
 					products:	products.numberToTypes(location.products)
-					// todo: notes
+					// todo: `loocation.notes`
 				});
 			}
 
