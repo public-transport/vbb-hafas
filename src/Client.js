@@ -1,7 +1,7 @@
 url =			require('url');
 extend =		require('extend');
 request =		require('request-promise');
-requestErrors =	require('request-promise/errors');
+rErrors =		require('request-promise/errors');
 
 errors =		require('./errors');
 services =		require('./services');
@@ -50,29 +50,27 @@ var Client = module.exports = {
 			target.query[property] = params[property];
 		}
 
+		var uri = url.format(target);
+
 		var thus = this;
 		return request({
-			uri: url.format(target)
+			uri: 						uri,
+			resolveWithFullResponse:	true
 		})   // returns a promise
-		.then(function(data) {   // success handler
+		.then(function(res) {   // success handler
 			try {
-				data = JSON.parse(data);
+				data = JSON.parse(res.body);
 			} catch (e) {
 				return new Error('Could not parse response JSON');
 			}
-			if (data.errorCode)
-				return thus.errors.apiServerError(data);
+			// if (data.errorCode) return thus.errors.apiServerError(res, data);
+			if (data.errorCode) return thus.errors.apiServerError(res, data);
 			return data;
 		}, function (err) {   // error handler
-			if (err instanceof requestErrors.RequestError)
-				return new thus.errors.RequestError(err.error.code, err.message, err.options.uri);
-			if (err instanceof requestErrors.StatusCodeError) {
-				try {
-					var data = JSON.parse(err.message);
-					return thus.errors.apiServerError(data);
-				} catch (e) {
-					return new thus.HttpError(err.options.request.statusCode, err.options.request.statusMessage, err.options.uri, err.options.response.request.method);
-				}
+			if (err instanceof rErrors.RequestError)
+				return thus.errors.fromRequestError(err);
+			if (err instanceof rErrors.StatusCodeError) {
+				return thus.errors.fromStatusCodeError(err);
 			}
 		});
 	}

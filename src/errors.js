@@ -13,6 +13,7 @@ errors.RequestError = function (code, message, url) {
 };
 errors.RequestError.prototype.toString = function () {
 	return [
+		'request error: ',
 		this.code,
 		'–',
 		this.message,
@@ -28,6 +29,7 @@ errors.HttpError = function (code, message, url, method) {
 };
 errors.HttpError.prototype.toString = function () {
 	return [
+		'HTTP error: ',
 		this.code,
 		'–',
 		this.method,
@@ -44,17 +46,33 @@ errors.ApiServerError = function (type, code, message, url, details) {
 };
 errors.ApiServerError.prototype.toString = function () {
 	return [
+		'API server error: ',
 		this.code,
 		'–',
 		this.message,
 		'(' + this.url + ')'
 	].join(' ');
 };
-errors.apiServerError = function (data) {
+errors.apiServerError = function (res, data) {
+	var unknownError = new errors.ApiServerError('unknown', null, data.errorText, res.request.url, null);
 	var group = apiErrors[data.errorCode.substr(0, 1)];
+	if (!group) return unknownError;
 	var error = group[parseInt(data.errorCode.substr(1))];
-	if (group && error)
-		return new ApiServerError(group.name, error.code, error.message, err.options.uri, data.errorText);
-	else
-		return new ApiServerError('unknown', null, data.errorText, err.options.uri, null);
+	if (!error) return unknownError;
+	return new errors.ApiServerError(group.name, error.code, error.message, res.request.url, data.errorText);
+};
+
+
+
+errors.fromRequestError = function (err) {
+	return new errors.RequestError(err.error.code, err.message, err.options.uri);
+};
+
+errors.fromStatusCodeError = function (err) {
+	try {
+		var data = JSON.parse(err.message);
+		return errors.apiServerError(err.response, data);
+	} catch (e) {
+		return new errors.HttpError(err.response.statusCode, err.response.statusMessage, err.options.uri, err.response.request.method);
+	}
 };
