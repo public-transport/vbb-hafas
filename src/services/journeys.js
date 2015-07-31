@@ -1,4 +1,6 @@
-//extend =		require('extend');
+extend =		require('extend');
+
+tools =			require('../tools');
 
 
 
@@ -71,15 +73,28 @@ var journeys = module.exports = {
 			throw new Error('Neither `origin` nor `originLat` & `originLong` passed.');
 
 		if (options.destination)
-			params.destinationId = options.destination;
+			params.destId = options.destination;
 		else if (options.destinationLat && options.destinationLong) {
-			params.destinationCoordLat = options.destinationLat;
-			params.destinationCoordLong = options.destinationLong;
+			params.destCoordLat = options.destinationLat;
+			params.destCoordLong = options.destinationLong;
 		} else
 			throw new Error('Neither `destination` nor `destinationLat` & `destinationLong` passed.');
 
 		return this.client._request('trip', params)
-		.then(console.log, function(err){throw err});   // todo: remove `console.error`
+		.then(this._searchOnSuccess, console.error);   // todo: remove `console.error`
+	},
+
+	_searchOnSuccess: function (data) {
+		console.log('_searchOnSuccess', data);
+		var results = [];
+		var i, length, trip;
+
+		for (i = 0, length = data.Trip.length; i < length; i++) {
+			trip = data.Trip[i];
+			// todo
+		}
+
+		return results;
 	}
 
 
