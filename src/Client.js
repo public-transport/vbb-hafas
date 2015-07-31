@@ -67,9 +67,10 @@ var Client = module.exports = {
 			if (data.errorCode) return thus.errors.apiServerError(res, data);
 			return data;
 		}, function (err) {   // error handler
+			console.log('err', err);
 			if (err instanceof rErrors.RequestError)
 				return thus.errors.fromRequestError(err);
-			if (err instanceof rErrors.StatusCodeError) {
+			else if (err instanceof rErrors.StatusCodeError) {
 				return thus.errors.fromStatusCodeError(err);
 			}
 		});

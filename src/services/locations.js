@@ -125,8 +125,11 @@ var locations = module.exports = {
 		};
 
 		return this.client._request('location.nearbystops', params)
-		.then(this._nearbyOnSuccess, console.error)   // remove `console` parts
-		.then(console.log);
+		.then(this._nearbyOnSuccess, console.error);   // todo: remove `console.error`
+	},
+
+	_nearbyOnSuccess: function (data) {
+		// todo
 	}
 
 
