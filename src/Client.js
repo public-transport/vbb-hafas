@@ -110,15 +110,15 @@ var Client = module.exports = {
 
 
 	_routesDefaults: {
-		origin:				null,
-		originLat:			null,
-		originLong:			null,
-		destination:		null,
-		destinationLat:		null,
-		destinationLong:	null,
+		from:				null,
+		fromLatitude:		null,
+		fromLongitude:		null,
+		to:					null,
+		toLatitude:			null,
+		toLongitude:		null,
 		via:				null,
 
-		results:			5,
+		results:			4,
 		when:				null,
 		changes:			null,
 		changeTimeFactor:	1,
@@ -148,21 +148,21 @@ var Client = module.exports = {
 		if (typeof options.changes === 'number') params.maxChange = options.changes;
 		if (options.via) params.via = options.via;
 
-		if (options.origin)
-			params.originId = this._locations.createApiId(options.origin);
-		else if (options.originLat && options.originLong) {
-			params.originCoordLat = options.originLat;
-			params.originCoordLong = options.originLong;
+		if (options.from)
+			params.originId = this._locations.createApiId(options.from);
+		else if (options.fromLat && options.fromLongitude) {
+			params.originCoordLat = options.fromLat;
+			params.originCoordLong = options.fromLongitude;
 		} else
-			throw new Error('Neither `origin` nor `originLat` & `originLong` passed.');
+			throw new Error('Neither `from` nor `fromLatitude` & `fromLongitude` passed.');
 
-		if (options.destination)
-			params.destId = this._locations.createApiId(options.destination);
-		else if (options.destinationLat && options.destinationLong) {
-			params.destCoordLat = options.destinationLat;
-			params.destCoordLong = options.destinationLong;
+		if (options.to)
+			params.destId = this._locations.createApiId(options.to);
+		else if (options.toLatitude && options.toLongitude) {
+			params.destCoordLat = options.toLatitude;
+			params.destCoordLong = options.toLongitude;
 		} else
-			throw new Error('Neither `destination` nor `destinationLat` & `destinationLong` passed.');
+			throw new Error('Neither `to` nor `toLatitude` & `toLongitude` passed.');
 
 		return this._request('trip', params, [this._routesOnSuccess]);
 	},
