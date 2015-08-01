@@ -4,11 +4,13 @@ var parseIsoDuration =	require('parse-iso-duration');
 var bluebird =			require('bluebird');
 var request =			bluebird.promisify(require('request'));
 
-var errors =			require('./util/errors');
-var products =			require('./util/products');
-var locations =			require('./util/locations');
-var transports =		require('./util/transports');
-// todo: time & date module
+var util = {
+	errors:				require('./util/errors'),
+	products:			require('./util/products'),
+	locations:			require('./util/locations'),
+	transports:			require('./util/transports'),
+	dateTime:			require('./util/date-time')
+};
 
 
 
@@ -19,13 +21,14 @@ var Client = module.exports = {
 
 
 	// util
-	errors:		errors,
-	products:	products,
-	locations:	locations,
-	transports:	transports,
+	_errors:		util.errors,
+	_products:		util.products,
+	_locations:		util.locations,
+	_transports:	util.transports,
+	_dateTime:		util.dateTime,
 
-	endpoint:	'http://demo.hafas.de/openapi/vbb-proxy/',
-	accessId:	null,
+	endpoint:		'http://demo.hafas.de/openapi/vbb-proxy/',
+	accessId:		null,
 
 
 
@@ -66,12 +69,12 @@ var Client = module.exports = {
 		params = {
 			input:			query,
 			maxNo:			options.results,
-			type: this.locations.createApiString({
+			type: this._locations.createApiString({
 				station:	options.stations,
 				address:	options.addresses,
 				poi:		options.pois
 			}),
-			products:		this.products.createApiNumber(options.products)
+			products:		this._products.createApiNumber(options.products)
 		};
 
 		this._request('location.name', params, [this._locationOnSuccess]);
@@ -88,14 +91,14 @@ var Client = module.exports = {
 		if (data.StopLocation)
 			for (i = 0, length = data.StopLocation.length; i < length; i++) {
 				loc = data.StopLocation[i];
-				result = this.locations.parseApiLocation(loc);
-				result.products = this.products.parseApiNumber(loc.products);
+				result = this._locations.parseApiLocation(loc);
+				result.products = this._products.parseApiNumber(loc.products);
 				results.push(result);
 			}
 
 		if (data.CoordLocation)
 			for (i = 0, length = data.CoordLocation.length; i < length; i++) {
-				results.push(this.locations.parseApiLocation(data.CoordLocation[i]));
+				results.push(this._locations.parseApiLocation(data.CoordLocation[i]));
 			}
 
 		console.log(results);
@@ -136,17 +139,17 @@ var Client = module.exports = {
 		if (!options.when) options.when = new Date();   // now
 		params = {
 			changeTimePercent:	Math.round(options.changeTimeFactor * 100),
-			date:				this.dateTime.createApiDate(options.when),
-			time:				this.dateTime.createApiTime(options.when),
+			date:				this._dateTime.createApiDate(options.when),
+			time:				this._dateTime.createApiTime(options.when),
 			numF:				0,
 			numB:				options.results > 6 ? 6 : options.results,
-			products:			this.products.createApiNumber(options.products)
+			products:			this._products.createApiNumber(options.products)
 		};
 		if (typeof options.changes === 'number') params.maxChange = options.changes;
 		if (options.via) params.via = options.via;
 
 		if (options.origin)
-			params.originId = this.locations.createApiId(options.origin);
+			params.originId = this._locations.createApiId(options.origin);
 		else if (options.originLat && options.originLong) {
 			params.originCoordLat = options.originLat;
 			params.originCoordLong = options.originLong;
@@ -154,7 +157,7 @@ var Client = module.exports = {
 			throw new Error('Neither `origin` nor `originLat` & `originLong` passed.');
 
 		if (options.destination)
-			params.destId = this.locations.createApiId(options.destination);
+			params.destId = this._locations.createApiId(options.destination);
 		else if (options.destinationLat && options.destinationLong) {
 			params.destCoordLat = options.destinationLat;
 			params.destCoordLong = options.destinationLong;
@@ -185,15 +188,15 @@ var Client = module.exports = {
 				leg = trip.LegList.Leg[j];
 
 				part = {
-					from:		this.locations.parseApiLocation(leg.Origin),
-					to:			this.locations.parseApiLocation(leg.Destination),
-					transport:	(this.transports[leg.type] || this.transports.unknown).type,
-					type:		(this.products[leg.Product.catIn] || this.products.unknown).type,
+					from:		this._locations.parseApiLocation(leg.Origin),
+					to:			this._locations.parseApiLocation(leg.Destination),
+					transport:	(this._transports[leg.type] || this._transports.unknown).type,
+					type:		(this._products[leg.Product.catIn] || this._products.unknown).type,
 					direction:	leg.direction
 				};
-				part.from.when = this.dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
-				part.to.when = this.dateTime.parseApiDateTime(leg.Destination.date, leg.Destination.time);
-				if (leg.Notes) part.notes = this.locations.parseApiNotes(leg.Notes);
+				part.from.when = this._dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
+				part.to.when = this._dateTime.parseApiDateTime(leg.Destination.date, leg.Destination.time);
+				if (leg.Notes) part.notes = this._locations.parseApiNotes(leg.Notes);
 
 				result.parts.push(part);
 			}
@@ -234,13 +237,13 @@ var Client = module.exports = {
 		if (!options.when) options.when = new Date();   // now
 
 		params = {
-			id:				this.locations.createApiId(station),
+			id:				this._locations.createApiId(station),
 			maxJourneys:	options.results,
-			date:			this.dateTime.createApiDate(options.when),
-			time:			this.dateTime.createApiTime(options.when),
-			products:		this.products.createApiNumber(options.products)
+			date:			this._dateTime.createApiDate(options.when),
+			time:			this._dateTime.createApiTime(options.when),
+			products:		this._products.createApiNumber(options.products)
 		};
-		if (options.direction) params.direction = this.locations.createApiId(options.direction);
+		if (options.direction) params.direction = this._locations.createApiId(options.direction);
 
 		return this._request('departureBoard', params, [this._departuresOnSuccess]);
 	},
@@ -256,12 +259,12 @@ var Client = module.exports = {
 		for (i = 0, length = data.Departure.length; i < length; i++) {
 			dep = data.Departure[i];
 			results.push({
-				stop:		this.locations.parseApiId(dep.stopExtId),
-				type:		(this.products[dep.Product.catIn] || this.products.unknown).type,
+				stop:		this._locations.parseApiId(dep.stopExtId),
+				type:		(this._products[dep.Product.catIn] || this._products.unknown).type,
 				line:		dep.Product.line,
 				direction:	dep.direction,
-				when:		this.dateTime.parseApiDateTime(dep.date, dep.time),
-				realtime:	this.dateTime.parseApiDateTime(dep.rtDate, dep.rtTime)
+				when:		this._dateTime.parseApiDateTime(dep.date, dep.time),
+				realtime:	this._dateTime.parseApiDateTime(dep.rtDate, dep.rtTime)
 			});
 		}
 
@@ -301,10 +304,10 @@ var Client = module.exports = {
 			data = JSON.parse(res.body);
 		} catch (e) {
 			if (res.statusCode < 200 || res.statusCode >= 300)
-				throw new this.errors.ConnectionError(res.statusCode, res.statusMessage, res.request.uri, res.request.method);
+				throw new this._errors.ConnectionError(res.statusCode, res.statusMessage, res.request.uri, res.request.method);
 			else throw new Error('Could not parse response JSON');
 		}
-		if (data.errorCode) throw this.errors.apiServerError(res, data);
+		if (data.errorCode) throw this._errors.apiServerError(res, data);
 
 		return data;
 	}
