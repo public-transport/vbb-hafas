@@ -1,10 +1,18 @@
-url =			require('url');
-extend =		require('extend');
-request =		require('request-promise');
-rErrors =		require('request-promise/errors');
+url =				require('url');   // todo: remove
+inspect = function(e){console.log(util.inspect(e,{depth: null}))};
 
-errors =		require('./errors');
-services =		require('./services');
+var url =				require('url');
+var extend =			require('extend');
+var parseIsoDuration =	require('parse-iso-duration');
+var sDate =				require('s-date');
+var request =			require('request-promise');
+var rErrors =			require('request-promise/errors');
+
+var errors =			require('./util/errors');
+var products =			require('./util/products');
+var locations =			require('./util/locations');
+var transports =		require('./util/transports');
+// todo: time & date module
 
 
 
@@ -14,12 +22,14 @@ var Client = module.exports = {
 
 
 
-	errors: errors,
+	// util
+	errors:		errors,
+	products:	products,
+	locations:	locations,
+	transports:	transports,
 
-	endpoint: 'http://demo.hafas.de/openapi/vbb-proxy/',
-	accessId: null,
-
-	services: services,
+	endpoint:	'http://demo.hafas.de/openapi/vbb-proxy/',
+	accessId:	null,
 
 
 
@@ -29,9 +39,6 @@ var Client = module.exports = {
 
 		if (endpoint) this.endpoint = endpoint;
 
-		for (var service in this.services) {
-			this[service] = Object.create(this.services[service]);
-			this[service].init(this);
 		}
 
 		return this;
@@ -50,11 +57,9 @@ var Client = module.exports = {
 			target.query[property] = params[property];
 		}
 
-		var uri = url.format(target);
-
 		var thus = this;
 		return request({
-			uri: 						uri,
+			uri: 						url.format(target),
 			resolveWithFullResponse:	true
 		})   // returns a promise
 		.then(function(res) {   // success handler
