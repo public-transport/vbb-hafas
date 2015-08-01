@@ -106,7 +106,70 @@ var Client = module.exports = {
 		console.log(results);
 		return results;
 	},
+
+
+
+
+
+	_departuresDefaults: {
+		results:		3,   // todo: change to 10
+		when:			null,
+		direction:		null,
+		products: {
+			suburban:	true,
+			subway:		true,
+			tram:		true,
+			bus:		true,
+			ferry:		true,
+			express:	true,
+			regional:	true
+		}
 	},
+
+	departures: function (station, options) {
+		if (!station) throw new Error('Missing `station` parameter.');
+
+		options = extend(true, {}, this._departuresDefaults, options || {});
+		if (!options.when) options.when = new Date();   // now
+
+		params = {
+			id:				locations.createApiId(station),
+			maxJourneys:	options.results,
+			date:			sDate('{yyyy}-{mm}-{dd}', options.when),
+			time:			sDate('{hh24}:{Minutes}', options.when),
+			products:		products.createApiNumber(options.products)
+		};
+		if (options.direction) params.direction = locations.createApiId(options.direction);
+
+		return this._request('departureBoard', params)
+		.then(this._departuresOnSuccess, console.error);   // todo: remove `console.error`
+	},
+
+
+
+	_departuresOnSuccess: function (data) {
+		var results = [];
+		var i, length, dep;
+
+		if (!data.Departure) return results;   // abort
+
+		for (i = 0, length = data.Departure.length; i < length; i++) {
+			dep = data.Departure[i];
+			results.push({
+				stop:		locations.parseApiId(dep.stopExtId),
+				type:		(products[dep.Product.catIn] || products.unknown).type,
+				line:		dep.Product.line,
+				direction:	dep.direction,
+				when:		new Date(dep.date + ' ' + dep.time),   // todo: use date & time utility
+				realtime:	new Date(dep.rtDate + ' ' + dep.rtTime)   // todo: use date & time utility
+			});
+		}
+
+		console.log(results);
+		return results;
+	},
+
+
 
 
 
