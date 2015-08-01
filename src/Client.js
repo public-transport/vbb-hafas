@@ -109,7 +109,7 @@ var Client = module.exports = {
 
 
 
-	_journeysDefaults: {
+	_routesDefaults: {
 		origin:				null,
 		originLat:			null,
 		originLong:			null,
@@ -133,8 +133,8 @@ var Client = module.exports = {
 		}
 	},
 
-	journeys: function (options) {
-		options = extend(true, {}, this._journeysDefaults, options || {});
+	routes: function (options) {
+		options = extend(true, {}, this._routesDefaults, options || {});
 
 		if (!options.when) options.when = new Date();   // now
 		params = {
@@ -164,12 +164,12 @@ var Client = module.exports = {
 		} else
 			throw new Error('Neither `destination` nor `destinationLat` & `destinationLong` passed.');
 
-		return this._request('trip', params, [this._journeysOnSuccess]);
+		return this._request('trip', params, [this._routesOnSuccess]);
 	},
 
 
 
-	_journeysOnSuccess: function (data) {
+	_routesOnSuccess: function (data) {
 		var results = [];
 		var i, tripsLength, trip, result;
 		var j, legsLength, leg, part;
