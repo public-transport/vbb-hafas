@@ -43,12 +43,12 @@ Promise.join(
 		var startId = startResults[0].id;
 		var destId = destResults[0].id;
 
-	return client.routes({
-		from: startId,
-		to: destId
-	});
-})
-.then(function (routes) {
+		return client.routes({
+			from: startId,
+			to: destId
+		});
+	}
+).then(function (routes) {
 	console.log(routes[0]);
 });
 ```
@@ -95,7 +95,7 @@ The output will have the following structure:
 
 ## Documentation
 
-coming soon.
+[*vbb* API Dokumentaion](docs/index.md)
 
 
 
