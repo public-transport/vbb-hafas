@@ -4,6 +4,7 @@
 			"path": ".",
 			"name": "vbb",
 			"folder_exclude_patterns": [
+				"docs",
 				"src",
 				"node_modules"
 			],
@@ -14,6 +15,10 @@
 		{
 			"path": "./src",
 			"name": "src"
+		},
+		{
+			"path": "./docs",
+			"name": "docs"
 		}
 	],
 	"settings": {
