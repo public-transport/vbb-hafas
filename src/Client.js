@@ -39,9 +39,73 @@ var Client = module.exports = {
 
 		if (endpoint) this.endpoint = endpoint;
 
-		}
-
 		return this;
+	},
+
+
+
+
+
+	_locationDefaults: {
+		results:		10,
+		stations:		true,
+		addresses:		true,
+		pois:			true,
+		products: {
+			suburban:	true,
+			subway:		true,
+			tram:		true,
+			bus:		true,
+			ferry:		true,
+			express:	false,
+			regional:	true
+		}
+	},
+
+	location: function (query, options) {
+		if (!query) throw new Error('Missing `query` parameter.');
+
+		options = extend(true, {}, this._locationDefaults, options || {});
+
+		params = {
+			input:			query,
+			maxNo:			options.results,
+			type: locations.createApiString({
+				station:	options.stations,
+				address:	options.addresses,
+				poi:		options.pois
+			}),
+			products:		products.createApiNumber(options.products)
+		};
+
+		return this._request('location.name', params)
+		.then(this._locationOnSuccess, console.error);   // todo: remove `console.error`
+	},
+
+
+
+	_locationOnSuccess: function (data) {
+		var results = [];
+		var i, length, loc, result;
+
+		if (!data.StopLocation && !data.CoordLocation) return results;   // abort
+
+		if (data.StopLocation)
+			for (i = 0, length = data.StopLocation.length; i < length; i++) {
+				loc = data.StopLocation[i];
+				result = locations.parseApiLocation(loc);
+				result.products = products.parseApiNumber(loc.products);
+				results.push(result);
+			}
+
+		if (data.CoordLocation)
+			for (i = 0, length = data.CoordLocation.length; i < length; i++) {
+				results.push(locations.parseApiLocation(data.CoordLocation[i]));
+			}
+
+		console.log(results);
+		return results;
+	},
 	},
 
 
