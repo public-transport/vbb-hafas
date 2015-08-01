@@ -1,7 +1,6 @@
 var url =				require('url');
 var extend =			require('extend');
 var parseIsoDuration =	require('parse-iso-duration');
-var sDate =				require('s-date');
 var bluebird =			require('bluebird');
 var request =			bluebird.promisify(require('request'));
 
@@ -137,8 +136,8 @@ var Client = module.exports = {
 		if (!options.when) options.when = new Date();   // now
 		params = {
 			changeTimePercent:	Math.round(options.changeTimeFactor * 100),
-			date:				sDate('{yyyy}-{mm}-{dd}', options.when),
-			time:				sDate('{hh24}:{Minutes}', options.when),
+			date:				this.dateTime.createApiDate(options.when),
+			time:				this.dateTime.createApiTime(options.when),
 			numF:				0,
 			numB:				options.results > 6 ? 6 : options.results,
 			products:			this.products.createApiNumber(options.products)
@@ -192,8 +191,8 @@ var Client = module.exports = {
 					type:		(this.products[leg.Product.catIn] || this.products.unknown).type,
 					direction:	leg.direction
 				};
-				part.from.when = new Date(leg.Origin.date + ' ' + leg.Origin.time);   // todo: use date & time utility
-				part.to.when = new Date(leg.Destination.date + ' ' + leg.Destination.time);   // todo: use date & time utility
+				part.from.when = this.dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
+				part.to.when = this.dateTime.parseApiDateTime(leg.Destination.date, leg.Destination.time);
 				if (leg.Notes) part.notes = this.locations.parseApiNotes(leg.Notes);
 
 				result.parts.push(part);
@@ -237,8 +236,8 @@ var Client = module.exports = {
 		params = {
 			id:				this.locations.createApiId(station),
 			maxJourneys:	options.results,
-			date:			sDate('{yyyy}-{mm}-{dd}', options.when),
-			time:			sDate('{hh24}:{Minutes}', options.when),
+			date:			this.dateTime.createApiDate(options.when),
+			time:			this.dateTime.createApiTime(options.when),
 			products:		this.products.createApiNumber(options.products)
 		};
 		if (options.direction) params.direction = this.locations.createApiId(options.direction);
@@ -261,8 +260,8 @@ var Client = module.exports = {
 				type:		(this.products[dep.Product.catIn] || this.products.unknown).type,
 				line:		dep.Product.line,
 				direction:	dep.direction,
-				when:		new Date(dep.date + ' ' + dep.time),   // todo: use date & time utility
-				realtime:	new Date(dep.rtDate + ' ' + dep.rtTime)   // todo: use date & time utility
+				when:		this.dateTime.parseApiDateTime(dep.date, dep.time),
+				realtime:	this.dateTime.parseApiDateTime(dep.rtDate, dep.rtTime)
 			});
 		}
 
