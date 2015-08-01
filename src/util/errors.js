@@ -6,13 +6,18 @@ apiErrors =		require('./api-errors');
 
 var e = module.exports = {};
 
-// todo: let them all inherit from `Error`
+
 
 e.RequestError = function (code, message, url) {
+	Error.call(this, message);
 	this.code =			code;
 	this.message =		message;
 	this.url =			url;
 };
+
+e.RequestError.prototype = Object.create(Error.prototype);
+e.RequestError.prototype.constructor = e.RequestError;
+
 e.RequestError.prototype.toString = function () {
 	return [
 		'request error: ',
@@ -23,12 +28,19 @@ e.RequestError.prototype.toString = function () {
 	].join(' ');
 };
 
+
+
 e.HttpError = function (code, message, url, method) {
+	Error.call(this, message);
 	this.code =			code;
 	this.message =		message;
 	this.url =			url;
 	this.method =		method;
 };
+
+e.HttpError.prototype = Object.create(Error.prototype);
+e.HttpError.prototype.constructor = e.HttpError;
+
 e.HttpError.prototype.toString = function () {
 	return [
 		'HTTP error: ',
@@ -39,13 +51,20 @@ e.HttpError.prototype.toString = function () {
 	].join(' ');
 };
 
+
+
 e.ApiServerError = function (type, code, message, url, details) {
+	Error.call(this, message);
 	this.type =			type;
 	this.code =			code;
 	this.message =		message;
 	this.statusCode =	code;   // http status code
 	this.url =			url;
 };
+
+e.ApiServerError.prototype = Object.create(Error.prototype);
+e.ApiServerError.prototype.constructor = e.ApiServerError;
+
 e.ApiServerError.prototype.toString = function () {
 	return [
 		'API server error: ',
@@ -55,6 +74,7 @@ e.ApiServerError.prototype.toString = function () {
 		'(' + this.url + ')'
 	].join(' ');
 };
+
 e.apiServerError = function (res, data) {
 	var unknownError = new e.ApiServerError('unknown', null, data.errorText, res.request.url, null);
 	var group = apiErrors[data.errorCode.substr(0, 1)];

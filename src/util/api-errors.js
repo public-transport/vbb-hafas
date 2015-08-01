@@ -40,15 +40,15 @@ e.S[1] = {
 
 e.H[390] = {
 	'code':		'H380',
-	'message':	'Departure/Arrival replaced by an equivalent station'
+	'message':	'Departure/Arrival replaced by an equivalent station'   // @hacon: wtf?
 };
 e.H[410] = {
 	'code':		'H410',
-	'message':	'Display may be incomplete due to change of timetable'
+	'message':	'Display may be incomplete due to change of timetable'   // @hacon: wtf?
 };
 e.H[455] = {
 	'code':		'H455',
-	'message':	'Prolonged stop'
+	'message':	'Prolonged stop'   // @hacon: wtf?
 };
 e.H[460] = {
 	'code':		'H460',
@@ -64,7 +64,7 @@ e.H[890] = {
 };
 e.H[891] = {
 	'code':		'H891',
-	'message':	'No route found (try entering an intermediate station)'
+	'message':	'No route found (try entering an intermediate station)'   // @hacon: wtf?
 };
 e.H[892] = {
 	'code':		'H892',
@@ -72,7 +72,7 @@ e.H[892] = {
 };
 e.H[895] = {
 	'code':		'H895',
-	'message':	'Departure/Arrival is too near'
+	'message':	'Departure/Arrival is too near'   // @hacon: wtf?
 };
 e.H[899] = {
 	'code':		'H899',
@@ -88,11 +88,11 @@ e.H[9220] = {
 };
 e.H[9230] = {
 	'code':		'H9230',
-	'message':	'An internal error occurred'
+	'message':	'An internal error occurred'   // wat
 };
 e.H[9240] = {
 	'code':		'H9240',
-	'message':	'Unsuccessful search'
+	'message':	'Unsuccessful search'   // @hacon: what about `H890`?
 };
 e.H[9250] = {
 	'code':		'H9250',
@@ -116,7 +116,7 @@ e.H[9320] = {
 };
 e.H[9360] = {
 	'code':		'H9360',
-	'message':	'Error in data field'
+	'message':	'Error in data field'   // @hacon: wtf?
 };
 e.H[9380] = {
 	'code':		'H9380',

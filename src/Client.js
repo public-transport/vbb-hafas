@@ -1,6 +1,3 @@
-url =				require('url');   // todo: remove
-inspect = function(e){console.log(util.inspect(e,{depth: null}))};
-
 var url =				require('url');
 var extend =			require('extend');
 var parseIsoDuration =	require('parse-iso-duration');
@@ -47,7 +44,7 @@ var Client = module.exports = {
 
 
 	_locationDefaults: {
-		results:		10,
+		results:		5,
 		stations:		true,
 		addresses:		true,
 		pois:			true,
@@ -120,7 +117,7 @@ var Client = module.exports = {
 		destinationLong:	null,
 		via:				null,
 
-		results:			3,   // todo: change to 10
+		results:			5,
 		when:				null,
 		changes:			null,
 		changeTimeFactor:	1,
@@ -173,7 +170,6 @@ var Client = module.exports = {
 
 
 	_journeysOnSuccess: function (data) {
-		inspect(data);
 		var results = [];
 		var i, tripsLength, trip, result;
 		var j, legsLength, leg, part;
@@ -189,7 +185,7 @@ var Client = module.exports = {
 			};
 
 			for (j = 0, legsLength = trip.LegList.Leg.length; j < legsLength; j++ ) {
-				leg = trip.LegList.Leg[i];
+				leg = trip.LegList.Leg[j];
 
 				part = {
 					from:		locations.parseApiLocation(leg.Origin),
@@ -220,7 +216,7 @@ var Client = module.exports = {
 
 
 	_departuresDefaults: {
-		results:		3,   // todo: change to 10
+		results:		10,
 		when:			null,
 		direction:		null,
 		products: {
