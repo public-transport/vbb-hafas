@@ -31,7 +31,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"extend":				"^3.0.0",
-		"request-promise":		"^0.4.2",
+		"request":				"^2.60.0",
+		"bluebird":				"^2.9.34",
 		"s-date":				"^1.0.4",
 		"parse-iso-duration":	"^0.1.0"
 	}
