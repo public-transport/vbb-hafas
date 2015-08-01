@@ -141,8 +141,8 @@ var Client = module.exports = {
 			changeTimePercent:	Math.round(options.changeTimeFactor * 100),
 			date:				this._dateTime.createApiDate(options.when),
 			time:				this._dateTime.createApiTime(options.when),
-			numF:				0,
-			numB:				options.results > 6 ? 6 : options.results,
+			numB:				0,
+			numF:				options.results > 6 ? 6 : options.results,
 			products:			this._products.createApiNumber(options.products)
 		};
 		if (typeof options.changes === 'number') params.maxChange = options.changes;
@@ -191,9 +191,12 @@ var Client = module.exports = {
 					from:		this._locations.parseApiLocation(leg.Origin),
 					to:			this._locations.parseApiLocation(leg.Destination),
 					transport:	(this._transports[leg.type] || this._transports.unknown).type,
-					type:		(this._products[leg.Product.catIn] || this._products.unknown).type,
-					direction:	leg.direction
 				};
+				if (part.transport === 'public') {
+					part.type = (this._products[leg.Product.catIn] || this._products.unknown).type;
+					part.line = leg.Product.line;
+					part.direction = leg.direction;
+				}
 				part.from.when = this._dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
 				part.to.when = this._dateTime.parseApiDateTime(leg.Destination.date, leg.Destination.time);
 				if (leg.Notes) part.notes = this._locations.parseApiNotes(leg.Notes);
@@ -252,20 +255,22 @@ var Client = module.exports = {
 
 	_departuresOnSuccess: function (data) {
 		var results = [];
-		var i, length, dep;
+		var i, length, dep, result;
 
 		if (!data.Departure) return results;   // abort
 
 		for (i = 0, length = data.Departure.length; i < length; i++) {
 			dep = data.Departure[i];
-			results.push({
+			result = {
 				stop:		this._locations.parseApiId(dep.stopExtId),
 				type:		(this._products[dep.Product.catIn] || this._products.unknown).type,
 				line:		dep.Product.line,
 				direction:	dep.direction,
-				when:		this._dateTime.parseApiDateTime(dep.date, dep.time),
-				realtime:	this._dateTime.parseApiDateTime(dep.rtDate, dep.rtTime)
-			});
+				when:		this._dateTime.parseApiDateTime(dep.date, dep.time)
+			};
+			if (dep.rtDate && dep.rtTime)
+				result.realtime = this._dateTime.parseApiDateTime(dep.rtDate, dep.rtTime);
+			results.push(result);
 		}
 
 		console.log(results);
