@@ -2,8 +2,8 @@ var url =				require('url');
 var extend =			require('extend');
 var parseIsoDuration =	require('parse-iso-duration');
 var sDate =				require('s-date');
-var request =			require('request-promise');
-var rErrors =			require('request-promise/errors');
+var bluebird =			require('bluebird');
+var request =			bluebird.promisify(require('request'));
 
 var errors =			require('./util/errors');
 var products =			require('./util/products');
@@ -75,8 +75,7 @@ var Client = module.exports = {
 			products:		this.products.createApiNumber(options.products)
 		};
 
-		return this._request('location.name', params)
-		.then(this._locationOnSuccess, console.error);   // todo: remove `console.error`
+		this._request('location.name', params, [this._locationOnSuccess]);
 	},
 
 
@@ -163,8 +162,7 @@ var Client = module.exports = {
 		} else
 			throw new Error('Neither `destination` nor `destinationLat` & `destinationLong` passed.');
 
-		return this._request('trip', params)
-		.then(this._journeysOnSuccess, console.error);   // todo: remove `console.error`
+		return this._request('trip', params, [this._journeysOnSuccess]);
 	},
 
 
@@ -245,8 +243,7 @@ var Client = module.exports = {
 		};
 		if (options.direction) params.direction = this.locations.createApiId(options.direction);
 
-		return this._request('departureBoard', params)
-		.then(this._departuresOnSuccess, console.error);   // todo: remove `console.error`
+		return this._request('departureBoard', params, [this._departuresOnSuccess]);
 	},
 
 
@@ -277,7 +274,7 @@ var Client = module.exports = {
 
 
 
-	_request: function (service, params) {
+	_request: function (service, params, handlers) {
 		var target = url.parse(this.endpoint, true);
 		target.pathname = path.join(target.pathname, service);
 
@@ -288,28 +285,29 @@ var Client = module.exports = {
 			target.query[property] = params[property];
 		}
 
-		var thus = this;
-		return request({
-			uri: 						url.format(target),
-			resolveWithFullResponse:	true
-		})   // returns a promise
-		.then(function(res) {   // success handler
-			try {
-				data = JSON.parse(res.body);
-			} catch (e) {
-				return new Error('Could not parse response JSON');
-			}
-			// if (data.errorCode) return thus.errors.apiServerError(res, data);
-			if (data.errorCode) return thus.errors.apiServerError(res, data);
-			return data;
-		}, function (err) {   // error handler
-			console.log('err', err);
-			if (err instanceof rErrors.RequestError)
-				return thus.errors.fromRequestError(err);
-			else if (err instanceof rErrors.StatusCodeError) {
-				return thus.errors.fromStatusCodeError(err);
-			}
-		});
+		// todo: make this shorter, using the bluebird api
+		var promise, i;
+		promise = request(url.format(target)).bind(this)
+		.then(this._requestOnSuccess);
+		for (i = 0; i < handlers.length; i++) {
+			promise = promise.then(handlers[i]);
+		}
+		return promise;
+	},
+
+	_requestOnSuccess: function (res) {
+		res = res[0];
+
+		try {
+			data = JSON.parse(res.body);
+		} catch (e) {
+			if (res.statusCode < 200 || res.statusCode >= 300)
+				throw new this.errors.ConnectionError(res.statusCode, res.statusMessage, res.request.uri, res.request.method);
+			else throw new Error('Could not parse response JSON');
+		}
+		if (data.errorCode) throw this.errors.apiServerError(res, data);
+
+		return data;
 	}
 
 
