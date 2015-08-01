@@ -45,7 +45,7 @@ var Client = module.exports = {
 
 
 
-	_locationDefaults: {
+	_locationsDefaults: {
 		results:		5,
 		stations:		true,
 		addresses:		true,
@@ -61,10 +61,10 @@ var Client = module.exports = {
 		}
 	},
 
-	location: function (query, options) {
+	locations: function (query, options) {
 		if (!query) throw new Error('Missing `query` parameter.');
 
-		options = extend(true, {}, this._locationDefaults, options || {});
+		options = extend(true, {}, this._locationsDefaults, options || {});
 
 		params = {
 			input:			query,
@@ -77,12 +77,12 @@ var Client = module.exports = {
 			products:		this._products.createApiNumber(options.products)
 		};
 
-		this._request('location.name', params, [this._locationOnSuccess]);
+		this._request('location.name', params, [this._locationsOnSuccess]);
 	},
 
 
 
-	_locationOnSuccess: function (data) {
+	_locationsOnSuccess: function (data) {
 		var results = [];
 		var i, length, loc, result;
 
