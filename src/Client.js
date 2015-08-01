@@ -67,12 +67,12 @@ var Client = module.exports = {
 		params = {
 			input:			query,
 			maxNo:			options.results,
-			type: locations.createApiString({
+			type: this.locations.createApiString({
 				station:	options.stations,
 				address:	options.addresses,
 				poi:		options.pois
 			}),
-			products:		products.createApiNumber(options.products)
+			products:		this.products.createApiNumber(options.products)
 		};
 
 		return this._request('location.name', params)
@@ -90,14 +90,14 @@ var Client = module.exports = {
 		if (data.StopLocation)
 			for (i = 0, length = data.StopLocation.length; i < length; i++) {
 				loc = data.StopLocation[i];
-				result = locations.parseApiLocation(loc);
-				result.products = products.parseApiNumber(loc.products);
+				result = this.locations.parseApiLocation(loc);
+				result.products = this.products.parseApiNumber(loc.products);
 				results.push(result);
 			}
 
 		if (data.CoordLocation)
 			for (i = 0, length = data.CoordLocation.length; i < length; i++) {
-				results.push(locations.parseApiLocation(data.CoordLocation[i]));
+				results.push(this.locations.parseApiLocation(data.CoordLocation[i]));
 			}
 
 		console.log(results);
@@ -142,13 +142,13 @@ var Client = module.exports = {
 			time:				sDate('{hh24}:{Minutes}', options.when),
 			numF:				0,
 			numB:				options.results > 6 ? 6 : options.results,
-			products:			products.createApiNumber(options.products)
+			products:			this.products.createApiNumber(options.products)
 		};
 		if (typeof options.changes === 'number') params.maxChange = options.changes;
 		if (options.via) params.via = options.via;
 
 		if (options.origin)
-			params.originId = locations.createApiId(options.origin);
+			params.originId = this.locations.createApiId(options.origin);
 		else if (options.originLat && options.originLong) {
 			params.originCoordLat = options.originLat;
 			params.originCoordLong = options.originLong;
@@ -156,7 +156,7 @@ var Client = module.exports = {
 			throw new Error('Neither `origin` nor `originLat` & `originLong` passed.');
 
 		if (options.destination)
-			params.destId = locations.createApiId(options.destination);
+			params.destId = this.locations.createApiId(options.destination);
 		else if (options.destinationLat && options.destinationLong) {
 			params.destCoordLat = options.destinationLat;
 			params.destCoordLong = options.destinationLong;
@@ -188,15 +188,15 @@ var Client = module.exports = {
 				leg = trip.LegList.Leg[j];
 
 				part = {
-					from:		locations.parseApiLocation(leg.Origin),
-					to:			locations.parseApiLocation(leg.Destination),
-					transport:	(transports[leg.type] || transports.unknown).type,
-					type:		(products[leg.Product.catIn] || products.unknown).type,
+					from:		this.locations.parseApiLocation(leg.Origin),
+					to:			this.locations.parseApiLocation(leg.Destination),
+					transport:	(this.transports[leg.type] || this.transports.unknown).type,
+					type:		(this.products[leg.Product.catIn] || this.products.unknown).type,
 					direction:	leg.direction
 				};
 				part.from.when = new Date(leg.Origin.date + ' ' + leg.Origin.time);   // todo: use date & time utility
 				part.to.when = new Date(leg.Destination.date + ' ' + leg.Destination.time);   // todo: use date & time utility
-				if (leg.Notes) part.notes = locations.parseApiNotes(leg.Notes);
+				if (leg.Notes) part.notes = this.locations.parseApiNotes(leg.Notes);
 
 				result.parts.push(part);
 			}
@@ -237,13 +237,13 @@ var Client = module.exports = {
 		if (!options.when) options.when = new Date();   // now
 
 		params = {
-			id:				locations.createApiId(station),
+			id:				this.locations.createApiId(station),
 			maxJourneys:	options.results,
 			date:			sDate('{yyyy}-{mm}-{dd}', options.when),
 			time:			sDate('{hh24}:{Minutes}', options.when),
-			products:		products.createApiNumber(options.products)
+			products:		this.products.createApiNumber(options.products)
 		};
-		if (options.direction) params.direction = locations.createApiId(options.direction);
+		if (options.direction) params.direction = this.locations.createApiId(options.direction);
 
 		return this._request('departureBoard', params)
 		.then(this._departuresOnSuccess, console.error);   // todo: remove `console.error`
@@ -260,8 +260,8 @@ var Client = module.exports = {
 		for (i = 0, length = data.Departure.length; i < length; i++) {
 			dep = data.Departure[i];
 			results.push({
-				stop:		locations.parseApiId(dep.stopExtId),
-				type:		(products[dep.Product.catIn] || products.unknown).type,
+				stop:		this.locations.parseApiId(dep.stopExtId),
+				type:		(this.products[dep.Product.catIn] || this.products.unknown).type,
 				line:		dep.Product.line,
 				direction:	dep.direction,
 				when:		new Date(dep.date + ' ' + dep.time),   // todo: use date & time utility
