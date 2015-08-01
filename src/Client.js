@@ -204,7 +204,7 @@ var Client = module.exports = {
 			results.push(result);
 		}
 
-		inspect(results);
+		console.log(results);
 		return results;
 	},
 

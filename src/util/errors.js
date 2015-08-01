@@ -1,4 +1,4 @@
-apiErrors =		require('./api-errors');
+var apiErrors =		require('./api-errors');
 
 
 

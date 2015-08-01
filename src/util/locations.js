@@ -1,4 +1,4 @@
-extend =		require('extend');
+var extend =		require('extend');
 
 
 
