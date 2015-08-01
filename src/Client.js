@@ -150,8 +150,8 @@ var Client = module.exports = {
 
 		if (options.from)
 			params.originId = this._locations.createApiId(options.from);
-		else if (options.fromLat && options.fromLongitude) {
-			params.originCoordLat = options.fromLat;
+		else if (options.fromLatitude && options.fromLongitude) {
+			params.originCoordLat = options.fromLatitude;
 			params.originCoordLong = options.fromLongitude;
 		} else
 			throw new Error('Neither `from` nor `fromLatitude` & `fromLongitude` passed.');
