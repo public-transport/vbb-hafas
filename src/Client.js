@@ -111,6 +111,114 @@ var Client = module.exports = {
 
 
 
+	_journeysDefaults: {
+		origin:				null,
+		originLat:			null,
+		originLong:			null,
+		destination:		null,
+		destinationLat:		null,
+		destinationLong:	null,
+		via:				null,
+
+		results:			3,   // todo: change to 10
+		when:				null,
+		changes:			null,
+		changeTimeFactor:	1,
+		products: {
+			suburban:		true,
+			subway:			true,
+			tram:			true,
+			bus:			true,
+			ferry:			true,
+			express:		true,
+			regional:		true
+		}
+	},
+
+	journeys: function (options) {
+		options = extend(true, {}, this._journeysDefaults, options || {});
+
+		if (!options.when) options.when = new Date();   // now
+		params = {
+			changeTimePercent:	Math.round(options.changeTimeFactor * 100),
+			date:				sDate('{yyyy}-{mm}-{dd}', options.when),
+			time:				sDate('{hh24}:{Minutes}', options.when),
+			numF:				0,
+			numB:				options.results > 6 ? 6 : options.results,
+			products:			products.createApiNumber(options.products)
+		};
+		if (typeof options.changes === 'number') params.maxChange = options.changes;
+		if (options.via) params.via = options.via;
+
+		if (options.origin)
+			params.originId = locations.createApiId(options.origin);
+		else if (options.originLat && options.originLong) {
+			params.originCoordLat = options.originLat;
+			params.originCoordLong = options.originLong;
+		} else
+			throw new Error('Neither `origin` nor `originLat` & `originLong` passed.');
+
+		if (options.destination)
+			params.destId = locations.createApiId(options.destination);
+		else if (options.destinationLat && options.destinationLong) {
+			params.destCoordLat = options.destinationLat;
+			params.destCoordLong = options.destinationLong;
+		} else
+			throw new Error('Neither `destination` nor `destinationLat` & `destinationLong` passed.');
+
+		return this._request('trip', params)
+		.then(this._journeysOnSuccess, console.error);   // todo: remove `console.error`
+	},
+
+
+
+	_journeysOnSuccess: function (data) {
+		inspect(data);
+		var results = [];
+		var i, tripsLength, trip, result;
+		var j, legsLength, leg, part;
+
+		if (!data.Trip) return results;   // abort
+
+		for (i = 0, tripsLength = data.Trip.length; i < tripsLength; i++) {
+			trip = data.Trip[i];
+
+			result = {
+				duration:	parseIsoDuration(trip.duration.replace(/^[R]T/, 'PT')),
+				parts:		[]
+			};
+
+			for (j = 0, legsLength = trip.LegList.Leg.length; j < legsLength; j++ ) {
+				leg = trip.LegList.Leg[i];
+
+				part = {
+					from:		locations.parseApiLocation(leg.Origin),
+					to:			locations.parseApiLocation(leg.Destination),
+					transport:	(transports[leg.type] || transports.unknown).type,
+					type:		(products[leg.Product.catIn] || products.unknown).type,
+					direction:	leg.direction
+				};
+				part.from.when = new Date(leg.Origin.date + ' ' + leg.Origin.time);   // todo: use date & time utility
+				part.to.when = new Date(leg.Destination.date + ' ' + leg.Destination.time);   // todo: use date & time utility
+				if (leg.Notes) part.notes = locations.parseApiNotes(leg.Notes);
+
+				result.parts.push(part);
+			}
+
+			// todo: tickets and their prices
+			// todo: `leg.Messages`? are they actually being used?
+			// todo: `leg.ServiceDays`?
+			results.push(result);
+		}
+
+		inspect(results);
+		return results;
+	},
+
+
+
+
+
 	_departuresDefaults: {
 		results:		3,   // todo: change to 10
 		when:			null,
