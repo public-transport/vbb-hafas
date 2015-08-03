@@ -1,4 +1,5 @@
 var url =				require('url');
+var path =				require('path');
 var extend =			require('extend');
 var parseIsoDuration =	require('parse-iso-duration');
 var bluebird =			require('bluebird');
@@ -77,7 +78,7 @@ var Client = module.exports = {
 			products:		this._products.createApiNumber(options.products)
 		};
 
-		this._request('location.name', params, [this._locationsOnSuccess]);
+		return this._request('location.name', params, [this._locationsOnSuccess]);
 	},
 
 
@@ -101,7 +102,6 @@ var Client = module.exports = {
 				results.push(this._locations.parseApiLocation(data.CoordLocation[i]));
 			}
 
-		console.log(results);
 		return results;
 	},
 
@@ -210,7 +210,6 @@ var Client = module.exports = {
 			results.push(result);
 		}
 
-		console.log(results);
 		return results;
 	},
 
@@ -273,7 +272,6 @@ var Client = module.exports = {
 			results.push(result);
 		}
 
-		console.log(results);
 		return results;
 	},
 
