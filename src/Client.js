@@ -29,13 +29,13 @@ var Client = module.exports = {
 	_dateTime:		util.dateTime,
 
 	endpoint:		'http://demo.hafas.de/openapi/vbb-proxy/',
-	accessId:		null,
+	apiKey:			null,
 
 
 
-	init: function (accessId, endpoint) {
-		if (!accessId) throw new Error('Missing `accessId`.');
-		this.accessId = accessId;
+	init: function (apiKey, endpoint) {
+		if (!apiKey) throw new Error('Missing `apiKey`.');
+		this.apiKey = apiKey;
 
 		if (endpoint) this.endpoint = endpoint;
 
@@ -275,7 +275,7 @@ var Client = module.exports = {
 		target.pathname = path.join(target.pathname, service);
 
 		target.query.format = 'json';
-		target.query.accessId = this.accessId;
+		target.query.accessId = this.apiKey;
 		extend(target.query, params);
 		for (var property in params) {
 			target.query[property] = params[property];

@@ -4,9 +4,9 @@ Client =	require('./Client');
 
 
 
-var factory = module.exports = function (accessId, endpoint) {
+var factory = module.exports = function (apiKey, endpoint) {
 	instance = Object.create(factory.Client);
-	instance.init(accessId, endpoint);
+	instance.init(apiKey, endpoint);
 	return instance;
 }
 
