@@ -50,16 +50,7 @@ var Client = module.exports = {
 		results:		5,
 		stations:		true,
 		addresses:		true,
-		pois:			true,
-		products: {
-			suburban:	true,
-			subway:		true,
-			tram:		true,
-			bus:		true,
-			ferry:		true,
-			express:	false,
-			regional:	true
-		}
+		pois:			true
 	},
 
 	locations: function (query, options) {
@@ -74,8 +65,7 @@ var Client = module.exports = {
 				station:	options.stations,
 				address:	options.addresses,
 				poi:		options.pois
-			}),
-			products:		this._products.createApiNumber(options.products)
+			})
 		};
 
 		return this._request('location.name', params, [this._locationsOnSuccess]);

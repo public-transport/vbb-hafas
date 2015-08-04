@@ -78,14 +78,3 @@ My contain any of the following options.
 | `stations` | `true` | `Boolean` | If stations should be included in the search results. |
 | `addresses` | `true` | `Boolean` | If addresses should be included in the search results. |
 | `pois` | `true` | `Boolean` | If [POI](https://en.wikipedia.org/wiki/Point_of_interest)s should be included in the search results. |
-| `products` | – | `Object` | My contain any of the following transport products. |
-
-| product | default | description |
-|:----------|:----|:-----|:------------|
-| `products.suburban` | `true` | If [S-Bahn trains](https://en.wikipedia.org/wiki/Berlin_S-Bahn) should be included in the search results. |
-| `products.subway` | `true` | If [U-Bahn trains](https://en.wikipedia.org/wiki/Berlin_U-Bahn) should be included in the search results. |
-| `products.tram` | `true` | If [tramway vehicles](https://en.wikipedia.org/wiki/Trams_in_Berlin) should be included in the search results. |
-| `products.bus` | `true` | If [buses](https://en.wikipedia.org/wiki/Bus_transport_in_Berlin) should be included in the search results. |
-| `products.ferry` | `true` | If [ferries](https://en.wikipedia.org/wiki/Ferry_transport_in_Berlin) should be included in the search results. |
-| `products.express` | `false` | If [IC](https://en.wikipedia.org/wiki/Intercity_%28Deutsche_Bahn%29)/[EC](https://en.wikipedia.org/wiki/EuroCity)/[ICE](https://en.wikipedia.org/wiki/Intercity-Express) should be included in the search results. |
-| `products.regional` | `true` | If [RE](https://en.wikipedia.org/wiki/Regional-Express)/[RB](https://en.wikipedia.org/wiki/Regionalbahn)/[IRE](https://en.wikipedia.org/wiki/Interregio-Express) trains should be included in the search results. |
