@@ -42,6 +42,11 @@ l.properties.lift = l.properties.AT = {
 	type:	'lift'
 };
 
+l.properties.groundLevel = l.properties.E5 = {
+	id:		'E5',
+	type:	'groundLevel'
+};
+
 l.properties.tactilePaving = l.properties.BL = {
 	id:		'BL',
 	type:	'tactilePaving'
@@ -52,7 +57,7 @@ l.properties.escalator = l.properties.FT = {
 	type:	'escalator'
 };
 
-l.properties.touchAndTravel = l.properties.tt = {
+l.properties.touchAndTravel = l.properties.TT = {
 	id:		'tt',
 	type:	'touchAndTravel'
 };

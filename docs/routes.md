@@ -102,9 +102,9 @@ My contain any of the following options. **Either `from` or `fromLatitude` and `
 | `from` | – | `Integer` | The `id` of the start location. *Required* |
 | `fromLatitude` | – | `Float` | The GPS latitude of the start location. *Required* |
 | `fromLongitude` | – | `Float` | The GPS longitude of the start location. *Required* |
-| `to` | – | `Integer` | The `id` of the start location. *Required* |
-| `toLatitude` | – | `Float` | The GPS latitude of the start location. *Required* |
-| `toLongitude` | – | `Float` | The GPS longitude of the start location. *Required* |
+| `to` | – | `Integer` | The `id` of the destination. *Required* |
+| `toLatitude` | – | `Float` | The GPS latitude of the destination. *Required* |
+| `toLongitude` | – | `Float` | The GPS longitude of the destination. *Required* |
 | `via` | – | `Integer` | The `id` of a waypoint location. |
 | `results` | `4` | `Integer` | The number of results, limited to `6` by HAFAS. |
 | `when` | `new Date()` | `Date` | Self-explanatory. |
