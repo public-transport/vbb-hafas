@@ -25,6 +25,8 @@ client.routes({
 
 ## Output
 
+For *express* trains, there is no `line` field!
+
 ```javascript
 [
   {

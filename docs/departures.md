@@ -24,7 +24,7 @@ client.departures(9020202, {   // `id` for S Beusselstraße
 
 Some stations consist of many substations (for example *Berlin Hauptbahnhof*), so `departures` will give you *all* departures from *all* substations. The `stop` field contains the `id` of the specific substation.
 
-The `realtime` field, doesn't alwayd exist.
+The `realtime` field doesn't always exist. For *express* trains, there is no `line` field!
 
 ```javascript
 [

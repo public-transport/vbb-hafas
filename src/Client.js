@@ -194,7 +194,8 @@ var Client = module.exports = {
 				};
 				if (part.transport === 'public') {
 					part.type = (this._products[leg.Product.catIn] || this._products.unknown).type;
-					part.line = leg.Product.line;
+
+					part.line = part.type === this._products.express.type ? null : leg.Product.line;   // fixes #8
 					part.direction = leg.direction;
 				}
 				part.from.when = this._dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
@@ -263,10 +264,10 @@ var Client = module.exports = {
 			result = {
 				stop:		this._locations.parseApiId(dep.stopExtId),
 				type:		(this._products[dep.Product.catIn] || this._products.unknown).type,
-				line:		dep.Product.line,
 				direction:	dep.direction,
 				when:		this._dateTime.parseApiDateTime(dep.date, dep.time)
 			};
+			result.line = dep.type === this._products.express.type ? null : dep.Product.line;   // fixes #8
 			if (dep.rtDate && dep.rtTime)
 				result.realtime = this._dateTime.parseApiDateTime(dep.rtDate, dep.rtTime);
 			results.push(result);
