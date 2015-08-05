@@ -2,6 +2,7 @@
 
 *vbb* is a JavaScript **API for the Berlin & Brandenburg public transport service** (VBB). It puts a consistent and straightforward [promise](https://github.com/petkaantonov/bluebird#what-are-promises-and-why-should-i-use-them)-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) REST API. *vbb* is **[MIT-licensed](LICENSE)** and embraces [prototypal programming](http://davidwalsh.name/javascript-objects-deconstruction#simpler-object-object).
 
+[![npm version](https://img.shields.io/npm/v/vbb.svg)](https://www.npmjs.com/package/vbb)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb.svg)](https://david-dm.org/derhuerst)
 
 

@@ -47,6 +47,11 @@ l.properties.groundLevel = l.properties.E5 = {
 	type:	'groundLevel'
 };
 
+l.properties.handicapAccessible = l.properties.BF = {
+	id:		'BF',
+	type:	'handicapAccessible'
+};
+
 l.properties.tactilePaving = l.properties.BL = {
 	id:		'BL',
 	type:	'tactilePaving'
