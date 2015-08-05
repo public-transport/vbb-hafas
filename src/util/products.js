@@ -1,92 +1,118 @@
-var p = module.exports = [];
+var p = module.exports = {
 
+	suburban: {
+		category:	0,
+		bitmask:	1,
+		name:		'S-Bahn',
+		short:		'S',
+		type:		'suburban'
+	},
 
+	subway: {
+		category:	1,
+		bitmask:	2,
+		name:		'U-Bahn',
+		short:		'U',
+		type:		'subway'
+	},
 
-p.suburban = p.S = p['S-7'] = p['S-6'] = p.S12 = p[1] = {   // @vbb: wtf?
-	id:		1,
-	name:	'S-Bahn',
-	short:	'S',
-	type:	'suburban'
+	tram: {
+		category:	2,
+		bitmask:	4,
+		name:		'Tram',
+		short:		'T',
+		type:		'tram'
+	},
+
+	bus: {
+		category:	3,
+		bitmask:	8,
+		name:		'Bus',
+		short:		'B',
+		type:		'bus'
+	},
+
+	ferry: {
+		category:	4,
+		bitmask:	16,
+		name:		'Fähre',
+		short:		'F',
+		type:		'ferry'
+	},
+
+	express: {
+		category:	5,
+		bitmask:	32,
+		name:		'IC/ICE',
+		short:		'I',
+		type:		'express'
+	},
+
+	regional: {
+		category:	6,
+		bitmask:	64,
+		name:		'RB/RE',
+		short:		'R',
+		type:		'regional'
+	},
+
+	unknown: {
+		category:	null,
+		bitmask:	0,
+		name:		'unknown',
+		short:		'?',
+		type:		'unknown'
+	}
+
 };
 
 
 
-p.subway = p.U = p[2] = {
-	id:		2,
-	name:	'U-Bahn',
-	short:	'U',
-	type:	'subway'
-};
+// used for the `products` bitmask
+p.bitmasks = [];
+p.bitmasks[1] = p.suburban;
+p.bitmasks[2] = p.subway;
+p.bitmasks[4] = p.tram;
+p.bitmasks[8] = p.bus;
+p.bitmasks[16] = p.ferry;
+p.bitmasks[32] = p.express;
+p.bitmasks[64] = p.regional;
 
 
 
-p.tram = p.T = p.MT = p[4] = {
-	id:		4,
-	name:	'Tram',
-	short:	'T',
-	type:	'tram'
-};
+// used to determine the `type`
+p.types = [
+	p.suburban,
+	p.subway,
+	p.tram,
+	p.bus,
+	p.ferry,
+	p.express,
+	p.regional,
+	p.unknown
+];
 
 
 
-p.bus = p.B = p.MB = p[8] = {
-	id:		8,
-	name:	'Bus',
-	short:	'B',
-	type:	'bus'
-};
-
-
-
-p.ferry = p.F = p[16] = {
-	id:		16,
-	name:	'Fähre',
-	short:	'F',
-	type:	'ferry'
-};
-
-
-
-p.express = p.ICK = p.ICE = p.ECK = p[32] = {
-	id:		32,
-	name:	'IC/ICE',
-	short:	'I',
-	type:	'express'
-};
-
-
-
-p.regional = p.RB = p.RE = p[64] = {
-	id:		64,
-	name:	'RB/RE',
-	short:	'R',
-	type:	'regional'
-};
-
-
-
-p.unknown = {
-	id:		null,
-	name:	'unknown',
-	short:	'?',
-	type:	'unknown'
-};
-
-
-
-p.createApiNumber = function (types) {
+p.createApiBitmask = function (types) {
 	var result = 0;
 	for (var type in types) {
 		if (types[type] != true) continue;
-		result += p[type].id;
+		result += p[type].bitmask;
 	}
 	return result;
 };
-p.parseApiNumber = function (number) {
+p.parseApiBitmask = function (number) {
 	var result = {}, i = 1;
 	do {
-		result[p[i].type] = !!(number & i);
+		result[p.bitmasks[i].type] = !!(number & i);
 		i *= 2;
-	} while (p[i] && p[i].type)
+	} while (p.bitmasks[i] && p.bitmasks[i].type)
 	return result;
+};
+
+
+
+p.parseApiType = function (type) {
+	return p.types[parseInt(type)] || p.unknown;
 };

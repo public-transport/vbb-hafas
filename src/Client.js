@@ -83,7 +83,7 @@ var Client = module.exports = {
 			for (i = 0, length = data.StopLocation.length; i < length; i++) {
 				loc = data.StopLocation[i];
 				result = this._locations.parseApiLocation(loc);
-				result.products = this._products.parseApiNumber(loc.products);
+				result.products = this._products.parseApiBitmask(loc.products);
 				results.push(result);
 			}
 
@@ -133,7 +133,7 @@ var Client = module.exports = {
 			time:				this._dateTime.createApiTime(options.when),
 			numB:				0,
 			numF:				options.results > 6 ? 6 : options.results,
-			products:			this._products.createApiNumber(options.products)
+			products:			this._products.createApiBitmask(options.products)
 		};
 		if (typeof options.changes === 'number') params.maxChange = options.changes;
 		if (options.via) params.via = options.via;
@@ -183,7 +183,7 @@ var Client = module.exports = {
 					transport:	(this._transports[leg.type] || this._transports.unknown).type,
 				};
 				if (part.transport === 'public') {
-					part.type = (this._products[leg.Product.catIn] || this._products.unknown).type;
+					part.type = this._products.parseApiType(leg.Product.catCode).type;
 
 					part.line = part.type === this._products.express.type ? null : leg.Product.line;   // fixes #8
 					part.direction = leg.direction;
@@ -234,7 +234,7 @@ var Client = module.exports = {
 			maxJourneys:	options.results,
 			date:			this._dateTime.createApiDate(options.when),
 			time:			this._dateTime.createApiTime(options.when),
-			products:		this._products.createApiNumber(options.products)
+			products:		this._products.createApiBitmask(options.products)
 		};
 		if (options.direction) params.direction = this._locations.createApiId(options.direction);
 
@@ -253,7 +253,7 @@ var Client = module.exports = {
 			dep = data.Departure[i];
 			result = {
 				stop:		this._locations.parseApiId(dep.stopExtId),
-				type:		(this._products[dep.Product.catIn] || this._products.unknown).type,
+				type:		this._products.parseApiType(dep.Product.catCode).type,
 				direction:	dep.direction,
 				when:		this._dateTime.parseApiDateTime(dep.date, dep.time)
 			};
