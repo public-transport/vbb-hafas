@@ -1,4 +1,5 @@
 var sDate =				require('s-date');
+var parseIsoDuration =	require('parse-iso-duration');
 
 
 
@@ -20,6 +21,12 @@ module.exports = {
 
 	createApiTime: function (when) {
 		return sDate('{hh24}:{Minutes}', when);
+	},
+
+
+
+	parseApiDuration: function (duration) {
+		return parseIsoDuration(duration.replace(/^[R]T/, 'PT'));
 	}
 
 

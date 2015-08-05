@@ -1,7 +1,6 @@
 var url =				require('url');
 var path =				require('path');
 var extend =			require('extend');
-var parseIsoDuration =	require('parse-iso-duration');
 var bluebird =			require('bluebird');
 var request =			bluebird.promisify(require('request'));
 
@@ -165,6 +164,7 @@ var Client = module.exports = {
 		var results = [];
 		var i, tripsLength, trip, result;
 		var j, legsLength, leg, part;
+		var k, tickets, ticketsLength;
 
 		if (!data.Trip) return results;   // abort
 
@@ -172,7 +172,7 @@ var Client = module.exports = {
 			trip = data.Trip[i];
 
 			result = {
-				duration:	parseIsoDuration(trip.duration.replace(/^[R]T/, 'PT')),
+				duration:	this._dateTime.parseApiDuration(trip.duration),
 				parts:		[]
 			};
 
@@ -184,14 +184,16 @@ var Client = module.exports = {
 					to:			this._locations.parseApiLocation(leg.Destination),
 					transport:	(this._transports[leg.type] || this._transports.unknown).type,
 				};
+				part.from.when = this._dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
+				part.to.when = this._dateTime.parseApiDateTime(leg.Destination.date, leg.Destination.time);
+
 				if (part.transport === 'public') {
 					part.type = this._products.parseApiType(leg.Product.catCode).type;
 
 					part.line = part.type === this._products.express.type ? null : leg.Product.line;   // fixes #8
 					part.direction = leg.direction;
 				}
-				part.from.when = this._dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
-				part.to.when = this._dateTime.parseApiDateTime(leg.Destination.date, leg.Destination.time);
+
 				if (leg.Notes) part.notes = this._locations.parseApiNotes(leg.Notes);
 
 				result.parts.push(part);
@@ -288,6 +290,7 @@ var Client = module.exports = {
 		target.pathname = path.join(target.pathname, service);
 
 		target.query.format = 'json';
+		target.query.lang = 'en';
 		target.query.accessId = this.apiKey;
 		extend(target.query, params);
 		for (var property in params) {
