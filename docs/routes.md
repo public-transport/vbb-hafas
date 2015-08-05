@@ -84,6 +84,41 @@ For *express* trains, there is no `line` field!
 
         transport: 'walk'
       }
+    ],
+    tickets:[
+      {
+        name: 'Einzelfahrausweis Regeltarif',
+        price: 2.7,
+        zone: 'Berlin Tarifgebiet A-B'
+      }, {
+        name: 'Einzelfahrausweis Ermäßigungstarif',
+        price: 1.7,
+        zone: 'Berlin Tarifgebiet A-B'
+      }, {
+        name: 'Tageskarte Regeltarif',
+        price: 6.9,
+        zone: 'Berlin Tarifgebiet A-B'
+      }, {
+        name: 'Tageskarte Ermäßigungstarif',
+        price: 4.7,
+        zone: 'Berlin Tarifgebiet A-B'
+      }, {
+        name: 'Kleingruppen- Tageskarte',
+        price: 16.9,
+        zone: 'Berlin Tarifgebiet A-B'
+      }, {
+        name: 'Gruppentageskarte Schüler',
+        price: 3.2,
+        zone: 'Berlin Tarifgebiet A-B'
+      }, {
+        name: '4-Fahrten-Karte Regeltarif',
+        price: 9,
+        zone: 'Berlin Tarifgebiet A-B'
+      }, {
+        name: '4-Fahrten-Karte Ermäßigungstarif',
+        price: 5.6,
+        zone: 'Berlin Tarifgebiet A-B'
+      }
     ]
   }
 ]

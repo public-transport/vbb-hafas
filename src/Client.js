@@ -10,7 +10,8 @@ var util = {
 	products:			require('./util/products'),
 	locations:			require('./util/locations'),
 	transports:			require('./util/transports'),
-	dateTime:			require('./util/date-time')
+	dateTime:			require('./util/date-time'),
+	fares:				require('./util/fares')
 };
 
 
@@ -27,6 +28,7 @@ var Client = module.exports = {
 	_locations:		util.locations,
 	_transports:	util.transports,
 	_dateTime:		util.dateTime,
+	_fares:			util.fares,
 
 	endpoint:		'http://demo.hafas.de/openapi/vbb-proxy/',
 	apiKey:			null,
@@ -195,7 +197,18 @@ var Client = module.exports = {
 				result.parts.push(part);
 			}
 
-			// todo: tickets and their prices
+			if (trip.TariffResult) {
+				result.tickets = [];
+				try {
+					tickets = trip.TariffResult.fareSetItem[0].fareItem[0].ticket;
+				} catch (e) {
+					tickets = [];
+				}
+				for (k = 0, ticketsLength = tickets.length; k < ticketsLength; k++) {
+					result.tickets.push(this._fares.parseApiTicket(tickets[k]));
+				}
+			}
+
 			// todo: `leg.Messages`? are they actually being used?
 			// todo: `leg.ServiceDays`?
 			results.push(result);
