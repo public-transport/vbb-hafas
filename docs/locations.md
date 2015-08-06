@@ -74,6 +74,7 @@ My contain any of the following options.
 
 | options | default | type | description |
 |:----------|:----|:-----|:------------|
+| `apiKey` | `client.apiKey` | `String` | The [API key](http://www.vbb.de/de/article/webservices/schnittstellen-fuer-webentwickler/5070.html#testserver) to be used. |
 | `results` | `5` | `Integer` | The number of results, limited to `1000` by HAFAS. |
 | `stations` | `true` | `Boolean` | If stations should be included in the search results. |
 | `addresses` | `true` | `Boolean` | If addresses should be included in the search results. |

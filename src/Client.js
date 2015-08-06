@@ -35,8 +35,7 @@ var Client = module.exports = {
 
 
 	init: function (apiKey, endpoint) {
-		if (!apiKey) throw new Error('Missing `apiKey`.');
-		this.apiKey = apiKey;
+		if (apiKey) this.apiKey = apiKey;
 
 		if (endpoint) this.endpoint = endpoint;
 
@@ -69,6 +68,7 @@ var Client = module.exports = {
 			})
 		};
 
+		params.accessId = options.apiKey || this.apiKey;
 		return this._request('location.name', params, [this._locationsOnSuccess]);
 	},
 
@@ -155,6 +155,7 @@ var Client = module.exports = {
 		} else
 			throw new Error('Neither `to` nor `toLatitude` & `toLongitude` passed.');
 
+		params.accessId = options.apiKey || this.apiKey;
 		return this._request('trip', params, [this._routesOnSuccess]);
 	},
 
@@ -253,6 +254,7 @@ var Client = module.exports = {
 		};
 		if (options.direction) params.direction = this._locations.createApiId(options.direction);
 
+		params.accessId = options.apiKey || this.apiKey;
 		return this._request('departureBoard', params, [this._departuresOnSuccess]);
 	},
 
@@ -291,11 +293,7 @@ var Client = module.exports = {
 
 		target.query.format = 'json';
 		target.query.lang = 'en';
-		target.query.accessId = this.apiKey;
 		extend(target.query, params);
-		for (var property in params) {
-			target.query[property] = params[property];
-		}
 
 		// todo: make this shorter, using the bluebird api
 		var promise, i;

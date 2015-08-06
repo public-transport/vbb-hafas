@@ -77,6 +77,7 @@ My contain any of the following options.
 
 | options | default | type | description |
 |:----------|:----|:-----|:------------|
+| `apiKey` | `client.apiKey` | `String` | The [API key](http://www.vbb.de/de/article/webservices/schnittstellen-fuer-webentwickler/5070.html#testserver) to be used. |
 | `results` | `10` | `Integer` | The number of results. |
 | `when` | `new Date()` | `Date` | Self-explanatory. |
 | `direction` | – | `Integer` | The `id` of the last station of the line. |

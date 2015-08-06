@@ -134,6 +134,7 @@ My contain any of the following options. **Either `from` or `fromLatitude` and `
 
 | options | default | type | description |
 |:----------|:----|:-----|:------------|
+| `apiKey` | `client.apiKey` | `String` | The [API key](http://www.vbb.de/de/article/webservices/schnittstellen-fuer-webentwickler/5070.html#testserver) to be used. |
 | `from` | – | `Integer` | The `id` of the start location. *Required* |
 | `fromLatitude` | – | `Float` | The GPS latitude of the start location. *Required* |
 | `fromLongitude` | – | `Float` | The GPS longitude of the start location. *Required* |
