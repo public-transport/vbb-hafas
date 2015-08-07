@@ -69,7 +69,7 @@ var Client = module.exports = {
 		};
 
 		params.accessId = options.apiKey || this.apiKey;
-		return this._request('location.name', params, [this._locationsOnSuccess]);
+		return this._request(this.endpoint + 'location.name', params, [this._requestOnSuccess, this._locationsOnSuccess]);
 	},
 
 
@@ -156,7 +156,7 @@ var Client = module.exports = {
 			throw new Error('Neither `to` nor `toLatitude` & `toLongitude` passed.');
 
 		params.accessId = options.apiKey || this.apiKey;
-		return this._request('trip', params, [this._routesOnSuccess]);
+		return this._request(this.endpoint + 'trip', params, [this._requestOnSuccess, this._routesOnSuccess]);
 	},
 
 
@@ -255,7 +255,7 @@ var Client = module.exports = {
 		if (options.direction) params.direction = this._locations.createApiId(options.direction);
 
 		params.accessId = options.apiKey || this.apiKey;
-		return this._request('departureBoard', params, [this._departuresOnSuccess]);
+		return this._request(this.endpoint + 'departureBoard', params, [this._requestOnSuccess, this._departuresOnSuccess]);
 	},
 
 
@@ -287,18 +287,73 @@ var Client = module.exports = {
 
 
 
+	_autocompleteDefaults: {
+		results:		5,
+		stations:		true,
+		addresses:		true,
+		pois:			true
+	},
+
+	autocomplete: function (query, options) {
+		if (!query) throw new Error('Missing `query` parameter.');
+
+		options = extend(true, {}, this._autocompleteDefaults, options || {});
+
+		params = {
+			REQ0JourneyStopsS0G:	query,
+			REQ0JourneyStopsS0A:	options.results,
+			REQ0JourneyStopsB: this._locations.createApiBitmask({
+				station:			options.stations,
+				address:			options.addressess,
+				poi:				options.pois
+			})
+		};
+
+		return this._request('http://fahrinfo.vbb.de/bin/ajax-getstop.exe/dny', params, [this._autocompleteJsonp, this._requestOnSuccess, this._autocompleteOnSuccess]);
+	},
+
+
+
+	_autocompleteJsonp: function (res) {
+		res[0].body = res[0].body.substring(res[0].body.indexOf('{'), res[0].body.lastIndexOf('}') + 1);
+		return res;
+	},
+
+
+
+	_autocompleteOnSuccess: function (data) {
+		var results = [];
+		var i, length, loc;
+
+		if (!data.suggestions) return results;   // abort
+
+		for (i = 0, length = data.suggestions.length; i < length; i++) {
+			loc = data.suggestions[i];
+			results.push({
+				id:			this._locations.parseApiId(loc.extId),
+				name:		loc.value,
+				products:	this._products.parseApiBitmask(loc.productClass),
+				type:		this._locations.parseApiBitmask(loc.type).type
+			});
+		}
+
+		return results;
+	},
+
+
+
+
+
 	_request: function (service, params, handlers) {
-		var target = url.parse(this.endpoint, true);
-		target.pathname = path.join(target.pathname, service);
+		var target = url.parse(service, true);
 
 		target.query.format = 'json';
 		target.query.lang = 'en';
-		extend(target.query, params);
+		extend(true, target.query, params);
 
 		// todo: make this shorter, using the bluebird api
 		var promise, i;
-		promise = request(url.format(target)).bind(this)
-		.then(this._requestOnSuccess);
+		promise = request(url.format(target)).bind(this);
 		for (i = 0; i < handlers.length; i++) {
 			promise = promise.then(handlers[i]);
 		}

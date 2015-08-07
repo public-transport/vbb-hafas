@@ -12,28 +12,37 @@ var l = module.exports = {
 
 
 l.types.station = l.types.S = l.types.ST = {
-	id:		'ST',
-	alt:	'S',
-	type:	'station'
+	id:			'ST',
+	bitmask:	1,
+	alt:		'S',
+	type:		'station'
 };
 
 l.types.address = l.types.A = l.types.ADR = {
-	id:		'ADR',
-	alt:	'A',
-	type:	'address'
+	id:			'ADR',
+	bitmask:	2,
+	alt:		'A',
+	type:		'address'
 };
 
 l.types.poi = l.types.P = l.types.POI = {
-	id:		'POI',
-	alt:	'P',
-	type:	'poi'
+	id:			'POI',
+	bitmask:	4,
+	alt:		'P',
+	type:		'poi'
 };
 
 l.types.unknown = {
-	id:		null,
-	alt:	null,
-	type:	'unknown'
+	id:			null,
+	bitmask:	null,
+	alt:		null,
+	type:		'unknown'
 };
+
+l.bitmasks = [];
+l.bitmasks[1] = l.types.station;
+l.bitmasks[2] = l.types.address;
+l.bitmasks[4] = l.types.poi;
 
 
 
@@ -97,6 +106,25 @@ l.createApiId = function (id) {
 
 l.parseApiId = function (id) {
 	return parseFloat(id);
+};
+
+
+
+l.createApiBitmask = function (types) {
+	var result = 0;
+	for (var type in types) {
+		if (types[type] != true) continue;
+		result += l.types[type].bitmask;
+	}
+	return result;
+};
+l.parseApiBitmask = function (number) {
+	var result = {}, i = 1;
+	do {
+		result[l.bitmasks[i].type] = !!(number & i);
+		i *= 2;
+	} while (l.bitmasks[i] && l.bitmasks[i].type)
+	return result;
 };
 
 
