@@ -35,7 +35,7 @@ For *express* trains, there is no `line` field!
 
       {
         from: {
-          title: 'U Neu-Westend (Berlin)',
+          name: 'U Neu-Westend (Berlin)',
           latitude: 52.516411,
           longitude: 13.259907,
           id: 9026101,
@@ -45,7 +45,7 @@ For *express* trains, there is no `line` field!
         },
 
         to: {
-          title: 'Masurenallee/ZOB (Berlin)',
+          name: 'Masurenallee/ZOB (Berlin)',
           latitude: 52.506729,
           longitude: 13.278784,
           id: 9026208,
@@ -65,7 +65,7 @@ For *express* trains, there is no `line` field!
 
       {
         from: {
-          title: 'S Westend (Berlin)',
+          name: 'S Westend (Berlin)',
           latitude: 52.518613,
           longitude: 13.28424,
           id: 9026207,
@@ -75,7 +75,7 @@ For *express* trains, there is no `line` field!
         },
 
         to: {
-          title: '14059 Berlin-Charlottenburg, Spandauer-Damm-Brücke 90',
+          name: '14059 Berlin-Charlottenburg, Spandauer-Damm-Brücke 90',
           latitude: 52.518721,
           longitude: 13.284663,
           type: 'address',

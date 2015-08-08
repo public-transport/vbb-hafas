@@ -23,7 +23,7 @@ client.locations('Westend', {
 ```javascript
 [
   {
-    title: 'U Neu-Westend (Berlin)',
+    name: 'U Neu-Westend (Berlin)',
     latitude: 52.516411,
     longitude: 13.259907,
     id: 9026101,
@@ -38,7 +38,7 @@ client.locations('Westend', {
       regional: false
     }
   }, {
-    title: 'Westend (Berlin) (S)',
+    name: 'Westend (Berlin) (S)',
     latitude: 52.518613,
     longitude: 13.28424,
     id: 9026207,
