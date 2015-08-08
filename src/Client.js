@@ -49,11 +49,12 @@ var Client = module.exports = {
 				station:	options.stations,
 				address:	options.addresses,
 				poi:		options.pois
-			})
+			}),
+			accessId:		options.apiKey || this.apiKey
 		};
 
-		params.accessId = options.apiKey || this.apiKey;
-		return this._request('location.name', params, [this._locationsOnSuccess]);
+		return this._request('location.name', params)
+		.then(this._locationsOnSuccess);
 	},
 
 
@@ -115,7 +116,8 @@ var Client = module.exports = {
 			time:				util.dateTime.stringifyToTime(options.when),
 			numB:				0,
 			numF:				options.results > 6 ? 6 : options.results,
-			products:			util.products.stringifyBitmask(options.products)
+			products:			util.products.stringifyBitmask(options.products),
+			accessId:			options.apiKey || this.apiKey
 		};
 		if (typeof options.changes === 'number') params.maxChange = options.changes;
 		if (options.via) params.via = options.via;
@@ -136,20 +138,17 @@ var Client = module.exports = {
 		} else
 			throw new Error('Neither `to` nor `toLatitude` & `toLongitude` passed.');
 
-		params.accessId = options.apiKey || this.apiKey;
-		return this._request('trip', params, [this._routesOnSuccess]);
+		return this._request('trip', params)
+		.then(this._routesOnSuccess);
 	},
 
 
 
 	_routesOnSuccess: function (data) {
-		var results = [];
-		var i, tripsLength, trip, result;
-		var j, legsLength, leg, part;
-		var k, tickets, ticketsLength;
-
 		if (!data.Trip) return results;   // abort
+		var results = [];
 
+		var i, tripsLength, trip, result;
 		for (i = 0, tripsLength = data.Trip.length; i < tripsLength; i++) {
 			trip = data.Trip[i];
 
@@ -158,6 +157,7 @@ var Client = module.exports = {
 				parts:		[]
 			};
 
+			var j, legsLength, leg, part;
 			for (j = 0, legsLength = trip.LegList.Leg.length; j < legsLength; j++ ) {
 				leg = trip.LegList.Leg[j];
 
@@ -223,22 +223,22 @@ var Client = module.exports = {
 			maxJourneys:	options.results,
 			date:			util.dateTime.stringifyToDate(options.when),
 			time:			util.dateTime.stringifyToTime(options.when),
-			products:		util.products.stringifyBitmask(options.products)
+			products:		util.products.stringifyBitmask(options.products),
+			accessId:		options.apiKey || this.apiKey
 		};
 		if (options.direction) params.direction = util.locations.stations.stringifyId(options.direction);
 
-		params.accessId = options.apiKey || this.apiKey;
-		return this._request('departureBoard', params, [this._departuresOnSuccess]);
+		return this._request('departureBoard', params)
+		.then(this._departuresOnSuccess);
 	},
 
 
 
 	_departuresOnSuccess: function (data) {
-		var results = [];
-		var i, length, dep, result;
-
 		if (!data.Departure) return results;   // abort
+		var results = [];
 
+		var i, length, dep, result;
 		for (i = 0, length = data.Departure.length; i < length; i++) {
 			dep = data.Departure[i];
 			result = {
@@ -261,7 +261,7 @@ var Client = module.exports = {
 
 
 
-	_request: function (service, params, handlers) {
+	_request: function (service, params) {
 		var target = url.parse(this.endpoint, true);
 		target.pathname = path.join(target.pathname, service);
 
@@ -269,14 +269,8 @@ var Client = module.exports = {
 		target.query.lang = 'en';
 		extend(target.query, params);
 
-		// todo: make this shorter, using the bluebird api
-		var promise, i;
-		promise = request(url.format(target)).bind(this)
+		return request(url.format(target)).bind(this)
 		.then(this._requestOnSuccess);
-		for (i = 0; i < handlers.length; i++) {
-			promise = promise.then(handlers[i]);
-		}
-		return promise;
 	},
 
 	_requestOnSuccess: function (res) {
@@ -289,6 +283,7 @@ var Client = module.exports = {
 				throw new this._errors.ConnectionError(res.statusCode, res.statusMessage, res.request.uri, res.request.method);
 			else throw new Error('Could not parse response JSON');
 		}
+		if (data.errorCode) throw errors.apiServerError(res, data);
 
 		return data;
 	}
