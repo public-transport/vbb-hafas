@@ -4,30 +4,14 @@ var extend =			require('extend');
 var bluebird =			require('bluebird');
 var request =			bluebird.promisify(require('request'));
 
-var util = {
-	errors:				require('./util/errors'),
-	products:			require('./util/products'),
-	locations:			require('./util/locations'),
-	transports:			require('./util/transports'),
-	dateTime:			require('./util/date-time'),
-	fares:				require('./util/fares')
-};
+var util =				require('vbb-util');
+var errors =			require('./util/errors');
 
 
 
 
 
 var Client = module.exports = {
-
-
-
-	// util
-	_errors:		util.errors,
-	_products:		util.products,
-	_locations:		util.locations,
-	_transports:	util.transports,
-	_dateTime:		util.dateTime,
-	_fares:			util.fares,
 
 	endpoint:		'http://demo.hafas.de/openapi/vbb-proxy/',
 	apiKey:			null,
@@ -61,7 +45,7 @@ var Client = module.exports = {
 		params = {
 			input:			query,
 			maxNo:			options.results,
-			type: this._locations.createApiString({
+			type: util.locations.types.stringify({
 				station:	options.stations,
 				address:	options.addresses,
 				poi:		options.pois
@@ -82,15 +66,12 @@ var Client = module.exports = {
 
 		if (data.StopLocation)
 			for (i = 0, length = data.StopLocation.length; i < length; i++) {
-				loc = data.StopLocation[i];
-				result = this._locations.parseApiLocation(loc);
-				result.products = this._products.parseApiBitmask(loc.products);
-				results.push(result);
+				results.push(util.locations.parse(data.StopLocation[i]));
 			}
 
 		if (data.CoordLocation)
 			for (i = 0, length = data.CoordLocation.length; i < length; i++) {
-				results.push(this._locations.parseApiLocation(data.CoordLocation[i]));
+				results.push(util.locations.parse(data.CoordLocation[i]));
 			}
 
 		return results;
@@ -130,17 +111,17 @@ var Client = module.exports = {
 		if (!options.when) options.when = new Date();   // now
 		params = {
 			changeTimePercent:	Math.round(options.changeTimeFactor * 100),
-			date:				this._dateTime.createApiDate(options.when),
-			time:				this._dateTime.createApiTime(options.when),
+			date:				util.dateTime.stringifyToDate(options.when),
+			time:				util.dateTime.stringifyToTime(options.when),
 			numB:				0,
 			numF:				options.results > 6 ? 6 : options.results,
-			products:			this._products.createApiBitmask(options.products)
+			products:			util.products.stringifyBitmask(options.products)
 		};
 		if (typeof options.changes === 'number') params.maxChange = options.changes;
 		if (options.via) params.via = options.via;
 
 		if (options.from)
-			params.originId = this._locations.createApiId(options.from);
+			params.originId = util.locations.stations.stringifyId(options.from);
 		else if (options.fromLatitude && options.fromLongitude) {
 			params.originCoordLat = options.fromLatitude;
 			params.originCoordLong = options.fromLongitude;
@@ -148,7 +129,7 @@ var Client = module.exports = {
 			throw new Error('Neither `from` nor `fromLatitude` & `fromLongitude` passed.');
 
 		if (options.to)
-			params.destId = this._locations.createApiId(options.to);
+			params.destId = util.locations.stations.stringifyId(options.to);
 		else if (options.toLatitude && options.toLongitude) {
 			params.destCoordLat = options.toLatitude;
 			params.destCoordLong = options.toLongitude;
@@ -173,7 +154,7 @@ var Client = module.exports = {
 			trip = data.Trip[i];
 
 			result = {
-				duration:	this._dateTime.parseApiDuration(trip.duration),
+				duration:	util.duration.parse(trip.duration),
 				parts:		[]
 			};
 
@@ -181,36 +162,28 @@ var Client = module.exports = {
 				leg = trip.LegList.Leg[j];
 
 				part = {
-					from:		this._locations.parseApiLocation(leg.Origin),
-					to:			this._locations.parseApiLocation(leg.Destination),
-					transport:	(this._transports[leg.type] || this._transports.unknown).type,
+					from:		util.locations.parse(leg.Origin),
+					to:			util.locations.parse(leg.Destination),
+					transport:	util.routes.legs.types.parse(leg.type).type,
 				};
-				part.from.when = this._dateTime.parseApiDateTime(leg.Origin.date, leg.Origin.time);
-				part.to.when = this._dateTime.parseApiDateTime(leg.Destination.date, leg.Destination.time);
+				part.from.when = util.dateTime.parse(leg.Origin.date, leg.Origin.time);
+				part.to.when = util.dateTime.parse(leg.Destination.date, leg.Destination.time);
+
+				if (leg.Notes) part.notes = util.routes.legs.notes.parse(leg.Notes);
 
 				if (part.transport === 'public') {
-					part.type = this._products.parseApiType(leg.Product.catCode).type;
-
-					part.line = part.type === this._products.express.type ? null : leg.Product.line;   // fixes #8
-					part.direction = leg.direction;
+					part.type = util.products.parseCategory(leg.Product.catCode).type;
+					part.line = part.type === util.products.express.type ? null : leg.Product.line;   // fixes #8
+					part.direction = leg.direction;   // todo: fix #11
 				}
-
-				if (leg.Notes) part.notes = this._locations.parseApiNotes(leg.Notes);
 
 				result.parts.push(part);
 			}
 
-			if (trip.TariffResult) {
-				result.tickets = [];
+			if (trip.TariffResult)
 				try {
-					tickets = trip.TariffResult.fareSetItem[0].fareItem[0].ticket;
-				} catch (e) {
-					tickets = [];
-				}
-				for (k = 0, ticketsLength = tickets.length; k < ticketsLength; k++) {
-					result.tickets.push(this._fares.parseApiTicket(tickets[k]));
-				}
-			}
+					result.tickets = util.routes.fares.parse(trip.TariffResult.fareSetItem[0].fareItem[0].ticket);
+				} catch (e) {}
 
 			// todo: `leg.Messages`? are they actually being used?
 			// todo: `leg.ServiceDays`?
@@ -246,13 +219,13 @@ var Client = module.exports = {
 		if (!options.when) options.when = new Date();   // now
 
 		params = {
-			id:				this._locations.createApiId(station),
+			id:				util.locations.stations.stringifyId(station),
 			maxJourneys:	options.results,
-			date:			this._dateTime.createApiDate(options.when),
-			time:			this._dateTime.createApiTime(options.when),
-			products:		this._products.createApiBitmask(options.products)
+			date:			util.dateTime.stringifyToDate(options.when),
+			time:			util.dateTime.stringifyToTime(options.when),
+			products:		util.products.stringifyBitmask(options.products)
 		};
-		if (options.direction) params.direction = this._locations.createApiId(options.direction);
+		if (options.direction) params.direction = util.locations.stations.stringifyId(options.direction);
 
 		params.accessId = options.apiKey || this.apiKey;
 		return this._request('departureBoard', params, [this._departuresOnSuccess]);
@@ -269,14 +242,15 @@ var Client = module.exports = {
 		for (i = 0, length = data.Departure.length; i < length; i++) {
 			dep = data.Departure[i];
 			result = {
-				stop:		this._locations.parseApiId(dep.stopExtId),
-				type:		this._products.parseApiType(dep.Product.catCode).type,
+				stop:		util.locations.stations.parseId(dep.stopExtId),
+				type:		util.products.parseCategory(dep.Product.catCode).type,
 				direction:	dep.direction,
-				when:		this._dateTime.parseApiDateTime(dep.date, dep.time)
+				when:		util.dateTime.parse(dep.date, dep.time)
 			};
-			result.line = dep.type === this._products.express.type ? null : dep.Product.line;   // fixes #8
+			result.line = dep.type === util.products.express.type ? null : dep.Product.line;   // fixes #8
 			if (dep.rtDate && dep.rtTime)
-				result.realtime = this._dateTime.parseApiDateTime(dep.rtDate, dep.rtTime);
+				result.realtime = util.dateTime.parse(dep.rtDate, dep.rtTime);
+			// todo: notes
 			results.push(result);
 		}
 
@@ -315,7 +289,6 @@ var Client = module.exports = {
 				throw new this._errors.ConnectionError(res.statusCode, res.statusMessage, res.request.uri, res.request.method);
 			else throw new Error('Could not parse response JSON');
 		}
-		if (data.errorCode) throw this._errors.apiServerError(res, data);
 
 		return data;
 	}

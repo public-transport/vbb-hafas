@@ -1,4 +1,4 @@
-var apiErrors =		require('./api-errors');
+var apiErrors =		require('vbb-util').apiErrors;
 
 
 
