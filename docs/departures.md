@@ -1,4 +1,4 @@
-# [`departures(station[, options])`](../src/Client.js#L233)
+# [`departures(station[, options])`](../src/Client.js#L237)
 
 **Queries the next departures at a station.**
 

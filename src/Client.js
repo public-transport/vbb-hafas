@@ -1,10 +1,12 @@
 var url =				require('url');
 var path =				require('path');
 var extend =			require('extend');
+var Q =					require('q');
 var bluebird =			require('bluebird');
 var request =			bluebird.promisify(require('request'));
 
 var util =				require('vbb-util');
+var autocomplete =		require('vbb-stations-autocomplete');
 var errors =			require('./util/errors');
 
 
@@ -15,6 +17,7 @@ var Client = module.exports = {
 
 	endpoint:		'http://demo.hafas.de/openapi/vbb-proxy/',
 	apiKey:			null,
+	autocompletion:	null,
 
 
 
@@ -23,7 +26,26 @@ var Client = module.exports = {
 
 		if (endpoint) this.endpoint = endpoint;
 
+		this.autocompletion = autocomplete();
+
 		return this;
+	},
+
+
+
+
+
+	autocomplete: function (query, limit) {
+		var deferred = Q.defer(), self = this;
+		process.nextTick(function () {
+			var results = self.autocompletion.suggest(query, limit), i;
+			for (i = 0; i < results.length; i++) {
+				delete results[i].keys;
+				delete results[i].weight;
+			}
+			deferred.resolve(results);
+		});
+		return deferred.promise;
 	},
 
 

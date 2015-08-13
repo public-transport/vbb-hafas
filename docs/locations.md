@@ -1,4 +1,4 @@
-# [`locations(query[, options])`](../src/Client.js#L64)
+# [`locations(query[, options])`](../src/Client.js#L62)
 
 **Finds stations, addresses and [POI](https://en.wikipedia.org/wiki/Point_of_interest)s** matching `query`.
 

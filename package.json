@@ -31,9 +31,11 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"extend":				"^3.0.0",
-		"request":				"^2.60.0",
-		"bluebird":				"^2.9.34",
-		"vbb-util":				"^0.1.0"
+		"extend":						"^3.0.0",
+		"request":						"^2.60.0",
+		"bluebird":						"^2.9.34",
+		"q":							"^1.4.1",
+		"vbb-util":						"^0.1.0",
+		"vbb-stations-autocomplete":	"^0.1.0"
 	}
 }
