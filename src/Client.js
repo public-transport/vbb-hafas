@@ -280,7 +280,7 @@ var Client = module.exports = {
 			data = JSON.parse(res.body);
 		} catch (e) {
 			if (res.statusCode < 200 || res.statusCode >= 300)
-				throw new this._errors.ConnectionError(res.statusCode, res.statusMessage, res.request.uri, res.request.method);
+				throw new errors.ConnectionError(res.statusCode, res.statusMessage, res.request.uri, res.request.method);
 			else throw new Error('Could not parse response JSON');
 		}
 		if (data.errorCode) throw errors.apiServerError(res, data);
