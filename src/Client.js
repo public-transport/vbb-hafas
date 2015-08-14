@@ -6,7 +6,7 @@ var bluebird =			require('bluebird');
 var request =			bluebird.promisify(require('request'));
 
 var util =				require('vbb-util');
-var autocomplete =		require('vbb-stations-autocomplete');
+var autocompletion =	require('vbb-stations-autocomplete');
 var errors =			require('./util/errors');
 
 
@@ -26,7 +26,7 @@ var Client = module.exports = {
 
 		if (endpoint) this.endpoint = endpoint;
 
-		this.autocompletion = autocomplete();
+		this.autocompletion = autocompletion();
 
 		return this;
 	},
@@ -38,12 +38,12 @@ var Client = module.exports = {
 	autocomplete: function (query, limit) {
 		var deferred = Q.defer(), self = this;
 		process.nextTick(function () {
-			var results = self.autocompletion.suggest(query, limit), i;
-			for (i = 0; i < results.length; i++) {
-				delete results[i].keys;
-				delete results[i].weight;
-			}
-			deferred.resolve(results);
+			deferred.resolve(self.autocompletion.suggest(query, limit).map(function (result) {
+				return {
+					id:		result.id,
+					name:	result.name,
+				};
+			}));
 		});
 		return deferred.promise;
 	},
