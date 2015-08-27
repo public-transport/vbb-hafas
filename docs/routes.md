@@ -1,4 +1,4 @@
-# [`routes(options)`](../src/Client.js#L131)
+# [`routes(options)`](../src/Client.js#L110)
 
 **Finds routes between `from` and `to`.**
 
