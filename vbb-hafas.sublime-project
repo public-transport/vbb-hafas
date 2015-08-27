@@ -2,7 +2,7 @@
 	"folders": [
 		{
 			"path": ".",
-			"name": "vbb",
+			"name": "vbb-hafas",
 			"folder_exclude_patterns": [
 				"docs",
 				"src",

@@ -1,4 +1,4 @@
-# *vbb* API documentation
+# *vbb-hafas* API documentation
 
 - [`autocomplete`](autocomplete.md)
 - [`locations`](locations.md)

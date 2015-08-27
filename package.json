@@ -1,6 +1,6 @@
 {
-	"name": "vbb",
-	"description": "A JavaScript API for Berlin & Brandenburg public transport.",
+	"name": "vbb-hafas",
+	"description": "A JavaScript client for Berlin & Brandenburg public transport HAFAS API.",
 	"version": "0.3.2",
 	"main": "src/index.js",
 	"keywords": [
@@ -21,13 +21,13 @@
 		"email": "mail@jannisr.de",
 		"url": "http://jannisr.de"
 	},
-	"homepage": "https://github.com/derhuerst/vbb",
+	"homepage": "https://github.com/derhuerst/vbb-hafas",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/derhuerst/vbb.git"
+		"url": "git://github.com/derhuerst/vbb-hafas.git"
 	},
 	"bugs": {
-		"url": "https://github.com/derhuerst/vbb/issues"
+		"url": "https://github.com/derhuerst/vbb-hafas/issues"
 	},
 	"license": "MIT",
 	"dependencies": {

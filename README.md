@@ -1,27 +1,27 @@
-# vbb
+# vbb-hafas
 
-*vbb* is a JavaScript **API for the Berlin & Brandenburg public transport service** (VBB). It puts a consistent and straightforward [promise](https://github.com/petkaantonov/bluebird#what-are-promises-and-why-should-i-use-them)-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) REST API. *vbb* is **[MIT-licensed](LICENSE)** and embraces [prototypal programming](http://davidwalsh.name/javascript-objects-deconstruction#simpler-object-object).
+*vbb-hafas* is a JavaScript **API for the Berlin & Brandenburg public transport service** (VBB). It puts a consistent and straightforward [promise](https://github.com/petkaantonov/bluebird#what-are-promises-and-why-should-i-use-them)-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) REST API. *vbb-hafas* is **[MIT-licensed](LICENSE)** and embraces [prototypal programming](http://davidwalsh.name/javascript-objects-deconstruction#simpler-object-object).
 
-[![npm version](https://img.shields.io/npm/v/vbb.svg)](https://www.npmjs.com/package/vbb)
-[![dependency status](https://img.shields.io/david/derhuerst/vbb.svg)](https://david-dm.org/derhuerst)
+[![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
+[![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst)
 
 
 
 ## Installing
 
 ```shell
-npm install vbb
+npm install vbb-hafas
 ```
 
 
 
 ## Getting Started
 
-We `require` the *vbb* factory function and pass the [API key](http://www.vbb.de/de/article/webservices/schnittstellen-fuer-webentwickler/5070.html#testserver).
+We `require` the *vbb-hafas* factory function and pass the [API key](http://www.vbb-hafas.de/de/article/webservices/schnittstellen-fuer-webentwickler/5070.html#testserver).
 
 ```javascript
-var vbb = require('vbb');
-var client = vbb('<your API key>');
+var vbb-hafas = require('vbb-hafas');
+var client = vbb-hafas('<your API key>');
 ```
 
 We have access to three methods now:
@@ -96,10 +96,10 @@ The output will have the following structure:
 
 ## Documentation
 
-[*vbb* API Dokumentaion](docs/index.md)
+[*vbb-hafas* API Dokumentaion](docs/index.md)
 
 
 
 ## Contributing
 
-If you **have a question**, **found a bug** or want to **propose a feature**, have a look at [the issues page](https://github.com/derhuerst/vbb/issues).
+If you **have a question**, **found a bug** or want to **propose a feature**, have a look at [the issues page](https://github.com/derhuerst/vbb-hafas/issues).
