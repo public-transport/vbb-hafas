@@ -1,7 +1,7 @@
 {
 	"name": "vbb-hafas",
 	"description": "A JavaScript client for Berlin & Brandenburg public transport HAFAS API.",
-	"version": "0.5.0",
+	"version": "0.6.0",
 	"main": "src/index.js",
 	"keywords": [
 		"vbb",
