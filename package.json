@@ -29,7 +29,7 @@
 	"bugs": {
 		"url": "https://github.com/derhuerst/vbb-hafas/issues"
 	},
-	"license": "MIT",
+	"license": "ISC",
 	"dependencies": {
 		"extend":						"^3.0.0",
 		"request":						"^2.60.0",
