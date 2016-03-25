@@ -1,13 +1,11 @@
-Client =	require('./Client');
+'use strict'
 
+const Client = require('./Client')
 
-
-
-
-var factory = module.exports = function (apiKey, endpoint) {
-	var instance = Object.create(Client);
-	instance.init(apiKey, endpoint);
-	return instance;
+const factory = function (apiKey, endpoint) {
+	const instance = Object.create(Client)
+	instance.init(apiKey, endpoint)
+	return instance
 };
 
-factory.Client = Client;
+module.exports = Object.assign(factory, {Client})

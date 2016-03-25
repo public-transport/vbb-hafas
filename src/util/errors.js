@@ -1,57 +1,38 @@
-var apiErrors =		require('vbb-util').apiErrors;
+const apiErrors = require('vbb-util').apiErrors
 
 
 
+const ConnectionError = (code, message, url, method) => Object.assign(
+	new Error(message),
+	{code, message, url, method})
 
-
-var e = module.exports = {};
-
-
-
-e.ConnectionError = function (code, message, url, method) {
-	Error.call(this, message);
-	this.code =			code;
-	this.message =		message;
-	this.url =			url;
-	this.method =		method;
-};
-
-e.ConnectionError.prototype = Object.create(Error.prototype);
-e.ConnectionError.prototype.constructor = e.ConnectionError;
-
-e.ConnectionError.prototype.toString = function () {
-	return 'connection error: ' + this.code + ' ' + this.message;
-};
+ConnectionError.prototype = Object.create(Error.prototype)
+ConnectionError.prototype.constructor = ConnectionError
+ConnectionError.prototype.toString = function () {
+	return `connection error: ${this.code} ${this.message}`
+}
 
 
 
-e.ApiServerError = function (type, code, message, url, details) {
-	Error.call(this, message);
-	this.type =			type;
-	this.code =			code;
-	this.message =		message;
-	this.statusCode =	code;   // http status code
-	this.url =			url;
-};
+const ApiServerError = (type, code, message, url, details) =>
+	Object.assign(new Error(message), {type, code, message, url,
+		statusCode: code}) // http status code
 
-e.ApiServerError.prototype = Object.create(Error.prototype);
-e.ApiServerError.prototype.constructor = e.ApiServerError;
+ApiServerError.prototype = Object.create(Error.prototype)
+ApiServerError.prototype.constructor = ApiServerError
+ApiServerError.prototype.toString = function () {
+	return `API server error: ${this.code} – ${this.message} (${this.url})`
+}
 
-e.ApiServerError.prototype.toString = function () {
-	return [
-		'API server error: ',
-		this.code,
-		'–',
-		this.message,
-		'(' + this.url + ')'
-	].join(' ');
-};
+const apiServerError = function (res, data) {
+	const unknownError = new ApiServerError('unknown', null, data.errorText, res.request.url, null)
+	const group = apiErrors[data.errorCode.substr(0, 1)]
+	if (!group) return unknownError
+	const error = group[parseInt(data.errorCode.substr(1))]
+	if (!error) return unknownError
+	return new ApiServerError(group.name, error.code, error.message, res.request.url, data.errorText)
+}
 
-e.apiServerError = function (res, data) {
-	var unknownError = new e.ApiServerError('unknown', null, data.errorText, res.request.url, null);
-	var group = apiErrors[data.errorCode.substr(0, 1)];
-	if (!group) return unknownError;
-	var error = group[parseInt(data.errorCode.substr(1))];
-	if (!error) return unknownError;
-	return new e.ApiServerError(group.name, error.code, error.message, res.request.url, data.errorText);
-};
+
+
+module.exports = {ConnectionError, ApiServerError, apiServerError}
