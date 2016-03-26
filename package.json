@@ -2,7 +2,8 @@
 	"name":         "vbb-hafas",
 	"description":  "JavaScript client for the VBB HAFAS API.",
 	"version":      "0.6.0",
-	"main":         "src/index.js",
+	"main":         "index.js",
+	"files":        ["index.js", "lib/*"],
 	"author":       "Jannis R <mail@jannisr.de>",
 	"homepage":     "https://github.com/derhuerst/vbb-hafas",
 	"repository":   "git://github.com/derhuerst/vbb-hafas.git",
@@ -12,11 +13,5 @@
 		"vbb", "berlin", "brandenburg", "public transport",
 		"api", "open data", "hafas", "json", "rest", "http"
 	],
-	"dependencies": {
-		"extend":   "^3.0.0",
-		"request":  "^2.67.0",
-		"bluebird": "^2.10.0",
-		"q":        "^1.4.1",
-		"vbb-util": "^0.3.0"
-	}
+	"dependencies": {}
 }
