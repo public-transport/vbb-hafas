@@ -13,5 +13,8 @@
 		"vbb", "berlin", "brandenburg", "public transport",
 		"api", "open data", "hafas", "json", "rest", "http"
 	],
-	"dependencies": {}
+	"dependencies": {
+		"vbb-util":        "^0.8",
+		"request-promise": "^2.0.1"
+	}
 }
