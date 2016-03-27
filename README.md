@@ -1,10 +1,11 @@
 # vbb-hafas
 
-*vbb-hafas* is a JavaScript **API for the Berlin & Brandenburg public transport service** (VBB). It puts a consistent and straightforward [promise](https://github.com/petkaantonov/bluebird#what-are-promises-and-why-should-i-use-them)-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) REST API. *vbb-hafas* is **[MIT-licensed](LICENSE)** and embraces [prototypal programming](http://davidwalsh.name/javascript-objects-deconstruction#simpler-object-object).
+*vbb-hafas* is a JavaScript **API for the Berlin & Brandenburg public transport service** (VBB). It puts a consistent and straightforward promise-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) REST API.
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
 
+*vbb-hafas* is **[ISC-licensed](license.md)**.
 
 
 ## Installing
@@ -14,90 +15,59 @@ npm install vbb-hafas
 ```
 
 
-
 ## Getting Started
 
-We `require` the *vbb-hafas* factory function and pass the [API key](http://www.vbb-hafas.de/de/article/webservices/schnittstellen-fuer-webentwickler/5070.html#testserver).
-
 ```javascript
-var vbb-hafas = require('vbb-hafas');
-var client = vbb-hafas('<your API key>');
+const hafas = require('vbb-hafas')
 ```
 
-We have access to three methods now:
+- `routes(key, from, to, [opt])` to get routes between locations
+- `departures(key, station, [opt])` to query the next departures at a station
 
-- [`locations`](docs/locations.md) to find stations, addresses and [POI](https://en.wikipedia.org/wiki/Point_of_interest)s
-- [`routes`](docs/routes.md) to get routes between locations
-- [`departures`](docs/departures.md) to query the next departures at a station
-
-As an example, we will search for a route [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z).
-
-First, we have to look up the `id`s of those two stations:
+As an example, we will search for a route [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-static`](https://github.com/derhuerst/vbb-static#usage).
 
 ```javascript
-var Promise = require('bluebird');
-
-Promise.join(
-	client.locations('Berlin Hauptbahnhof'),   // start query promise
-	client.locations('Berlin Charlottenburg'),   // dest. query promise
-	function (startResults, destResults) {   // the results of both promises
-		var startId = startResults[0].id;
-		var destId = destResults[0].id;
-
-		return client.routes({
-			from: startId,
-			to: destId
-		});
-	}
-).then(function (routes) {
-	console.log(routes[0]);
-});
+client.routes('<your API key>', startId, destId)
+.then((routes) => console.log(routes[0]))
 ```
 
 The output will have the following structure:
 
 ```javascript
 {
-  duration: 600000,   // milliseconds
-  parts: [   // all "sections" of the route
+  duration: 600000,      // milliseconds
+  parts: [               // all "sections" of the route
     {
       from: {
-        title: 'S+U Berlin Hauptbahnhof',
-        latitude: 52.525849,
-        longitude: 13.368928,
-        id: 9003201,
-        type: 'station',
+        title:           'S+U Berlin Hauptbahnhof',
+        latitude:        52.525849,
+        longitude:       13.368928,
+        id:              9003201,
+        type:            'station',
         notes: {
-          lift: true,
+          lift:          true,
           tactilePaving: true,
-          escalator: true
+          escalator:     true
         },
-        when: Sat Aug 01 2015 15:48:00 GMT+0200 (CEST)   // `Date` object
+        when:            Sat Aug 01 2015 15:48:00 GMT+0200 (CEST)   // `Date` object
       },
       to: {
-        title: 'S Charlottenburg Bhf (Berlin)',
-        latitude: 52.505048,
-        longitude: 13.305212,
-        id: 9024101,
-        type: 'station',
+        title:           'S Charlottenburg Bhf (Berlin)',
+        latitude:        52.505048,
+        longitude:       13.305212,
+        id:              9024101,
+        type:            'station',
         notes: {},
-        when: Sat Aug 01 2015 15:58:00 GMT+0200 (CEST)   // `Date` object
+        when:            Sat Aug 01 2015 15:58:00 GMT+0200 (CEST)   // `Date` object
       },
-      transport: 'public',   // another value: `'walk'`
-      type: 'suburban',   // another value: `'subway'`
-      direction: 'S Spandau Bhf (Berlin)',
+      transport:         'public',   // another value: `'walk'`
+      type:              'suburban',   // another value: `'subway'`
+      direction:         'S Spandau Bhf (Berlin)',
       notes: {}
     }
   ]
 }
 ```
-
-
-
-## Documentation
-
-[*vbb-hafas* API Dokumentaion](docs/index.md)
-
 
 
 ## Contributing
