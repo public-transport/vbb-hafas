@@ -16,5 +16,13 @@
 	"dependencies": {
 		"vbb-util":        "^0.8",
 		"request-promise": "^2.0.1"
+	},
+	"devDependencies": {
+		"is-roughly-equal":          "^0.1",
+		"vbb-stations-autocomplete": "^0.6"
+	},
+	"scripts": {
+		"test":       "./test.js",
+		"prepublish": "npm test"
 	}
 }
