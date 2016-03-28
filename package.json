@@ -13,9 +13,10 @@
 		"vbb", "berlin", "brandenburg", "public transport",
 		"api", "open data", "hafas", "json", "rest", "http"
 	],
+	"engines" :     {"node": ">=4"},
 	"dependencies": {
-		"vbb-util":        "^0.8",
-		"request-promise": "^2.0.1"
+		"vbb-util":                  "^0.9",
+		"request-promise":           "^2.0.1"
 	},
 	"devDependencies": {
 		"is-roughly-equal":          "^0.1",
