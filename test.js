@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict'
 
 const a              = require('assert')
@@ -12,7 +13,17 @@ const key = process.env.VBB_API_KEY
 
 // fixtures
 const when = new Date('Mon Mar 28 2016 19:53:42 GMT+0200 (CEST)')
-const halfAnHour = 30 * 60 * 1000
+const minute = 60 * 1000
+
+const findStation = (name) => stations(name, 1)[0]
+
+const validStation = (s) =>
+	s.type === 'station'
+	&& 'number' === typeof s.id
+	&& 'string' === typeof s.name
+	&& findStation(s.name)
+	&& 'number' === typeof s.latitude
+	&& 'number' === typeof s.longitude
 
 
 
@@ -31,10 +42,48 @@ hafas.departures(key, 9042101, { // U Spichernstr.
 		a.ok('type' in dep, 'Missing type property.')
 
 		a.ok('direction' in dep, 'Missing direction property.')
-		a.ok(stations(dep.direction, 1).length > 0,
+		a.ok(findStation(dep.direction),
 			'The direction property seems to be wrong')
 
 		a.ok('when' in dep, 'Missing when property.')
-		a.ok(isRoughlyEqual(halfAnHour, dep.when, when), 'Departure time seems to be far off.')
+		a.ok(isRoughlyEqual(30 * minute, dep.when, when), 'Departure time seems to be far off.')
+	}
+})
+
+
+
+// test for hafas.routes
+hafas.routes(key, 9042101, 9009101, { // U Spichernstr. to U Amrumer Str.
+	  results: 3
+	, when
+}).then((routes) => {
+	a.ok(Array.isArray(routes), 'does not resolve with an array')
+	a.strictEqual(routes.length, 3)
+
+	for (let route of routes) {
+		a.ok(isRoughlyEqual(20 * minute, 10 * minute, route.duration),
+			'Duration seems to be far off.')
+
+		a.ok('parts' in route, 'Missing parts property.')
+		a.ok(Array.isArray(route.parts), 'parts property is not an array.')
+
+		for (let part of route.parts) {
+			a.ok('from' in part, 'Missing from property.')
+			a.ok(validStation(part.from), 'The from property seems to be invalid.')
+			a.ok('to' in part, 'Missing to property.')
+			a.ok(validStation(part.to), 'The to property seems to be invalid.')
+
+			a.ok(isRoughlyEqual(30 * minute, part.start, when), 'Start time seems to be far off.')
+			a.ok(isRoughlyEqual(50 * minute, part.end, when), 'End time seems to be far off.')
+
+			a.ok('transport' in part, 'Missing transport property.')
+			if (part.transport === 'public') {
+				a.ok('type' in part, 'Missing type property.')
+
+				a.ok('direction' in part, 'Missing direction property.')
+				a.ok(findStation(part.direction),
+					'The direction property seems to be wrong.')
+			}
+		}
 	}
 })
