@@ -16,7 +16,8 @@
 	"engines" :     {"node": ">=4"},
 	"dependencies": {
 		"vbb-util":                  "^0.9",
-		"request-promise":           "^2.0.1"
+		"request-promise":           "^2.0.1",
+		"vbb-parse-line":            "^0.1.1"
 	},
 	"devDependencies": {
 		"is-roughly-equal":          "^0.1",
