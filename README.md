@@ -4,8 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
-
-*vbb-hafas* is **[ISC-licensed](license.md)**.
+![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-hafas.svg)
 
 
 ## Installing
@@ -24,7 +23,7 @@ const hafas = require('vbb-hafas')
 - `routes(key, from, to, [opt])` to get routes between locations
 - `departures(key, station, [opt])` to query the next departures at a station
 
-As an example, we will search for a route [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-static`](https://github.com/derhuerst/vbb-static#usage).
+As an example, we will search for a route [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
 ```javascript
 client.routes('<your API key>', startId, destId)
