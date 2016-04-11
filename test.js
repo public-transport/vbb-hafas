@@ -12,7 +12,7 @@ a.ok(process.env.VBB_API_KEY && process.env.VBB_API_KEY.length > 0,
 const key = process.env.VBB_API_KEY
 
 // fixtures
-const when = new Date('Mon Mar 28 2016 19:53:42 GMT+0200 (CEST)')
+const when = new Date('Mon April 28 2016 19:53:42 GMT+0200 (CEST)')
 const minute = 60 * 1000
 
 const findStation = (name) => stations(name, 1)[0]
