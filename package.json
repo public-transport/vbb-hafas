@@ -17,7 +17,10 @@
 	"dependencies": {
 		"vbb-util":                  "^0.9",
 		"request-promise":           "^2.0.1",
-		"vbb-parse-line":            "^0.1.1"
+		"vbb-parse-line":            "^0.1.1",
+		"co":                        "^4.6",
+		"shorthash":                 "^0.0.2",
+		"then-redis":                "^2"
 	},
 	"devDependencies": {
 		"is-roughly-equal":          "^0.1",
