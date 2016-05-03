@@ -3,7 +3,7 @@
 	"description":  "JavaScript client for the VBB HAFAS API.",
 	"version":      "0.8.0",
 	"main":         "index.js",
-	"files":        ["index.js", "lib/*"],
+	"files":        ["index.js", "lib/*", "start-redis.js", "stop-redis.js"],
 	"author":       "Jannis R <mail@jannisr.de>",
 	"homepage":     "https://github.com/derhuerst/vbb-hafas",
 	"repository":   "git://github.com/derhuerst/vbb-hafas.git",
