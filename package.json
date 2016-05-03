@@ -20,6 +20,7 @@
 		"vbb-parse-line":            "^0.1.1",
 		"co":                        "^4.6",
 		"shorthash":                 "^0.0.2",
+		"redis":                     "^2.4.2",
 		"then-redis":                "^2"
 	},
 	"devDependencies": {

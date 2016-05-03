@@ -11,6 +11,11 @@ a.ok(process.env.VBB_API_KEY && process.env.VBB_API_KEY.length > 0,
 	'No VBB API key set. Please add an env variable `VBB_API_KEY')
 const key = process.env.VBB_API_KEY
 
+const onError = (err) => {
+	console.error(err.stack || err.message)
+	process.exit(1)
+}
+
 // fixtures
 const when = new Date('Mon April 28 2016 19:53:42 GMT+0200 (CEST)')
 const minute = 60 * 1000
@@ -25,13 +30,18 @@ const validStation = (s) =>
 	&& 'number' === typeof s.latitude
 	&& 'number' === typeof s.longitude
 
+// hack because node doesn't exit for some reason
+let finished = 0
+const done = () => {if (++finished === 2) process.exit()}
+
 
 
 // test for hafas.departures
 hafas.departures(key, 9042101, { // U Spichernstr.
 	  results: 4
 	, when
-}).then((deps) => {
+}).catch(onError)
+.then((deps) => {
 	a.ok(Array.isArray(deps), 'does not resolve with an array')
 	a.strictEqual(deps.length, 4)
 
@@ -48,7 +58,8 @@ hafas.departures(key, 9042101, { // U Spichernstr.
 		a.ok('when' in dep, 'Missing when property.')
 		a.ok(isRoughlyEqual(30 * minute, dep.when, when), 'Departure time seems to be far off.')
 	}
-})
+	done()
+}).catch(onError)
 
 
 
@@ -56,7 +67,8 @@ hafas.departures(key, 9042101, { // U Spichernstr.
 hafas.routes(key, 9042101, 9009101, { // U Spichernstr. to U Amrumer Str.
 	  results: 3
 	, when
-}).then((routes) => {
+}).catch(onError)
+.then((routes) => {
 	a.ok(Array.isArray(routes), 'does not resolve with an array')
 	a.strictEqual(routes.length, 3)
 
@@ -86,4 +98,5 @@ hafas.routes(key, 9042101, 9009101, { // U Spichernstr. to U Amrumer Str.
 			}
 		}
 	}
-})
+	done()
+}).catch(onError)
