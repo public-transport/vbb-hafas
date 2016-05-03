@@ -18,9 +18,9 @@ try {
 } catch (e) {}
 
 const db = child.spawn('redis-server',
-	['--port', '6380', '--dir', __dirname],
+	['--port', '6379', '--dir', __dirname],
 	{stdio: 'ignore', detached: true})
 fs.writeFileSync(pidfile, db.pid)
 db.unref()
 
-process.stdout.write('Redis listening on port 6380.\n')
+process.stdout.write('Redis listening on port 6379.\n')
