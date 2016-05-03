@@ -28,7 +28,11 @@
 		"vbb-stations-autocomplete": "^0.6"
 	},
 	"scripts": {
-		"test":       "./test.js",
-		"prepublish": "npm test"
+		"test":         "./test.js",
+		"prepublish":   "npm test",
+		"start":        "./start-redis.js",
+		"stop":         "./stop-redis.js",
+		"postinstall":  "npm run start",
+		"preuninstall": "npm run stop"
 	}
 }
