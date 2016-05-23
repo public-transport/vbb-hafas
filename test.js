@@ -14,10 +14,11 @@ const key = process.env.VBB_API_KEY
 const onError = (err) => {
 	console.error(err.stack || err.message)
 	process.exit(1)
+	return err
 }
 
 // fixtures
-const when = new Date('Mon April 28 2016 19:53:42 GMT+0200 (CEST)')
+const when = new Date(Date.now() + 24 * 60 * 60 * 1000) // tomorrow
 const minute = 60 * 1000
 
 const findStation = (name) => stations(name, 1)[0]
