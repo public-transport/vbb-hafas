@@ -3,7 +3,9 @@
 *vbb-hafas* is a JavaScript **API for the Berlin & Brandenburg public transport service** (VBB). It puts a consistent and straightforward promise-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) REST API.
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
+[![build status](https://img.shields.io/travis/derhuerst/vbb-hafas.svg)](https://travis-ci.org/derhuerst/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
+[![dev dependency status](https://img.shields.io/david/dev/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas#info=devDependencies)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-hafas.svg)
 
 

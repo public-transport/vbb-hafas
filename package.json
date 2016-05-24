@@ -16,7 +16,7 @@
 	"engines" :     {"node": ">=4"},
 	"dependencies": {
 		"vbb-util":                  "^0.9",
-		"request-promise":           "^2.0.1",
+		"request-promise":           "^3",
 		"vbb-parse-line":            "^0.1.1",
 		"vbb-parse-ticket":          "^0.1",
 		"co":                        "^4.6",
