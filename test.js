@@ -98,6 +98,15 @@ hafas.routes(key, 9042101, 9009101, { // U Spichernstr. to U Amrumer Str.
 					'The direction property seems to be wrong.')
 			}
 		}
+
+		for (let ticket of route.tickets) {
+			a.strictEqual(typeof ticket.name, 'string')
+			a.strictEqual(typeof ticket.price, 'number')
+			a.strictEqual(typeof ticket.amount, 'number')
+			a.strictEqual(typeof ticket.tariff, 'string')
+			a.strictEqual(typeof ticket.coverage, 'string')
+			a.strictEqual(typeof ticket.variant, 'string')
+		}
 	}
 	done()
 }).catch(onError)
