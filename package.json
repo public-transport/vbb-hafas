@@ -13,27 +13,5 @@
 		"vbb", "berlin", "brandenburg", "public transport",
 		"api", "open data", "hafas", "json", "rest", "http"
 	],
-	"engines" :     {"node": ">=4"},
-	"dependencies": {
-		"vbb-util":                  "^0.9",
-		"request-promise":           "^3",
-		"vbb-parse-line":            "^0.1.1",
-		"vbb-parse-ticket":          "^0.1",
-		"co":                        "^4.6",
-		"shorthash":                 "^0.0.2",
-		"redis":                     "^2.4.2",
-		"then-redis":                "^2"
-	},
-	"devDependencies": {
-		"is-roughly-equal":          "^0.1",
-		"vbb-stations-autocomplete": "^0.6"
-	},
-	"scripts": {
-		"test":         "./test.js",
-		"prepublish":   "npm test",
-		"start":        "./start-redis.js",
-		"stop":         "./stop-redis.js",
-		"postinstall":  "npm run start",
-		"preuninstall": "npm run stop"
-	}
+	"engines" :     {"node": ">=4"}
 }
