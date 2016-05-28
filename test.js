@@ -1,112 +1,125 @@
 #!/usr/bin/env node
 'use strict'
 
-const a              = require('assert')
+const a = require('assert')
 const isRoughlyEqual = require('is-roughly-equal')
-const stations       = require('vbb-stations-autocomplete')
+const stations = require('vbb-stations-autocomplete')
+const hafas = require('./index.js')
 
-const hafas          = require('./index.js')
 
-a.ok(process.env.VBB_API_KEY && process.env.VBB_API_KEY.length > 0,
-	'No VBB API key set. Please add an env variable `VBB_API_KEY')
-const key = process.env.VBB_API_KEY
+
+// helpers
 
 const onError = (err) => {
 	console.error(err.stack || err.message)
 	process.exit(1)
-	return err
 }
-
-// fixtures
-const when = new Date(Date.now() + 24 * 60 * 60 * 1000) // tomorrow
-const minute = 60 * 1000
 
 const findStation = (name) => stations(name, 1)[0]
 
 const validStation = (s) =>
-	s.type === 'station'
+	   s.type === 'station'
 	&& 'number' === typeof s.id
 	&& 'string' === typeof s.name
 	&& findStation(s.name)
 	&& 'number' === typeof s.latitude
 	&& 'number' === typeof s.longitude
 
-// hack because node doesn't exit for some reason
-let finished = 0
-const done = () => {if (++finished === 2) process.exit()}
+const validPoi = (p) =>
+	   p.type === 'poi'
+	&& 'number' === typeof p.id
+	&& 'string' === typeof p.name
+	&& 'number' === typeof p.latitude
+	&& 'number' === typeof p.longitude
+
+const validLocation = (l) => validStation(l) || validPoi(l)
+
+const validLine = (l) =>
+	   'string' === typeof l.line
+	&& 'number' === typeof l.nr
+	&& 'boolean' === typeof l.metro
+	&& 'boolean' === typeof l.express
+	&& 'boolean' === typeof l.night
+	&& 'object' === typeof l.type
+
+const validStop = (s) =>
+	   s.arrival instanceof Date
+	&& s.departure instanceof Date
+	&& validStation(s.station)
 
 
 
-// test for hafas.departures
-hafas.departures(key, 9042101, { // U Spichernstr.
-	  results: 4
-	, when
+// fixtures
+
+const minute = 60 * 1000
+const when = new Date(Date.parse('28 May 2016 15:00:00 GMT'))
+
+
+
+// U Spichernstr. to U Amrumer Str.
+hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
+.catch(onError)
+.then((routes) => {
+	a.ok(Array.isArray(routes))
+	a.strictEqual(routes.length, 3)
+	for (let route of routes) {
+
+		a.ok(validStation(route.from))
+		a.strictEqual(route.from.id, 9042101)
+		a.ok(isRoughlyEqual(route.start, 30 * minute, when))
+
+		a.ok(validStation(route.to))
+		a.strictEqual(route.to.id, 9009101)
+		a.ok(isRoughlyEqual(route.end, 50 * minute, when))
+
+		a.ok(Array.isArray(route.parts))
+		a.strictEqual(route.parts.length, 1)
+		const part = route.parts[0]
+
+		a.ok(validStation(part.from))
+		a.strictEqual(part.from.id, 9042101)
+		a.ok(isRoughlyEqual(part.start, 30 * minute, when))
+
+		a.ok(validStation(part.to))
+		a.strictEqual(part.to.id, 9009101)
+		a.ok(isRoughlyEqual(part.end, 50 * minute, when))
+
+		a.ok(validLine(part.product))
+		a.ok(findStation(part.direction))
+
+		a.ok(Array.isArray(part.passed))
+		for (let stop of part.passed) a.ok(validStop(stop))
+	}
 }).catch(onError)
-.then((deps) => {
-	a.ok(Array.isArray(deps), 'does not resolve with an array')
-	a.strictEqual(deps.length, 4)
 
+
+
+hafas.departures(9042101, {duration: 5, when}) // U Spichernstr.
+.catch(onError)
+.then((deps) => {
+	a.ok(Array.isArray(deps))
 	for (let dep of deps) {
 
-		a.strictEqual(dep.stop, 9042101) // id from query
+		a.ok(validStation(dep.station))
+		a.strictEqual(dep.station.id, 9042101)
 
-		a.ok('type' in dep, 'Missing type property.')
-
-		a.ok('direction' in dep, 'Missing direction property.')
-		a.ok(findStation(dep.direction),
-			'The direction property seems to be wrong')
-
-		a.ok('when' in dep, 'Missing when property.')
-		a.ok(isRoughlyEqual(30 * minute, dep.when, when), 'Departure time seems to be far off.')
+		a.ok(isRoughlyEqual(30 * minute, dep.when, when))
+		a.ok(findStation(dep.direction))
+		a.ok(validLine(dep.product))
 	}
-	done()
 }).catch(onError)
 
 
 
-// test for hafas.routes
-hafas.routes(key, 9042101, 9009101, { // U Spichernstr. to U Amrumer Str.
-	  results: 3
-	, when
-}).catch(onError)
-.then((routes) => {
-	a.ok(Array.isArray(routes), 'does not resolve with an array')
-	a.strictEqual(routes.length, 3)
+hafas.nearby(52.5137344, 13.4744798, {results: 2, distance: 400}) // U Spichernstr.
+.catch(onError)
+.then((nearby) => {
+	a.ok(Array.isArray(nearby))
+	a.strictEqual(nearby.length, 2)
+	for (let location of nearby) {
 
-	for (let route of routes) {
-		a.ok(isRoughlyEqual(20 * minute, 10 * minute, route.duration),
-			'Duration seems to be far off.')
-
-		a.ok('parts' in route, 'Missing parts property.')
-		a.ok(Array.isArray(route.parts), 'parts property is not an array.')
-
-		for (let part of route.parts) {
-			a.ok('from' in part, 'Missing from property.')
-			a.ok(validStation(part.from), 'The from property seems to be invalid.')
-			a.ok('to' in part, 'Missing to property.')
-			a.ok(validStation(part.to), 'The to property seems to be invalid.')
-
-			a.ok(isRoughlyEqual(30 * minute, part.start, when), 'Start time seems to be far off.')
-			a.ok(isRoughlyEqual(50 * minute, part.end, when), 'End time seems to be far off.')
-
-			a.ok('transport' in part, 'Missing transport property.')
-			if (part.transport === 'public') {
-				a.ok('type' in part, 'Missing type property.')
-
-				a.ok('direction' in part, 'Missing direction property.')
-				a.ok(findStation(part.direction),
-					'The direction property seems to be wrong.')
-			}
-		}
-
-		for (let ticket of route.tickets) {
-			a.strictEqual(typeof ticket.name, 'string')
-			a.strictEqual(typeof ticket.price, 'number')
-			a.strictEqual(typeof ticket.amount, 'number')
-			a.strictEqual(typeof ticket.tariff, 'string')
-			a.strictEqual(typeof ticket.coverage, 'string')
-			a.strictEqual(typeof ticket.variant, 'string')
-		}
+		a.ok(validLocation(location))
+		a.ok(location.distance > 0)
+		a.ok(location.distance < 400)
 	}
-	done()
 }).catch(onError)
