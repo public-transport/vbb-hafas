@@ -13,5 +13,21 @@
 		"vbb", "bvg", "berlin", "brandenburg", "public transport",
 		"api", "open data", "hafas", "http"
 	],
-	"engines" :     {"node": ">=4"}
+	"engines" :     {"node": ">=4"},
+	"dependencies": {
+		"vbb-util": "^0.9.3",
+		"pad-right": "^0.2.2",
+		"got": "^6.3",
+		"moment-timezone": "^0.5.4",
+		"vbb-parse-line": "^0.2",
+		"lodash.omit": "^4.3"
+	},
+	"devDependencies": {
+		"is-roughly-equal": "^0.1",
+		"vbb-stations-autocomplete": "^0.8"
+	},
+	"scripts": {
+		"test":       "./test.js",
+		"prepublish": "npm test"
+	}
 }
