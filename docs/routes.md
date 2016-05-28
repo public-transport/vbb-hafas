@@ -69,7 +69,7 @@ With `passedStations: true` and `results: 1`, the response looks like this:
 			}
 		},
 		// from `passedStations: true`
-		stops: [
+		passed: [
 			{
 				station: {
 					type: 'station',
