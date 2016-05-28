@@ -1,6 +1,6 @@
 # vbb-hafas
 
-*vbb-hafas* is a JavaScript **API for the Berlin & Brandenburg public transport service** (VBB). It puts a consistent and straightforward promise-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) REST API.
+**A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward promise-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) API.
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-hafas.svg)](https://travis-ci.org/derhuerst/vbb-hafas)
@@ -22,13 +22,14 @@ npm install vbb-hafas
 const hafas = require('vbb-hafas')
 ```
 
-- `routes(key, from, to, [opt])` to get routes between locations
-- `departures(key, station, [opt])` to query the next departures at a station
+- [`routes(from, to, [opt])`](docs/routes.md) to get routes between locations
+- [`departures(station, [opt])`](docs/departures.md) to query the next departures at a station
+- [`nearby(latitude, longitude, [opt])`](docs/nearby.md) to show stations & POIs around
 
 As an example, we will search for a route [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
 ```javascript
-client.routes('<your API key>', startId, destId)
+client.routes(9003201, 9024101, {results: 1})
 .then((routes) => console.log(routes[0]))
 ```
 
@@ -36,37 +37,63 @@ The output will have the following structure:
 
 ```javascript
 {
-  duration: 600000,      // milliseconds
-  parts: [               // all "sections" of the route
-    {
-      from: {
-        title:           'S+U Berlin Hauptbahnhof',
-        latitude:        52.525849,
-        longitude:       13.368928,
-        id:              9003201,
-        type:            'station',
-        notes: {
-          lift:          true,
-          tactilePaving: true,
-          escalator:     true
-        },
-        when:            Sat Aug 01 2015 15:48:00 GMT+0200 (CEST)   // `Date` object
-      },
-      to: {
-        title:           'S Charlottenburg Bhf (Berlin)',
-        latitude:        52.505048,
-        longitude:       13.305212,
-        id:              9024101,
-        type:            'station',
-        notes: {},
-        when:            Sat Aug 01 2015 15:58:00 GMT+0200 (CEST)   // `Date` object
-      },
-      transport:         'public',   // another value: `'walk'`
-      type:              'suburban',   // another value: `'subway'`
-      direction:         'S Spandau Bhf (Berlin)',
-      notes: {}
+  // taken from first part
+  start: new Date('2016-05-28T01:08:00.000Z'),
+  from: {
+    type: 'station',
+    id: 9003201,
+    name: 'S+U Berlin Hauptbahnhof',
+    latitude: 13.368928,
+    longitude: 52.525849
+  },
+
+  // taken from last part
+  end: new Date('2016-05-28T01:16:00.000Z'),
+  to: {
+    type: 'station',
+    id: 9024101,
+    name: 'S Charlottenburg Bhf (Berlin)',
+    latitude: 13.305221,
+    longitude: 52.505057
+  },
+
+  parts: [ {
+    start: new Date('2016-05-28T01:08:00.000Z'),
+    from: {
+      type: 'station',
+      id: 9003201,
+      name: 'S+U Berlin Hauptbahnhof',
+      latitude: 13.368928,
+      longitude: 52.525849
+    },
+    end: new Date('2016-05-28T01:16:00.000Z'),
+    to: {
+      type: 'station',
+      id: 9024101,
+      name: 'S Charlottenburg Bhf (Berlin)',
+      latitude: 13.305221,
+      longitude: 52.505057
+    },
+    direction: 'Nauen, Bahnhof',
+    product: {
+      line: 'RB14',
+      symbol: 'RB',
+      nr: 14,
+      metro: false,
+      express: false,
+      night: false,
+      type: {
+        category: 6,
+        bitmask: 64,
+        name: 'RB/RE',
+        short: 'R',
+        type: 'regional',
+        color: '#ff0000',
+        unicode: '🚆',
+        ansi: ['red']
+      }
     }
-  ]
+  } ]
 }
 ```
 
