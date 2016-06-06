@@ -21,7 +21,7 @@ With `duration: 1`, the response may look like this:
 	station: {
 		type: 'station',
 		id: 9012103,
-		name: 'U Hallesches Tor (Berlin)',
+		name: 'U Hallesches Tor',
 		latitude: 13.391769,
 		longitude: 52.497776
 	},
@@ -49,12 +49,12 @@ With `duration: 1`, the response may look like this:
 	station: {
 		type: 'station',
 		id: 9012103,
-		name: 'U Hallesches Tor (Berlin)',
+		name: 'U Hallesches Tor',
 		latitude: 13.391769,
 		longitude: 52.497776
 	},
 	when: 2016-06-27T17:14:00.000Z, // Date object
-	direction: 'U Alt-Tegel (Berlin)',
+	direction: 'U Alt-Tegel',
 	product: {
 		line: 'U6',
 		type: {

@@ -16,6 +16,7 @@
 	"engines" :     {"node": ">=4"},
 	"dependencies": {
 		"vbb-util": "^0.9.3",
+		"vbb-short-stations-name": "^0.1",
 		"pad-right": "^0.2.2",
 		"got": "^6.3",
 		"moment-timezone": "^0.5.4",
