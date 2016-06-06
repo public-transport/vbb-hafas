@@ -4,6 +4,7 @@
 const a = require('assert')
 const isRoughlyEqual = require('is-roughly-equal')
 const stations = require('vbb-stations-autocomplete')
+const floor = require('floordate')
 const hafas = require('./index.js')
 
 
@@ -52,7 +53,8 @@ const validStop = (s) =>
 // fixtures
 
 const minute = 60 * 1000
-const when = new Date(Date.parse('28 May 2016 15:00:00 GMT'))
+const hour = 60 * minute
+const when = new Date(floor(new Date()) + 10 * hour)
 
 
 
