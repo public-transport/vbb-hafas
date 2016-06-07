@@ -54,7 +54,7 @@ const validStop = (s) =>
 
 const minute = 60 * 1000
 const hour = 60 * minute
-const when = new Date(floor(new Date()) + 10 * hour)
+const when = new Date(+floor(new Date()) + 10 * hour)
 
 
 
