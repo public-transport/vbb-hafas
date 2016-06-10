@@ -54,7 +54,8 @@ const validStop = (s) =>
 
 const minute = 60 * 1000
 const hour = 60 * minute
-const when = new Date(+floor(new Date()) + 10 * hour)
+const when = new Date(+floor(new Date(), 'day') + 10 * hour)
+const validWhen = isRoughlyEqual(2 * hour, +when)
 
 
 
@@ -68,11 +69,11 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 
 		a.ok(validStation(route.from))
 		a.strictEqual(route.from.id, 9042101)
-		a.ok(isRoughlyEqual(route.start, 30 * minute, when))
+		a.ok(validWhen(route.start))
 
 		a.ok(validStation(route.to))
 		a.strictEqual(route.to.id, 9009101)
-		a.ok(isRoughlyEqual(route.end, 50 * minute, when))
+		a.ok(validWhen(route.end))
 
 		a.ok(Array.isArray(route.parts))
 		a.strictEqual(route.parts.length, 1)
@@ -80,11 +81,11 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 
 		a.ok(validStation(part.from))
 		a.strictEqual(part.from.id, 9042101)
-		a.ok(isRoughlyEqual(part.start, 30 * minute, when))
+		a.ok(validWhen(part.start))
 
 		a.ok(validStation(part.to))
 		a.strictEqual(part.to.id, 9009101)
-		a.ok(isRoughlyEqual(part.end, 50 * minute, when))
+		a.ok(validWhen(part.end))
 
 		a.ok(validLine(part.product))
 		a.ok(findStation(part.direction))
@@ -105,7 +106,7 @@ hafas.departures(9042101, {duration: 5, when}) // U Spichernstr.
 		a.ok(validStation(dep.station))
 		a.strictEqual(dep.station.id, 9042101)
 
-		a.ok(isRoughlyEqual(30 * minute, dep.when, when))
+		a.ok(validWhen(dep.when))
 		a.ok(findStation(dep.direction))
 		a.ok(validLine(dep.product))
 	}
