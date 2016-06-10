@@ -33,7 +33,13 @@ const validPoi = (p) =>
 	&& 'number' === typeof p.latitude
 	&& 'number' === typeof p.longitude
 
-const validLocation = (l) => validStation(l) || validPoi(l)
+const validAddress = (p) =>
+	   p.type === 'address'
+	&& 'string' === typeof p.name
+	&& 'number' === typeof p.latitude
+	&& 'number' === typeof p.longitude
+
+const validLocation = (l) => validStation(l) || validPoi(l) || validAddress(l)
 
 const validLine = (l) =>
 	   'string' === typeof l.line
@@ -93,6 +99,56 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 		a.ok(Array.isArray(part.passed))
 		for (let stop of part.passed) a.ok(validStop(stop))
 	}
+}).catch(onError)
+
+
+
+// U Spichernstr. to Torfstraße 17
+hafas.routes(9042101, {
+	type: 'address', name: 'Torfstraße 17',
+	latitude: 52.5416823, longitude: 13.3491223
+}, {results: 1, when})
+.catch(onError)
+.then((routes) => {
+	a.ok(Array.isArray(routes))
+	a.strictEqual(routes.length, 1)
+	const route = routes[0]
+	const part = route.parts[route.parts.length - 1]
+
+	a.ok(validStation(part.from))
+	a.ok(validWhen(part.start))
+
+	a.ok(validAddress(part.to))
+	a.strictEqual(part.to.name, 'Torfstr. 17')
+	a.ok(isRoughlyEqual(.0001, part.to.latitude, 52.5416823))
+	a.ok(isRoughlyEqual(.0001, part.to.longitude, 13.3491223))
+	a.ok(validWhen(part.end))
+
+}).catch(onError)
+
+
+
+// U Spichernstr. to ATZE Musiktheater
+hafas.routes(9042101, {
+	type: 'poi', name: 'ATZE Musiktheater', id: 9980720,
+	latitude: 52.543333, longitude: 13.351686
+}, {results: 1, when})
+.catch(onError)
+.then((routes) => {
+	a.ok(Array.isArray(routes))
+	a.strictEqual(routes.length, 1)
+	const route = routes[0]
+	const part = route.parts[route.parts.length - 1]
+
+	a.ok(validStation(part.from))
+	a.ok(validWhen(part.start))
+
+	a.ok(validPoi(part.to))
+	a.strictEqual(part.to.name, 'ATZE Musiktheater')
+	a.ok(isRoughlyEqual(.0001, part.to.latitude, 52.543333))
+	a.ok(isRoughlyEqual(.0001, part.to.longitude, 13.351686))
+	a.ok(validWhen(part.end))
+
 }).catch(onError)
 
 
