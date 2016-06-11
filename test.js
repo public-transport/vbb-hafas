@@ -182,3 +182,17 @@ hafas.nearby(52.5137344, 13.4744798, {results: 2, distance: 400}) // U Spicherns
 		a.ok(location.distance < 400)
 	}
 }).catch(onError)
+
+
+
+hafas.locations('Alexanderplatz', {results: 10})
+.catch(onError)
+.then((locations) => {
+	a.ok(Array.isArray(locations))
+	a.ok(locations.length > 0)
+	a.ok(locations.length <= 10)
+	a.ok(locations.every(validLocation))
+	a.ok(locations.find(validStation))
+	a.ok(locations.find(validPoi))
+	a.ok(locations.find(validAddress))
+}).catch(onError)
