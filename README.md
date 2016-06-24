@@ -2,6 +2,8 @@
 
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward promise-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) API.
 
+*Note*: Almost certainly, [vbb-client](https://github.com/derhuerst/vbb-client) is what you are looking for (it queries [vbb-rest](https://github.com/derhuerst/vbb-rest)). It is more feature-rich and lightweight.
+
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-hafas.svg)](https://travis-ci.org/derhuerst/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)

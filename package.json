@@ -25,7 +25,7 @@
 	},
 	"devDependencies": {
 		"is-roughly-equal": "^0.1",
-		"vbb-stations-autocomplete": "^0.8",
+		"vbb-stations-autocomplete": "^0.9",
 		"floordate": "^2"
 	},
 	"scripts": {
