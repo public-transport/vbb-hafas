@@ -75,6 +75,7 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 	for (let route of routes) {
 
 		a.ok(validStation(route.from))
+		a.ok(route.from.name.indexOf('(Berlin)') === -1)
 		a.strictEqual(route.from.id, 9042101)
 		a.ok(validWhen(route.start))
 
@@ -87,6 +88,7 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 		const part = route.parts[0]
 
 		a.ok(validStation(part.from))
+		a.ok(part.from.name.indexOf('(Berlin)') === -1)
 		a.strictEqual(part.from.id, 9042101)
 		a.ok(validWhen(part.start))
 
@@ -96,6 +98,7 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 
 		a.ok(validLine(part.product))
 		a.ok(findStation(part.direction))
+		a.ok(part.direction.indexOf('(Berlin)') === -1)
 
 		a.ok(Array.isArray(part.passed))
 		for (let stop of part.passed) a.ok(validStop(stop))
