@@ -175,12 +175,16 @@ hafas.nearby(52.5137344, 13.4744798, {results: 2, distance: 400}) // U Spicherns
 .then((nearby) => {
 	a.ok(Array.isArray(nearby))
 	a.strictEqual(nearby.length, 2)
-	for (let location of nearby) {
 
-		a.ok(validLocation(location))
-		a.ok(location.distance > 0)
-		a.ok(location.distance < 400)
-	}
+	a.ok(validLocation(nearby[0]))
+	a.equal(nearby[0].name, 'S+U Frankfurter Allee')
+	a.ok(nearby[0].distance > 0)
+	a.ok(nearby[0].distance < 100)
+
+	a.ok(validLocation(nearby[1]))
+	a.equal(nearby[1].name, 'Scharnweberstr.')
+	a.ok(nearby[1].distance > 300)
+	a.ok(nearby[1].distance < 400)
 }).catch(onError)
 
 
