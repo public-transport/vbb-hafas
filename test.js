@@ -22,6 +22,7 @@ const validStation = (s) =>
 	   s.type === 'station'
 	&& 'number' === typeof s.id
 	&& 'string' === typeof s.name
+	&& s.name.indexOf('(Berlin)') === -1
 	&& findStation(s.name)
 	&& 'number' === typeof s.latitude
 	&& 'number' === typeof s.longitude
@@ -159,6 +160,7 @@ hafas.departures(9042101, {duration: 5, when}) // U Spichernstr.
 	a.ok(Array.isArray(deps))
 	for (let dep of deps) {
 
+		a.equal(dep.station.name, 'U Spichernstr.')
 		a.ok(validStation(dep.station))
 		a.strictEqual(dep.station.id, 9042101)
 
