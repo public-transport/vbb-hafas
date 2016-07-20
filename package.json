@@ -1,7 +1,7 @@
 {
 	"name":         "vbb-hafas",
 	"description":  "JavaScript client for the VBB HAFAS API.",
-	"version":      "0.14.0",
+	"version":      "0.15.0",
 	"main":         "index.js",
 	"files":        ["index.js", "lib/*"],
 	"author":       "Jannis R <mail@jannisr.de>",
