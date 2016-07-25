@@ -161,6 +161,7 @@ hafas.departures(9042101, {duration: 5, when}) // U Spichernstr.
 .catch(onError)
 .then((deps) => {
 	a.ok(Array.isArray(deps))
+	a.deepEqual(deps, deps.sort((a, b) => a.when > b.when))
 	for (let dep of deps) {
 
 		a.equal(dep.station.name, 'U Spichernstr.')
