@@ -28,6 +28,7 @@ const hafas = require('vbb-hafas')
 - [`departures(station, [opt])`](docs/departures.md) to query the next departures at a station
 - [`nearby(latitude, longitude, [opt])`](docs/nearby.md) to show stations & POIs around
 - [`locations(query, [opt])`](docs/locations.md) to find stations, POIs and addresses
+- [`radat(query, [opt])`](docs/radat.md) to find all vehicles currently in a certain area
 
 As an example, we will search for a route [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
