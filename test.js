@@ -213,16 +213,18 @@ hafas.radar(52.52411, 13.41002, 52.51942, 13.41709)
 .catch(onError)
 .then((vehicles) => {
 	a.ok(Array.isArray(vehicles))
+	a.ok(vehicles.length > 0)
 	for (let v of vehicles) {
 
 		a.ok(findStation(v.direction))
-		// todo
-		// a.ok(validLine(v.product))
+		a.ok(validLine(v.product))
 
 		a.equal(typeof v.latitude, 'number')
-		a.ok(52.52411 <= v.latitude <= 52.51942, 'vehicle is outside bounding box')
+		a.ok(52.52411 <= v.latitude, 'vehicle is outside bounding box')
+		a.ok(v.latitude <= 52.51942, 'vehicle is outside bounding box')
 		a.equal(typeof v.longitude, 'number')
-		a.ok(13.41002 <= v.longitude <= 13.41709, 'vehicle is outside bounding box')
+		a.ok(13.41002 <= v.longitude, 'vehicle is outside bounding box')
+		a.ok(v.longitude <= 13.41709, 'vehicle is outside bounding box')
 
 		a.ok(Array.isArray(v.nextStops))
 		for (let s of v.nextStops) {
