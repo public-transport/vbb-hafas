@@ -206,3 +206,46 @@ hafas.locations('Alexanderplatz', {results: 10})
 	a.ok(locations.find(validPoi))
 	a.ok(locations.find(validAddress))
 }).catch(onError)
+
+
+
+hafas.radar(52.52411, 13.41002, 52.51942, 13.41709)
+.catch(onError)
+.then((vehicles) => {
+	a.ok(Array.isArray(vehicles))
+	for (let v of vehicles) {
+
+		a.ok(findStation(v.direction))
+		// todo
+		// a.ok(validLine(v.product))
+
+		a.equal(typeof v.latitude, 'number')
+		a.ok(52.52411 <= v.latitude <= 52.51942, 'vehicle is outside bounding box')
+		a.equal(typeof v.longitude, 'number')
+		a.ok(13.41002 <= v.longitude <= 13.41709, 'vehicle is outside bounding box')
+
+		a.ok(Array.isArray(v.nextStops))
+		for (let s of v.nextStops) {
+			a.ok(validStation(s.station))
+			if (!s.arrival && !s.departure)
+				a.ifError(new Error('neither arrival nor departure return'))
+			if (s.arrival) {
+				a.ok(s.arrival instanceof Date)
+				// todo
+				// a.ok(isRoughlyEqual(+s.arrival, Date.now(), 20 * minute))
+			}
+			if (s.departure) {
+				a.ok(s.departure instanceof Date)
+				// todo
+				// a.ok(isRoughlyEqual(+s.departure, Date.now(), 20 * minute))
+			}
+		}
+
+		a.ok(Array.isArray(v.frames))
+		for (let f of v.frames) {
+			a.ok(validStation(f.from))
+			a.ok(validStation(f.to))
+			a.equal(typeof f.t, 'number')
+		}
+	}
+}).catch(onError)
