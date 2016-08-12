@@ -220,10 +220,10 @@ hafas.radar(52.52411, 13.41002, 52.51942, 13.41709)
 		a.ok(validLine(v.product))
 
 		a.equal(typeof v.latitude, 'number')
-		a.ok(52.52411 <= v.latitude, 'vehicle is outside bounding box')
-		a.ok(v.latitude <= 52.51942, 'vehicle is outside bounding box')
+		a.ok(v.latitude <= 52.52411, 'vehicle is outside bounding box')
+		a.ok(v.latitude >= 52.51942, 'vehicle is outside bounding box')
 		a.equal(typeof v.longitude, 'number')
-		a.ok(13.41002 <= v.longitude, 'vehicle is outside bounding box')
+		a.ok(v.longitude >= 13.41002, 'vehicle is outside bounding box')
 		a.ok(v.longitude <= 13.41709, 'vehicle is outside bounding box')
 
 		a.ok(Array.isArray(v.nextStops))
