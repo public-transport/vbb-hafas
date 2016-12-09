@@ -26,8 +26,8 @@
 	},
 	"devDependencies": {
 		"is-roughly-equal": "^0.1",
-		"vbb-stations-autocomplete": "^0.9",
-		"floordate": "^2"
+		"vbb-stations-autocomplete": "^0.10.0",
+		"floordate": "^3.0.0"
 	},
 	"scripts": {
 		"test":       "./test.js",
