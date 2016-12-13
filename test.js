@@ -5,7 +5,8 @@ const a = require('assert')
 const isRoughlyEqual = require('is-roughly-equal')
 const stations = require('vbb-stations-autocomplete')
 const floor = require('floordate')
-const hafas = require('./index.js')
+const validId = require('./lib/helpers').isValidId
+const hafas = require('.')
 
 
 
@@ -20,7 +21,8 @@ const findStation = (name) => stations(name, 1)[0]
 
 const validStation = (s) =>
 	   s.type === 'station'
-	&& 'number' === typeof s.id
+	&& validId(s.id)
+	&& s.id.length === 12
 	&& 'string' === typeof s.name
 	&& s.name.indexOf('(Berlin)') === -1
 	&& findStation(s.name)
@@ -29,7 +31,7 @@ const validStation = (s) =>
 
 const validPoi = (p) =>
 	   p.type === 'poi'
-	&& 'number' === typeof p.id
+	&& validId(p.id)
 	&& 'string' === typeof p.name
 	&& 'number' === typeof p.latitude
 	&& 'number' === typeof p.longitude
@@ -67,7 +69,7 @@ const validWhen = isRoughlyEqual(2 * hour, +when)
 
 
 // U Spichernstr. to U Amrumer Str.
-hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
+hafas.routes('900000042101', '900000009101', {results: 3, when, passedStations: true})
 .catch(onError)
 .then((routes) => {
 	a.ok(Array.isArray(routes))
@@ -76,11 +78,11 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 
 		a.ok(validStation(route.from))
 		a.ok(route.from.name.indexOf('(Berlin)') === -1)
-		a.strictEqual(route.from.id, 9042101)
+		a.strictEqual(route.from.id, '900000042101')
 		a.ok(validWhen(route.start))
 
 		a.ok(validStation(route.to))
-		a.strictEqual(route.to.id, 9009101)
+		a.strictEqual(route.to.id, '900000009101')
 		a.ok(validWhen(route.end))
 
 		a.ok(Array.isArray(route.parts))
@@ -89,11 +91,11 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 
 		a.ok(validStation(part.from))
 		a.ok(part.from.name.indexOf('(Berlin)') === -1)
-		a.strictEqual(part.from.id, 9042101)
+		a.strictEqual(part.from.id, '900000042101')
 		a.ok(validWhen(part.start))
 
 		a.ok(validStation(part.to))
-		a.strictEqual(part.to.id, 9009101)
+		a.strictEqual(part.to.id, '900000009101')
 		a.ok(validWhen(part.end))
 
 		a.ok(validLine(part.product))
@@ -108,7 +110,7 @@ hafas.routes(9042101, 9009101, {results: 3, when, passedStations: true})
 
 
 // U Spichernstr. to Torfstraße 17
-hafas.routes(9042101, {
+hafas.routes('900000042101', {
 	type: 'address', name: 'Torfstraße 17',
 	latitude: 52.5416823, longitude: 13.3491223
 }, {results: 1, when})
@@ -133,7 +135,7 @@ hafas.routes(9042101, {
 
 
 // U Spichernstr. to ATZE Musiktheater
-hafas.routes(9042101, {
+hafas.routes('900000042101', {
 	type: 'poi', name: 'ATZE Musiktheater', id: 9980720,
 	latitude: 52.543333, longitude: 13.351686
 }, {results: 1, when})
@@ -157,7 +159,7 @@ hafas.routes(9042101, {
 
 
 
-hafas.departures(9042101, {duration: 5, when}) // U Spichernstr.
+hafas.departures('900000042101', {duration: 5, when}) // U Spichernstr.
 .catch(onError)
 .then((deps) => {
 	a.ok(Array.isArray(deps))
@@ -166,7 +168,7 @@ hafas.departures(9042101, {duration: 5, when}) // U Spichernstr.
 
 		a.equal(dep.station.name, 'U Spichernstr.')
 		a.ok(validStation(dep.station))
-		a.strictEqual(dep.station.id, 9042101)
+		a.strictEqual(dep.station.id, '900000042101')
 
 		a.ok(validWhen(dep.when))
 		a.ok(findStation(dep.direction))
@@ -176,21 +178,23 @@ hafas.departures(9042101, {duration: 5, when}) // U Spichernstr.
 
 
 
-hafas.nearby(52.5137344, 13.4744798, {results: 2, distance: 400}) // U Spichernstr.
+hafas.nearby(52.4873452,13.3310411, {results: 2, distance: 400}) // Berliner Str./Bundesallee
 .catch(onError)
 .then((nearby) => {
 	a.ok(Array.isArray(nearby))
 	a.strictEqual(nearby.length, 2)
 
 	a.ok(validLocation(nearby[0]))
-	a.equal(nearby[0].name, 'S+U Frankfurter Allee')
+	a.equal(nearby[0].id, '900000044201')
+	a.equal(nearby[0].name, 'U Berliner Str.')
 	a.ok(nearby[0].distance > 0)
 	a.ok(nearby[0].distance < 100)
 
 	a.ok(validLocation(nearby[1]))
-	a.equal(nearby[1].name, 'Scharnweberstr.')
-	a.ok(nearby[1].distance > 300)
-	a.ok(nearby[1].distance < 400)
+	a.equal(nearby[1].id, '900000043252')
+	a.equal(nearby[1].name, 'Landhausstr.')
+	a.ok(nearby[1].distance > 100)
+	a.ok(nearby[1].distance < 200)
 }).catch(onError)
 
 

@@ -22,7 +22,8 @@
 		"got": "^6.6.3",
 		"moment-timezone": "^0.5.10",
 		"vbb-parse-line": "^0.2",
-		"lodash.omit": "^4.5"
+		"lodash.omit": "^4.5",
+		"vbb-translate-ids": "^2.0.0"
 	},
 	"devDependencies": {
 		"is-roughly-equal": "^0.1.0",
