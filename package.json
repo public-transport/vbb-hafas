@@ -31,7 +31,7 @@
 		"floordate": "^3.0.0"
 	},
 	"scripts": {
-		"test":       "./test.js",
+		"test": "node test/index.js",
 		"prepublish": "npm test"
 	}
 }
