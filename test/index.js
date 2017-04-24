@@ -11,7 +11,7 @@ const {
 	hour, when, isValidWhen
 } = require('./util')
 
-const hafas = require('.')
+const hafas = require('..')
 
 const onError = (err) => {
 	console.error(err.stack || err.message)
@@ -21,26 +21,27 @@ const onError = (err) => {
 
 
 // U Spichernstr. to U Amrumer Str.
-hafas.routes('900000042101', '900000009101', {
+hafas.journeys('900000042101', '900000009101', {
 	results: 3, when, passedStations: true
 })
-.then((routes) => {
-	a.ok(Array.isArray(routes))
-	a.strictEqual(routes.length, 3)
-	for (let route of routes) {
+.then((journeys) => {
+	a.ok(Array.isArray(journeys))
+	a.strictEqual(journeys.length, 3)
 
-		a.ok(isValidStation(route.from))
-		a.ok(route.from.name.indexOf('(Berlin)') === -1)
-		a.strictEqual(route.from.id, '900000042101')
-		a.ok(isValidWhen(route.start))
+	for (let journey of journeys) {
 
-		a.ok(isValidStation(route.to))
-		a.strictEqual(route.to.id, '900000009101')
-		a.ok(isValidWhen(route.end))
+		a.ok(isValidStation(journey.from))
+		a.ok(journey.from.name.indexOf('(Berlin)') === -1)
+		a.strictEqual(journey.from.id, '900000042101')
+		a.ok(isValidWhen(journey.start))
 
-		a.ok(Array.isArray(route.parts))
-		a.strictEqual(route.parts.length, 1)
-		const part = route.parts[0]
+		a.ok(isValidStation(journey.to))
+		a.strictEqual(journey.to.id, '900000009101')
+		a.ok(isValidWhen(journey.end))
+
+		a.ok(Array.isArray(journey.parts))
+		a.strictEqual(journey.parts.length, 1)
+		const part = journey.parts[0]
 
 		a.ok(isValidStation(part.from))
 		a.ok(part.from.name.indexOf('(Berlin)') === -1)
@@ -64,15 +65,15 @@ hafas.routes('900000042101', '900000009101', {
 
 
 // U Spichernstr. to Torfstraße 17
-hafas.routes('900000042101', {
+hafas.journeys('900000042101', {
 	type: 'address', name: 'Torfstraße 17',
 	latitude: 52.5416823, longitude: 13.3491223
 }, {results: 1, when})
-.then((routes) => {
-	a.ok(Array.isArray(routes))
-	a.strictEqual(routes.length, 1)
-	const route = routes[0]
-	const part = route.parts[route.parts.length - 1]
+.then((journeys) => {
+	a.ok(Array.isArray(journeys))
+	a.strictEqual(journeys.length, 1)
+	const journey = journeys[0]
+	const part = journey.parts[journey.parts.length - 1]
 
 	a.ok(isValidStation(part.from))
 	a.ok(isValidWhen(part.start))
@@ -89,15 +90,15 @@ hafas.routes('900000042101', {
 
 
 // U Spichernstr. to ATZE Musiktheater
-hafas.routes('900000042101', {
+hafas.journeys('900000042101', {
 	type: 'poi', name: 'ATZE Musiktheater', id: 9980720,
 	latitude: 52.543333, longitude: 13.351686
 }, {results: 1, when})
-.then((routes) => {
-	a.ok(Array.isArray(routes))
-	a.strictEqual(routes.length, 1)
-	const route = routes[0]
-	const part = route.parts[route.parts.length - 1]
+.then((journeys) => {
+	a.ok(Array.isArray(journeys))
+	a.strictEqual(journeys.length, 1)
+	const journey = journeys[0]
+	const part = journey.parts[journey.parts.length - 1]
 
 	a.ok(isValidStation(part.from))
 	a.ok(isValidWhen(part.start))

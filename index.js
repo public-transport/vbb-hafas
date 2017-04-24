@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-	  routes:     require('./lib/routes')
+	  journeys: require('./lib/journeys')
 	, departures: require('./lib/departures')
 	, nearby:     require('./lib/nearby')
 	, locations:  require('./lib/locations')

@@ -24,20 +24,20 @@ npm install vbb-hafas
 const hafas = require('vbb-hafas')
 ```
 
-- [`routes(from, to, [opt])`](docs/routes.md) to get routes between locations
+- [`journeys(from, to, [opt])`](docs/journeys.md) to get journeys between locations
 - [`departures(station, [opt])`](docs/departures.md) to query the next departures at a station
 - [`nearby(latitude, longitude, [opt])`](docs/nearby.md) to show stations & POIs around
 - [`locations(query, [opt])`](docs/locations.md) to find stations, POIs and addresses
 - [`radat(query, [opt])`](docs/radat.md) to find all vehicles currently in a certain area
 
-As an example, we will search for a route [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
+As an example, we will search for a journey [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
 ```javascript
-client.routes(9003201, 9024101, {results: 1})
-.then((routes) => console.log(routes[0]))
+client.journeys(9003201, 9024101, {results: 1})
+.then((journeys) => console.log(journeys[0]))
 ```
 
-The output will have the following structure:
+The output will be in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format):
 
 ```javascript
 {
