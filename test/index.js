@@ -6,9 +6,13 @@ const stations = require('vbb-stations-autocomplete')
 const floor = require('floordate')
 
 const {
-	isValidStation, isValidPoi, isValidAddress, isValidLocation,
-	isValidLine,
-	hour, when, isValidWhen
+	assertValidStation,
+	assertValidPoi,
+	assertValidAddress,
+	assertValidLocation,
+	assertValidLine,
+	hour, when,
+	assertValidWhen
 } = require('./util')
 
 const hafas = require('..')
@@ -30,34 +34,34 @@ hafas.journeys('900000042101', '900000009101', {
 
 	for (let journey of journeys) {
 
-		a.ok(isValidStation(journey.from))
+		assertValidStation(journey.from)
 		a.ok(journey.from.name.indexOf('(Berlin)') === -1)
 		a.strictEqual(journey.from.id, '900000042101')
-		a.ok(isValidWhen(journey.start))
+		assertValidWhen(journey.start)
 
-		a.ok(isValidStation(journey.to))
+		assertValidStation(journey.to)
 		a.strictEqual(journey.to.id, '900000009101')
-		a.ok(isValidWhen(journey.end))
+		assertValidWhen(journey.end)
 
 		a.ok(Array.isArray(journey.parts))
 		a.strictEqual(journey.parts.length, 1)
 		const part = journey.parts[0]
 
-		a.ok(isValidStation(part.from))
+		assertValidStation(part.from)
 		a.ok(part.from.name.indexOf('(Berlin)') === -1)
 		a.strictEqual(part.from.id, '900000042101')
-		a.ok(isValidWhen(part.start))
+		assertValidWhen(part.start)
 
-		a.ok(isValidStation(part.to))
+		assertValidStation(part.to)
 		a.strictEqual(part.to.id, '900000009101')
-		a.ok(isValidWhen(part.end))
+		assertValidWhen(part.end)
 
-		a.ok(isValidLine(part.product))
+		assertValidLine(part.product)
 		a.ok(findStation(part.direction))
 		a.ok(part.direction.indexOf('(Berlin)') === -1)
 
 		a.ok(Array.isArray(part.passed))
-		for (let stop of part.passed) a.ok(isValidStop(stop))
+		for (let stop of part.passed) assertValidStop(stop)
 	}
 })
 .catch(onError)
@@ -75,14 +79,14 @@ hafas.journeys('900000042101', {
 	const journey = journeys[0]
 	const part = journey.parts[journey.parts.length - 1]
 
-	a.ok(isValidStation(part.from))
-	a.ok(isValidWhen(part.start))
+	assertValidStation(part.from)
+	assertValidWhen(part.start)
 
-	a.ok(isValidAddress(part.to))
+	assertValidAddress(part.to)
 	a.strictEqual(part.to.name, 'Torfstr. 17')
 	a.ok(isRoughlyEqual(.0001, part.to.latitude, 52.5416823))
 	a.ok(isRoughlyEqual(.0001, part.to.longitude, 13.3491223))
-	a.ok(isValidWhen(part.end))
+	assertValidWhen(part.end)
 
 })
 .catch(onError)
@@ -100,14 +104,14 @@ hafas.journeys('900000042101', {
 	const journey = journeys[0]
 	const part = journey.parts[journey.parts.length - 1]
 
-	a.ok(isValidStation(part.from))
-	a.ok(isValidWhen(part.start))
+	assertValidStation(part.from)
+	assertValidWhen(part.start)
 
-	a.ok(isValidPoi(part.to))
+	assertValidPoi(part.to)
 	a.strictEqual(part.to.name, 'ATZE Musiktheater')
 	a.ok(isRoughlyEqual(.0001, part.to.latitude, 52.543333))
 	a.ok(isRoughlyEqual(.0001, part.to.longitude, 13.351686))
-	a.ok(isValidWhen(part.end))
+	assertValidWhen(part.end)
 
 })
 .catch(onError)
@@ -121,12 +125,12 @@ hafas.departures('900000042101', {duration: 5, when}) // U Spichernstr.
 	for (let dep of deps) {
 
 		a.equal(dep.station.name, 'U Spichernstr.')
-		a.ok(isValidStation(dep.station))
+		assertValidStation(dep.station)
 		a.strictEqual(dep.station.id, '900000042101')
 
-		a.ok(isValidWhen(dep.when))
+		assertValidWhen(dep.when)
 		a.ok(findStation(dep.direction))
-		a.ok(isValidLine(dep.product))
+		assertValidLine(dep.product)
 	}
 })
 .catch(onError)
@@ -138,13 +142,13 @@ hafas.nearby(52.4873452,13.3310411, {results: 2, distance: 400}) // Berliner Str
 	a.ok(Array.isArray(nearby))
 	a.strictEqual(nearby.length, 2)
 
-	a.ok(isValidLocation(nearby[0]))
+	assertValidLocation(nearby[0])
 	a.equal(nearby[0].id, '900000044201')
 	a.equal(nearby[0].name, 'U Berliner Str.')
 	a.ok(nearby[0].distance > 0)
 	a.ok(nearby[0].distance < 100)
 
-	a.ok(isValidLocation(nearby[1]))
+	assertValidLocation(nearby[1])
 	a.equal(nearby[1].id, '900000043252')
 	a.equal(nearby[1].name, 'Landhausstr.')
 	a.ok(nearby[1].distance > 100)
@@ -159,10 +163,10 @@ hafas.locations('Alexanderplatz', {results: 10})
 	a.ok(Array.isArray(locations))
 	a.ok(locations.length > 0)
 	a.ok(locations.length <= 10)
-	a.ok(locations.every(isValidLocation))
-	a.ok(locations.find(isValidStation))
-	a.ok(locations.find(isValidPoi))
-	a.ok(locations.find(isValidAddress))
+	for (let l of locations) assertValidLocation(l)
+	a.ok(locations.find((s) => s.type === 'station'))
+	a.ok(locations.find((s) => s.type === 'poi'))
+	a.ok(locations.find((s) => s.type === 'address'))
 })
 .catch(onError)
 
@@ -175,7 +179,7 @@ hafas.radar(52.52411, 13.41002, 52.51942, 13.41709)
 	for (let v of vehicles) {
 
 		// a.ok(findStation(v.direction)) todo
-		a.ok(isValidLine(v.product))
+		assertValidLine(v.product)
 
 		a.equal(typeof v.latitude, 'number')
 		a.ok(v.latitude <= 52.52411, 'vehicle is outside bounding box')
@@ -186,7 +190,7 @@ hafas.radar(52.52411, 13.41002, 52.51942, 13.41709)
 
 		a.ok(Array.isArray(v.nextStops))
 		for (let s of v.nextStops) {
-			a.ok(isValidStation(s.station))
+			assertValidStation(s.station)
 			if (!s.arrival && !s.departure)
 				a.ifError(new Error('neither arrival nor departure return'))
 			if (s.arrival) {
@@ -202,8 +206,8 @@ hafas.radar(52.52411, 13.41002, 52.51942, 13.41709)
 		a.ok(Array.isArray(v.frames))
 		for (let f of v.frames) {
 			// todo, see derhuerst/vbb-hafas#14
-			// a.ok(isValidStation(f.from))
-			// a.ok(isValidStation(f.to))
+			// assertValidStation(f.from)
+			// assertValidStation(f.to)
 			a.equal(typeof f.t, 'number')
 		}
 	}
