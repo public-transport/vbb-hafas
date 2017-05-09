@@ -1,6 +1,6 @@
 # `departures(station, [opt])`
 
-`station` must be a station id like `9013102`.
+`station` must be a station id like `900000013102`.
 
 With `opt`, you can override the default options, which look like this:
 
@@ -17,61 +17,38 @@ With `opt`, you can override the default options, which look like this:
 With `duration: 1`, the response may look like this:
 
 ```js
-[ {
-	station: {
-		type: 'station',
-		id: 9012103,
-		name: 'U Hallesches Tor',
-		latitude: 13.391769,
-		longitude: 52.497776
-	},
-	when: 2016-06-27T15:39:00.000Z, // Date object
-	direction: 'Sonnenallee/Baumschulenstr.',
-	product: {
-		line: 'M41',
-		type: {
-			category: 3,
-			bitmask: 8,
-			name: 'Bus',
-			short: 'B',
-			type: 'bus',
-			color: '#a5037b',
-			unicode: '🚌',
-			ansi: ['dim', 'magenta']
+[
+	{
+		station: {
+			type: 'station',
+			id: '900000013172',
+			name: 'U Kottbusser Tor [Bus Adalbertstr.]',
+			coordinates: {
+				latitude: 13.391769,
+				longitude: 52.497776
+			}
 		},
-		symbol: 'M',
-		nr: 41,
-		metro: true,
-		express: false,
-		night: false
+		when: '2016-06-27T15:39:00.000Z',
+		direction: 'U Hermannplatz',
+		product: {
+			line: 'N8',
+			type: {
+				category: 3,
+				bitmask: 8,
+				name: 'Bus',
+				short: 'B',
+				type: 'bus',
+				color: '#a5037b',
+				unicode: '🚌',
+				ansi: ['dim', 'magenta']
+			},
+			symbol: 'N',
+			nr: 8,
+			metro: false,
+			express: false,
+			night: true
+		}
 	}
-}, {
-	station: {
-		type: 'station',
-		id: 9012103,
-		name: 'U Hallesches Tor',
-		latitude: 13.391769,
-		longitude: 52.497776
-	},
-	when: 2016-06-27T17:14:00.000Z, // Date object
-	direction: 'U Alt-Tegel',
-	product: {
-		line: 'U6',
-		type: {
-			category: 1,
-			bitmask: 2,
-			name: 'U-Bahn',
-			short: 'U',
-			type: 'subway',
-			color: '#0067ac',
-			unicode: '🚇',
-			ansi: ['blue']
-		},
-		symbol: 'U',
-		nr: 6,
-		metro: false,
-		express: false,
-		night: false
-	}
-} ]
+	// …
+]
 ```

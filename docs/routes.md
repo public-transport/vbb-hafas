@@ -1,6 +1,6 @@
-# `routes(from, to, [opt])`
+# `routes(origin, destination, [opt])`
 
-`from` and `to` must be station ids like `9013102`.
+`origin` and `destination` must be station ids like `'900000013102'`.
 
 With `opt`, you can override the default options, which look like this:
 
@@ -33,22 +33,26 @@ With `passedStations: true` and `results: 1`, the response looks like this:
 ```js
 [ {
 	parts: [ {
-		direction: 'U Uhlandstr. (Berlin)',
-		start: 2016-06-26T16:17:00.000Z, // Date object
-		from: {
+		direction: 'U Uhlandstr.',
+		departure: 2016-06-26T16:17:00.000Z, // Date object
+		origin: {
 			type: 'station',
-			id: 9013102,
-			name: 'U Kottbusser Tor (Berlin)',
-			latitude: 13.417748,
-			longitude: 52.499053
+			id: '900000013102',
+			name: 'U Kottbusser Tor',
+			coordinates: {
+				latitude: 13.417748,
+				longitude: 52.499053
+			}
 		},
-		end: 2016-06-26T16:21:00.000Z, // Date object
-		to: {
+		arrival: 2016-06-26T16:21:00.000Z, // Date object
+		destination: {
 			type: 'station',
-			id: 9012103,
-			name: 'U Hallesches Tor (Berlin)',
-			latitude: 13.391769,
-			longitude: 52.497776
+			id: '900000012103',
+			name: 'U Hallesches Tor',
+			coordinates: {
+				latitude: 13.391769,
+				longitude: 52.497776
+			}
 		},
 		product: {
 			line: 'U1',
@@ -73,30 +77,36 @@ With `passedStations: true` and `results: 1`, the response looks like this:
 			{
 				station: {
 					type: 'station',
-					id: 9013102,
-					name: 'U Kottbusser Tor (Berlin)',
-					latitude: 13.417748,
-					longitude: 52.499053
+					id: '900000013102',
+					name: 'U Kottbusser Tor',
+					coordinates: {
+						latitude: 13.417748,
+						longitude: 52.499053
+					}
 				},
 				arrival: 2016-06-26T16:17:00.000Z, // Date object
 				departure: 2016-06-26T16:17:00.000Z // Date object
 			}, {
 				station: {
 					type: 'station',
-					id: 9013103,
-					name: 'U Prinzenstr. (Berlin)',
-					latitude: 13.406539,
-					longitude: 52.49828
+					id: '900000013103',
+					name: 'U Prinzenstr.',
+					coordinates: {
+						latitude: 13.406539,
+						longitude: 52.49828
+					}
 				},
 				arrival: 2016-06-26T16:19:00.000Z, // Date object
 				departure: 2016-06-26T16:19:00.000Z // Date object
 			}, {
 				station: {
 					type: 'station',
-					id: 9012103,
-					name: 'U Hallesches Tor (Berlin)',
-					latitude: 13.391769,
-					longitude: 52.497776
+					id: '900000012103',
+					name: 'U Hallesches Tor',
+					coordinates: {
+						latitude: 13.391769,
+						longitude: 52.497776
+					}
 				},
 				arrival: 2016-06-26T16:21:00.000Z, // Date object
 				departure: 2016-06-26T16:21:00.000Z // Date object
@@ -104,22 +114,26 @@ With `passedStations: true` and `results: 1`, the response looks like this:
 		]
 	} ],
 	// taken from parts[0]
-	start: 2016-06-26T16:17:00.000Z, // shorthand for parts[0].start
-	from: { // shorthand for parts[0].from
+	departure: 2016-06-26T16:17:00.000Z, // shorthand for parts[0].start
+	origin: { // shorthand for parts[0].from
 		type: 'station',
-		id: 9013102,
-		name: 'U Kottbusser Tor (Berlin)',
-		latitude: 13.417748,
-		longitude: 52.499053
+		id: '900000013102',
+		name: 'U Kottbusser Tor',
+		coordinates: {
+			latitude: 13.417748,
+			longitude: 52.499053
+		}
 	},
 	// taken from parts[parts.length - 1]
-	end: 2016-06-26T16:21:00.000Z, // shorthand for parts[parts.length - 1].end
-	to: {
+	arrival: 2016-06-26T16:21:00.000Z, // shorthand for parts[parts.length - 1].end
+	destination: {
 		type: 'station',
-		id: 9012103,
-		name: 'U Hallesches Tor (Berlin)',
-		latitude: 13.391769,
-		longitude: 52.497776
+		id: '900000012103',
+		name: 'U Hallesches Tor',
+		coordinates: {
+			latitude: 13.391769,
+			longitude: 52.497776
+		}
 	}
 } ]
 ```
