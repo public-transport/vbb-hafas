@@ -11,6 +11,7 @@ const {
 	assertValidAddress,
 	assertValidLocation,
 	assertValidLine,
+	assertValidPassed,
 	hour, when,
 	assertValidWhen
 } = require('./util')
@@ -21,6 +22,8 @@ const onError = (err) => {
 	console.error(err.stack || err.message)
 	process.exit(1)
 }
+
+const findStation = (query) => stations(query, true, false)
 
 
 
@@ -61,7 +64,7 @@ hafas.journeys('900000042101', '900000009101', {
 		a.ok(part.direction.indexOf('(Berlin)') === -1)
 
 		a.ok(Array.isArray(part.passed))
-		for (let stop of part.passed) assertValidStop(stop)
+		for (let passed of part.passed) assertValidPassed(stop)
 	}
 })
 .catch(onError)

@@ -30,13 +30,13 @@ const assertValidPoi = (p) => {
 	a.strictEqual(p.type, 'poi')
 	a.ok(isValidId(p.id))
 	a.strictEqual(typeof p.name, 'string')
-	assertValidCoordinates(s.coordinates)
+	assertValidCoordinates(p.coordinates)
 }
 
-const assertValidAddress = (p) => {
-	a.strictEqual(p.type, 'address')
-	a.strictEqual(typeof p.name, 'string')
-	assertValidCoordinates(s.coordinates)
+const assertValidAddress = (addr) => {
+	a.strictEqual(addr.type, 'address')
+	a.strictEqual(typeof addr.name, 'string')
+	assertValidCoordinates(addr.coordinates)
 }
 
 const assertValidLocation = (l) => {
@@ -44,6 +44,12 @@ const assertValidLocation = (l) => {
 	else if (l.type === 'poi') assertValidPoi(l)
 	else if (l.type === 'address') assertValidAddress(l)
 	else throw new Error('invalid location type')
+}
+
+const assertValidPassed = (p) => {
+	assertValidStation(p.station)
+	if (p.arrival) assertValidWhen(p.arrival)
+	if (p.departure) assertValidWhen(p.departure)
 }
 
 const isValidMode = (m) =>
@@ -66,12 +72,6 @@ const assertValidLine = (l) => {
 	// a.strictEqual(ypeof l.type, 'object')
 }
 
-// todo
-// const isValidStop = (s) =>
-// 	   s.arrival instanceof Date
-// 	&& s.departure instanceof Date
-// 	&& isValidStation(s.station)
-
 
 
 const minute = 60 * 1000
@@ -89,6 +89,7 @@ module.exports = {
 	assertValidPoi,
 	assertValidAddress,
 	assertValidLocation,
+	assertValidPassed,
 	isValidMode,
 	assertValidLine,
 	minute, hour, when,
