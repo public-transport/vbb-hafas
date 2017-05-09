@@ -16,10 +16,10 @@ const assertValidCoordinates = (t, c) => {
 	t.strictEqual(typeof c.longitude, 'number')
 }
 
-const assertValidStation = (t, s) => {
+const assertValidStation = (t, s, onlyNewIds = true) => {
 	t.strictEqual(s.type, 'station')
 	t.ok(isValidId(s.id))
-	t.strictEqual(s.id.length, 12)
+	if (onlyNewIds) t.strictEqual(s.id.length, 12)
 	t.strictEqual(typeof s.name, 'string')
 	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
 	t.ok(findStation(s.name))
@@ -39,8 +39,8 @@ const assertValidAddress = (t, addr) => {
 	assertValidCoordinates(t, addr.coordinates)
 }
 
-const assertValidLocation = (t, l) => {
-	if (l.type === 'station') assertValidStation(t, l)
+const assertValidLocation = (t, l, onlyNewIds = true) => {
+	if (l.type === 'station') assertValidStation(t, l, onlyNewIds)
 	else if (l.type === 'poi') assertValidPoi(t, l)
 	else if (l.type === 'address') assertValidAddress(t, l)
 	else t.ifError(new Error('invalid location type'))
