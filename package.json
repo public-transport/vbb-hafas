@@ -28,10 +28,12 @@
 	"devDependencies": {
 		"is-roughly-equal": "^0.1.0",
 		"vbb-stations-autocomplete": "^1.0.1",
-		"floordate": "^3.0.0"
+		"floordate": "^3.0.0",
+		"tape": "^4.6.3",
+		"tap-min": "^1.2.1"
 	},
 	"scripts": {
-		"test": "node test/index.js",
+		"test": "node test/index.js | tap-min",
 		"prepublish": "npm test"
 	}
 }

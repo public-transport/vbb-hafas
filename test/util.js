@@ -10,46 +10,46 @@ const isRoughlyEqual = require('is-roughly-equal')
 
 const findStation = (name) => stations(name, 1, false, false)[0]
 
-const assertValidCoordinates = (c) => {
-	a.ok(c)
-	a.strictEqual(typeof c.latitude, 'number')
-	a.strictEqual(typeof c.longitude, 'number')
+const assertValidCoordinates = (t, c) => {
+	t.ok(c)
+	t.strictEqual(typeof c.latitude, 'number')
+	t.strictEqual(typeof c.longitude, 'number')
 }
 
-const assertValidStation = (s) => {
-	a.strictEqual(s.type, 'station')
-	a.ok(isValidId(s.id))
-	a.strictEqual(s.id.length, 12)
-	a.strictEqual(typeof s.name, 'string')
-	a.strictEqual(s.name.indexOf('(Berlin)'), -1)
-	a.ok(findStation(s.name))
-	assertValidCoordinates(s.coordinates)
+const assertValidStation = (t, s) => {
+	t.strictEqual(s.type, 'station')
+	t.ok(isValidId(s.id))
+	t.strictEqual(s.id.length, 12)
+	t.strictEqual(typeof s.name, 'string')
+	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
+	t.ok(findStation(s.name))
+	assertValidCoordinates(t, s.coordinates)
 }
 
-const assertValidPoi = (p) => {
-	a.strictEqual(p.type, 'poi')
-	a.ok(isValidId(p.id))
-	a.strictEqual(typeof p.name, 'string')
-	assertValidCoordinates(p.coordinates)
+const assertValidPoi = (t, p) => {
+	t.strictEqual(p.type, 'poi')
+	t.ok(isValidId(p.id))
+	t.strictEqual(typeof p.name, 'string')
+	assertValidCoordinates(t, p.coordinates)
 }
 
-const assertValidAddress = (addr) => {
-	a.strictEqual(addr.type, 'address')
-	a.strictEqual(typeof addr.name, 'string')
-	assertValidCoordinates(addr.coordinates)
+const assertValidAddress = (t, addr) => {
+	t.strictEqual(addr.type, 'address')
+	t.strictEqual(typeof addr.name, 'string')
+	assertValidCoordinates(t, addr.coordinates)
 }
 
-const assertValidLocation = (l) => {
-	if (l.type === 'station') assertValidStation(l)
-	else if (l.type === 'poi') assertValidPoi(l)
-	else if (l.type === 'address') assertValidAddress(l)
-	else throw new Error('invalid location type')
+const assertValidLocation = (t, l) => {
+	if (l.type === 'station') assertValidStation(t, l)
+	else if (l.type === 'poi') assertValidPoi(t, l)
+	else if (l.type === 'address') assertValidAddress(t, l)
+	else t.ifError(new Error('invalid location type'))
 }
 
-const assertValidPassed = (p) => {
-	assertValidStation(p.station)
-	if (p.arrival) assertValidWhen(p.arrival)
-	if (p.departure) assertValidWhen(p.departure)
+const assertValidPassed = (t, p) => {
+	assertValidStation(t, p.station)
+	if (p.arrival) assertValidWhen(t, p.arrival)
+	if (p.departure) assertValidWhen(t, p.departure)
 }
 
 const isValidMode = (m) =>
@@ -58,18 +58,18 @@ const isValidMode = (m) =>
 	|| m === 'bus'
 	|| m === 'ferry'
 
-const assertValidLine = (l) => {
-	a.strictEqual(l.type, 'line')
-	a.okEqual(isValidId(l.id))
-	a.strictEqual(typeof l.name, 'string')
-	a.ok(isValidMode(l.mode))
-	a.strictEqual(typeof l.product, 'string')
-	a.strictEqual(typeof l.nr, 'number')
-	a.strictEqual(typeof l.metro, 'boolean')
-	a.strictEqual(typeof l.express, 'boolean')
-	a.strictEqual(typeof l.night, 'boolean')
+const assertValidLine = (t, l) => {
+	t.strictEqual(l.type, 'line')
+	t.okEqual(isValidId(l.id))
+	t.strictEqual(typeof l.name, 'string')
+	t.ok(isValidMode(l.mode))
+	t.strictEqual(typeof l.product, 'string')
+	t.strictEqual(typeof l.nr, 'number')
+	t.strictEqual(typeof l.metro, 'boolean')
+	t.strictEqual(typeof l.express, 'boolean')
+	t.strictEqual(typeof l.night, 'boolean')
 	// todo
-	// a.strictEqual(ypeof l.type, 'object')
+	// t.strictEqual(ypeof l.type, 'object')
 }
 
 
@@ -78,8 +78,8 @@ const minute = 60 * 1000
 const hour = 60 * minute
 const when = new Date(+floor(new Date(), 'day') + 10 * hour)
 
-const assertValidWhen = (t) => {
-	a.ok(isRoughlyEqual(2 * hour, +when, t))
+const assertValidWhen = (t, w) => {
+	t.ok(isRoughlyEqual(2 * hour, +when, w))
 }
 
 
