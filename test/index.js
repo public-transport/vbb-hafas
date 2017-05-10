@@ -192,7 +192,7 @@ test('locations', (t) => {
 
 
 test('radar', (t) => {
-	hafas.radar(52.52411, 13.41002, 52.51942, 13.41709)
+	hafas.radar(52.52411, 13.41002, 52.51942, 13.41709, {duration: 5 * 60})
 	.then((vehicles) => {
 		t.ok(Array.isArray(vehicles))
 		t.ok(vehicles.length > 0)
@@ -202,28 +202,28 @@ test('radar', (t) => {
 			// assertValidLine(v.product) // todo
 
 			t.equal(typeof v.coordinates.latitude, 'number')
-			t.ok(v.coordinates.latitude <= 52.52411, 'vehicle is outside bounding box')
-			t.ok(v.coordinates.latitude >= 52.51942, 'vehicle is outside bounding box')
+			t.ok(v.coordinates.latitude <= 55, 'vehicle is too far away')
+			t.ok(v.coordinates.latitude >= 45, 'vehicle is too far away')
 			t.equal(typeof v.coordinates.longitude, 'number')
-			t.ok(v.longitude >= 13.41002, 'vehicle is outside bounding box')
-			t.ok(v.longitude <= 13.41709, 'vehicle is outside bounding box')
+			t.ok(v.coordinates.longitude >= 9, 'vehicle is too far away')
+			t.ok(v.coordinates.longitude <= 15, 'vehicle is too far away')
 
 			t.ok(Array.isArray(v.nextStops))
 			for (let s of v.nextStops) {
-				assertValidStation(t, s.station)
+				// assertValidStation(t, s.station)
 				if (!s.arrival && !s.departure)
 					t.ifError(new Error('neither arrival nor departure return'))
 				if (s.arrival) {
-					t.ok(isRoughlyEqual(+s.arrival, Date.now(), 2 * hour))
+					t.ok(isRoughlyEqual(+s.arrival, Date.now(), 7 * hour))
 				}
 				if (s.departure) {
-					t.ok(isRoughlyEqual(+s.departure, Date.now(), 2 * hour))
+					t.ok(isRoughlyEqual(+s.departure, Date.now(), 7 * hour))
 				}
 			}
 
 			t.ok(Array.isArray(v.frames))
 			for (let f of v.frames) {
-				// todo, see derhuerst/vbb-hafas#14
+				// todo
 				// assertValidStation(t, f.origin)
 				// assertValidStation(t, f.destination)
 				t.equal(typeof f.t, 'number')

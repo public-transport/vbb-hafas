@@ -15,7 +15,7 @@
 	],
 	"engines" :     {"node": ">=6"},
 	"dependencies": {
-		"hafas-client": "^0.6.1",
+		"hafas-client": "derhuerst/hafas-client#fptf",
 		"vbb-util": "^0.10.1",
 		"vbb-short-station-name": "^0.2.0",
 		"pad-right": "^0.2.2",
