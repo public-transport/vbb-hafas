@@ -60,7 +60,7 @@ test('journeys – station to station', (t) => {
 			t.strictEqual(part.destination.id, '900000009101')
 			assertValidWhen(t, part.arrival)
 
-			// assertValidLine(t, part.product) // todo
+			assertValidLine(t, part.line)
 			t.ok(findStation(part.direction))
 			t.ok(part.direction.indexOf('(Berlin)') === -1)
 
@@ -143,7 +143,7 @@ test('departures', (t) => {
 
 			assertValidWhen(t, dep.when)
 			t.ok(findStation(dep.direction))
-			// assertValidLine(t, dep.product) // todo
+			assertValidLine(t, dep.line)
 		}
 	})
 	.catch(t.ifError)
@@ -198,8 +198,8 @@ test('radar', (t) => {
 		t.ok(vehicles.length > 0)
 		for (let v of vehicles) {
 
-			t.ok(findStation(v.direction)) // todo
-			// assertValidLine(v.product) // todo
+			t.ok(findStation(v.direction))
+			assertValidLine(t, v.line)
 
 			t.equal(typeof v.coordinates.latitude, 'number')
 			t.ok(v.coordinates.latitude <= 55, 'vehicle is too far away')

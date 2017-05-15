@@ -60,7 +60,7 @@ const isValidMode = (m) =>
 
 const assertValidLine = (t, l) => {
 	t.strictEqual(l.type, 'line')
-	t.okEqual(isValidId(l.id))
+	t.ok(isValidId(l.id))
 	t.strictEqual(typeof l.name, 'string')
 	t.ok(isValidMode(l.mode))
 	t.strictEqual(typeof l.product, 'string')
