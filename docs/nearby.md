@@ -22,20 +22,32 @@ With `latitude = 52.5137344`, `longitude = 13.4744798`, the response looks like 
 		type: 'station',
 		id: '900000120001',
 		name: 'S+U Frankfurter Allee',
-		coordinates: {
-			latitude: 13.475306,
-			longitude: 52.513615
+		coordinates: {latitude: 52.513616, longitude: 13.475298},
+		products: {
+			suburban: true,
+			subway: true,
+			tram: true,
+			bus: true,
+			ferry: false,
+			express: false,
+			regional: false
 		},
-		distance: 58
+		distance: 56
 	}, {
 		type: 'station',
 		id: '900000120540',
 		name: 'Scharnweberstr./Weichselstr.',
-		coordinates: {
-			latitude: 13.470182,
-			longitude: 52.512339
+		coordinates: {latitude: 52.512339, longitude: 13.470174},
+		products: {
+			suburban: false,
+			subway: false,
+			tram: true,
+			bus: false,
+			ferry: false,
+			express: false,
+			regional: false
 		},
-		distance: 329
+		distance: 330
 	}
 	// …
 ]

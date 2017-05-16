@@ -33,72 +33,73 @@ const hafas = require('vbb-hafas')
 As an example, we will search for a journey [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
 ```javascript
-client.journeys(9003201, 9024101, {results: 1})
+client.journeys('900000003201', '900000024101', {results: 1})
 .then((journeys) => console.log(journeys[0]))
 ```
 
 The output will be in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format):
 
 ```javascript
-{
-  // taken from first part
-  start: new Date('2016-05-28T01:08:00.000Z'),
-  from: {
-    type: 'station',
-    id: 9003201,
-    name: 'S+U Berlin Hauptbahnhof',
-    latitude: 13.368928,
-    longitude: 52.525849
-  },
-
-  // taken from last part
-  end: new Date('2016-05-28T01:16:00.000Z'),
-  to: {
-    type: 'station',
-    id: 9024101,
-    name: 'S Charlottenburg Bhf (Berlin)',
-    latitude: 13.305221,
-    longitude: 52.505057
-  },
-
-  parts: [ {
-    start: new Date('2016-05-28T01:08:00.000Z'),
-    from: {
-      type: 'station',
-      id: 9003201,
-      name: 'S+U Berlin Hauptbahnhof',
-      latitude: 13.368928,
-      longitude: 52.525849
-    },
-    end: new Date('2016-05-28T01:16:00.000Z'),
-    to: {
-      type: 'station',
-      id: 9024101,
-      name: 'S Charlottenburg Bhf (Berlin)',
-      latitude: 13.305221,
-      longitude: 52.505057
-    },
-    direction: 'Nauen, Bahnhof',
-    product: {
-      line: 'RB14',
-      symbol: 'RB',
-      nr: 14,
-      metro: false,
-      express: false,
-      night: false,
-      type: {
-        category: 6,
-        bitmask: 64,
-        name: 'RB/RE',
-        short: 'R',
-        type: 'regional',
-        color: '#ff0000',
-        unicode: '🚆',
-        ansi: ['red']
-      }
-    }
-  } ]
-}
+[
+	{
+		type: 'journey',
+		// taken from the first part
+		origin: {
+			type: 'station',
+			id: '900000003201',
+			name: 'S+U Berlin Hauptbahnhof',
+			coordinates: {latitude: 52.52585, longitude: 13.368928},
+			products: // …
+		},
+		departure: '2017-05-16T13:31:00+02:00',
+		// taken from the last part
+		destination: {
+			type: 'station',
+			id: '900000024101',
+			name: 'S Charlottenburg',
+			coordinates: {latitude: 52.505049, longitude: 13.305213},
+			products: // …
+		},
+		arrival: '2017-05-16T13:41:00+02:00',
+		parts: [{
+			origin: {
+				type: 'station',
+				id: '900000003201',
+				name: 'S+U Berlin Hauptbahnhof',
+				coordinates: {latitude: 52.52585, longitude: 13.368928},
+				products: // …
+			},
+			departure: '2017-05-16T13:31:00+02:00',
+			departurePlatform: '16',
+			destination: {
+				type: 'station',
+				id: '900000024101',
+				name: 'S Charlottenburg',
+				coordinates: {latitude: 52.505049, longitude: 13.305213},
+				products: // …
+			},
+			arrival: '2017-05-16T13:41:00+02:00',
+			delay: 0,
+			line: {
+				type: 'line',
+				id: 's75',
+				name: 'S75',
+				mode: 'train',
+				product: 'suburban',
+				class: 1,
+				productCode: 0,
+				productName: 'S-7',
+				symbol: 'S',
+				nr: 75,
+				metro: false,
+				express: false,
+				night: false
+			},
+			arrivalPlatform: '8'
+			direction: 'S Westkreuz',
+		}]
+	}
+]
 ```
 
 
