@@ -24,7 +24,8 @@
 		"vbb-parse-line": "^0.2",
 		"lodash.omit": "^4.5",
 		"vbb-translate-ids": "^2.0.0",
-		"slugg": "^1.2.0"
+		"slugg": "^1.2.0",
+		"vbb-stations": "^5.2.0"
 	},
 	"devDependencies": {
 		"is-roughly-equal": "^0.1.0",

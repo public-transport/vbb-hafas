@@ -23,7 +23,7 @@ const assertValidStation = (t, s, onlyNewIds = true) => {
 	t.strictEqual(typeof s.name, 'string')
 	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
 	t.ok(findStation(s.name))
-	if (!findStation(s.name)) console.error(s)
+	assertValidCoordinates(t, s.coordinates)
 }
 
 const assertValidFrameStation = (t, s) => {
@@ -31,6 +31,7 @@ const assertValidFrameStation = (t, s) => {
 	t.ok(isValidId(s.id))
 	t.strictEqual(typeof s.name, 'string')
 	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
+	assertValidCoordinates(t, s.coordinates)
 }
 
 const assertValidPoi = (t, p) => {
