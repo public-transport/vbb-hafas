@@ -23,7 +23,14 @@ const assertValidStation = (t, s, onlyNewIds = true) => {
 	t.strictEqual(typeof s.name, 'string')
 	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
 	t.ok(findStation(s.name))
-	assertValidCoordinates(t, s.coordinates)
+	if (!findStation(s.name)) console.error(s)
+}
+
+const assertValidFrameStation = (t, s) => {
+	t.strictEqual(s.type, 'station')
+	t.ok(isValidId(s.id))
+	t.strictEqual(typeof s.name, 'string')
+	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
 }
 
 const assertValidPoi = (t, p) => {
@@ -60,16 +67,15 @@ const isValidMode = (m) =>
 
 const assertValidLine = (t, l) => {
 	t.strictEqual(l.type, 'line')
-	t.ok(isValidId(l.id))
+	t.strictEqual(typeof l.id, 'string')
+	t.ok(l.id)
 	t.strictEqual(typeof l.name, 'string')
 	t.ok(isValidMode(l.mode))
 	t.strictEqual(typeof l.product, 'string')
-	t.strictEqual(typeof l.nr, 'number')
+	if (l.nr) t.strictEqual(typeof l.nr, 'number')
 	t.strictEqual(typeof l.metro, 'boolean')
 	t.strictEqual(typeof l.express, 'boolean')
 	t.strictEqual(typeof l.night, 'boolean')
-	// todo
-	// t.strictEqual(ypeof l.type, 'object')
 }
 
 
@@ -85,7 +91,7 @@ const assertValidWhen = (t, w) => {
 
 
 module.exports = {
-	assertValidStation,
+	assertValidStation, assertValidFrameStation,
 	assertValidPoi,
 	assertValidAddress,
 	assertValidLocation,

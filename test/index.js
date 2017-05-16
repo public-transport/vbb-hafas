@@ -7,7 +7,7 @@ const stations = require('vbb-stations-autocomplete')
 const floor = require('floordate')
 
 const {
-	assertValidStation,
+	assertValidStation, assertValidFrameStation,
 	assertValidPoi,
 	assertValidAddress,
 	assertValidLocation,
@@ -83,7 +83,7 @@ test('journeys – station to address', (t) => {
 	.then((journeys) => {
 		t.ok(Array.isArray(journeys))
 		t.strictEqual(journeys.length, 1)
-		const journey = journeys[0] // todo
+		const journey = journeys[0]
 		const part = journey.parts[journey.parts.length - 1]
 
 		assertValidStation(t, part.origin)
@@ -192,7 +192,7 @@ test('locations', (t) => {
 
 
 test('radar', (t) => {
-	hafas.radar(52.52411, 13.41002, 52.51942, 13.41709, {duration: 5 * 60})
+	hafas.radar(52.52411, 13.41002, 52.51942, 13.41709, {duration: 5 * 60, when})
 	.then((vehicles) => {
 		t.ok(Array.isArray(vehicles))
 		t.ok(vehicles.length > 0)
@@ -210,22 +210,22 @@ test('radar', (t) => {
 
 			t.ok(Array.isArray(v.nextStops))
 			for (let s of v.nextStops) {
-				// assertValidStation(t, s.station)
+				assertValidFrameStation(t, s.station)
 				if (!s.arrival && !s.departure)
 					t.ifError(new Error('neither arrival nor departure return'))
 				if (s.arrival) {
-					t.ok(isRoughlyEqual(+s.arrival, Date.now(), 7 * hour))
+					// note that this can be an ICE train
+					t.ok(isRoughlyEqual(+s.arrival, Date.now(), 10 * hour))
 				}
 				if (s.departure) {
-					t.ok(isRoughlyEqual(+s.departure, Date.now(), 7 * hour))
+					t.ok(isRoughlyEqual(+s.departure, Date.now(), 10 * hour))
 				}
 			}
 
 			t.ok(Array.isArray(v.frames))
 			for (let f of v.frames) {
-				// todo
-				// assertValidStation(t, f.origin)
-				// assertValidStation(t, f.destination)
+				assertValidFrameStation(t, f.origin)
+				assertValidFrameStation(t, f.destination)
 				t.equal(typeof f.t, 'number')
 			}
 		}
