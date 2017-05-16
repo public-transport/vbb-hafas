@@ -85,8 +85,11 @@ const minute = 60 * 1000
 const hour = 60 * minute
 const when = new Date(+floor(new Date(), 'day') + 10 * hour)
 
-const assertValidWhen = (t, w) => {
-	t.ok(isRoughlyEqual(2 * hour, +when, w))
+const assertValidWhen = (t, w, tolerance = 2 * hour) => {
+	t.equal(typeof w, 'string')
+	const ts = +new Date(w)
+	t.ok(!Number.isNaN(ts))
+	t.ok(isRoughlyEqual(tolerance, +when, ts))
 }
 
 
