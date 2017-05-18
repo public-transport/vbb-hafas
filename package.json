@@ -1,7 +1,7 @@
 {
 	"name":         "vbb-hafas",
 	"description":  "JavaScript client for the VBB HAFAS API.",
-	"version":      "1.0.0",
+	"version":      "2.0.0",
 	"main":         "index.js",
 	"files":        ["index.js", "lib/*"],
 	"author":       "Jannis R <mail@jannisr.de>",
@@ -21,7 +21,7 @@
 		"pad-right": "^0.2.2",
 		"got": "^6.6.3",
 		"moment-timezone": "^0.5.10",
-		"vbb-parse-line": "^0.2",
+		"vbb-parse-line": "^0.2.2",
 		"lodash.omit": "^4.5",
 		"vbb-translate-ids": "^2.0.0",
 		"slugg": "^1.2.0",
@@ -29,7 +29,7 @@
 	},
 	"devDependencies": {
 		"is-roughly-equal": "^0.1.0",
-		"vbb-stations-autocomplete": "^1.0.1",
+		"vbb-stations-autocomplete": "^2.3.0",
 		"floordate": "^3.0.0",
 		"tape": "^4.6.3",
 		"tap-min": "^1.2.1"
