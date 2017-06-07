@@ -218,14 +218,14 @@ test('radar', (t) => {
 					const arr = +new Date(s.arrival)
 					t.ok(!Number.isNaN(arr))
 					// note that this can be an ICE train
-					t.ok(isRoughlyEqual(10 * hour, Date.now(), arr))
+					t.ok(isRoughlyEqual(10 * hour, +when, arr))
 				}
 				if (s.departure) {
 					t.equal(typeof s.departure, 'string')
 					const dep = +new Date(s.departure)
 					t.ok(!Number.isNaN(dep))
 					// note that this can be an ICE train
-					t.ok(isRoughlyEqual(10 * hour, Date.now(), dep))
+					t.ok(isRoughlyEqual(10 * hour, +when, dep))
 				}
 			}
 
