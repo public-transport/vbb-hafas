@@ -35,6 +35,7 @@ With `passedStations: true` and `results: 1`, the response looks like this:
 	{
 		type: 'journey',
 		parts: [{
+			id: '1|24983|22|86|18062017',
 			origin: {
 				type: 'station',
 				id: '900000013102',
