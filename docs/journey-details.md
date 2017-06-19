@@ -49,7 +49,7 @@ With `ref = '1|28220|3|86|19062017'`, `lineName = 'RB14'` and `when: 14978794302
 			station: {
 				type: 'station',
 				id: '900000260005',
-				name: 'S Flughafen Berlin-Schönefeld Bhf',
+				name: 'S Flughafen Berlin-Schönefeld',
 				coordinates: {latitude: 52.390796, longitude: 13.51352},
 				products: { /* … */ }
 			},
@@ -58,7 +58,7 @@ With `ref = '1|28220|3|86|19062017'`, `lineName = 'RB14'` and `when: 14978794302
 			station: {
 				type: 'station',
 				id: '900000162001',
-				name: 'S Karlshorst Bhf (Berlin)',
+				name: 'S Karlshorst',
 				coordinates: {latitude: 52.481039, longitude: 13.525979},
 				products: { /* … */ }
 			},
@@ -68,7 +68,7 @@ With `ref = '1|28220|3|86|19062017'`, `lineName = 'RB14'` and `when: 14978794302
 			station: {
 				type: 'station',
 				id: '900000210005',
-				name: 'Nauen, Bahnhof',
+				name: 'Nauen, Bhf',
 				coordinates: {latitude: 52.612335, longitude: 12.885156},
 				products: { /* … */ }
 			},

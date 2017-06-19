@@ -51,6 +51,8 @@ test('journeys – station to station', (t) => {
 			t.strictEqual(journey.parts.length, 1)
 			const part = journey.parts[0]
 
+			t.equal(typeof part.id, 'string')
+			t.ok(part.id)
 			assertValidStation(t, part.origin)
 			t.ok(part.origin.name.indexOf('(Berlin)') === -1)
 			t.strictEqual(part.origin.id, '900000042101')
@@ -67,6 +69,31 @@ test('journeys – station to station', (t) => {
 			t.ok(Array.isArray(part.passed))
 			for (let passed of part.passed) assertValidPassed(t, passed)
 		}
+	})
+	.catch(t.ifError)
+	.then(() => t.end())
+})
+
+test('journey details', (t) => {
+	// U Spichernstr. to U Amrumer Str.
+	hafas.journeys('900000042101', '900000009101', {results: 1, when})
+	.then((journeys) => {
+		const part = journeys[0].parts[0]
+		t.ok(part.id, 'precondition failed')
+		t.ok(part.line.name, 'precondition failed')
+		return hafas.journeyDetails(part.id, part.line.name)
+	})
+	.then((details) => {
+		t.equal(typeof details.id, 'string')
+		t.ok(details.id)
+
+		assertValidLine(t, details.line)
+
+		t.equal(typeof details.direction, 'string')
+		t.ok(details.direction)
+
+		t.ok(Array.isArray(details.passed))
+		for (let passed of details.passed) assertValidPassed(t, passed)
 	})
 	.catch(t.ifError)
 	.then(() => t.end())
