@@ -1,4 +1,4 @@
-# `journeyDetails(ref, lineName, [opt])`
+# `journeyPartDetails(ref, lineName, [opt])`
 
 `id` must be a journey part ID like `'1|24983|22|86|18062017'`. `lineName` must be the name of the journey part's line. You can get them from the [`journeys` method](journeys.md) like this:
 
@@ -8,7 +8,7 @@ const hafas = require('vbb-hafas')
 hafas.journeys('900000003201', '900000024101', {results: 1})
 .then(([journey]) => {
 	const part = journey.parts[0]
-	return hafas.journeyDetails(part.id, part.line.name)
+	return hafas.journeyPartDetails(part.id, part.line.name)
 })
 .then(console.log, console.error)
 ```

@@ -74,14 +74,14 @@ test('journeys – station to station', (t) => {
 	.then(() => t.end())
 })
 
-test('journey details', (t) => {
+test('journey part details', (t) => {
 	// U Spichernstr. to U Amrumer Str.
 	hafas.journeys('900000042101', '900000009101', {results: 1, when})
 	.then((journeys) => {
 		const part = journeys[0].parts[0]
 		t.ok(part.id, 'precondition failed')
 		t.ok(part.line.name, 'precondition failed')
-		return hafas.journeyDetails(part.id, part.line.name)
+		return hafas.journeyPartDetails(part.id, part.line.name)
 	})
 	.then((details) => {
 		t.equal(typeof details.id, 'string')
