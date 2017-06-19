@@ -1,7 +1,7 @@
 {
 	"name":         "vbb-hafas",
 	"description":  "JavaScript client for the VBB HAFAS API.",
-	"version":      "2.0.1",
+	"version":      "2.1.0",
 	"main":         "index.js",
 	"files":        ["index.js", "lib/*"],
 	"author":       "Jannis R <mail@jannisr.de>",
@@ -32,10 +32,10 @@
 		"vbb-stations-autocomplete": "^2.3.0",
 		"floordate": "^3.0.0",
 		"tape": "^4.6.3",
-		"tap-min": "^1.2.1"
+		"tap-spec": "^4.1.1"
 	},
 	"scripts": {
-		"test": "node test/index.js | tap-min",
+		"test": "node test/index.js | tap-spec",
 		"prepublish": "npm test"
 	}
 }

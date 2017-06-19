@@ -31,7 +31,7 @@ const assertValidFrameStation = (t, s) => {
 	t.ok(isValidId(s.id))
 	t.strictEqual(typeof s.name, 'string')
 	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
-	assertValidCoordinates(t, s.coordinates)
+	if (s.coordinates) assertValidCoordinates(t, s.coordinates)
 }
 
 const assertValidPoi = (t, p) => {
