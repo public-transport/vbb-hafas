@@ -6,5 +6,5 @@ module.exports = {
 	, nearby:     require('./lib/nearby')
 	, locations:  require('./lib/locations')
 	, radar:      require('./lib/radar')
-	, journeyPartDetails: require('./lib/journey-part-details')
+	, journeyPart: require('./lib/journey-part')
 }

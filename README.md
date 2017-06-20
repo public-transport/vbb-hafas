@@ -25,7 +25,7 @@ const hafas = require('vbb-hafas')
 ```
 
 - [`journeys(from, to, [opt])`](docs/journeys.md) to get journeys between locations
-- [`journeyPartDetails(ref, name, [opt])`](docs/journey-part-details.md) to get details for a part of a journey
+- [`journeyPart(ref, name, [opt])`](docs/journey-part.md) to get details for a part of a journey
 - [`departures(station, [opt])`](docs/departures.md) to query the next departures at a station
 - [`nearby(latitude, longitude, [opt])`](docs/nearby.md) to show stations & POIs around
 - [`locations(query, [opt])`](docs/locations.md) to find stations, POIs and addresses

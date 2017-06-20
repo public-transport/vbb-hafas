@@ -81,19 +81,19 @@ test('journey part details', (t) => {
 		const part = journeys[0].parts[0]
 		t.ok(part.id, 'precondition failed')
 		t.ok(part.line.name, 'precondition failed')
-		return hafas.journeyPartDetails(part.id, part.line.name)
+		return hafas.journeyPart(part.id, part.line.name)
 	})
-	.then((details) => {
-		t.equal(typeof details.id, 'string')
-		t.ok(details.id)
+	.then((part) => {
+		t.equal(typeof part.id, 'string')
+		t.ok(part.id)
 
-		assertValidLine(t, details.line)
+		assertValidLine(t, part.line)
 
-		t.equal(typeof details.direction, 'string')
-		t.ok(details.direction)
+		t.equal(typeof part.direction, 'string')
+		t.ok(part.direction)
 
-		t.ok(Array.isArray(details.passed))
-		for (let passed of details.passed) assertValidPassed(t, passed)
+		t.ok(Array.isArray(part.passed))
+		for (let passed of part.passed) assertValidPassed(t, passed)
 	})
 	.catch(t.ifError)
 	.then(() => t.end())
