@@ -28,6 +28,8 @@ With `opt`, you can override the default options, which look like this:
 
 ## Response
 
+*Note*: The `departure` and `arrival` fields contain realtime information if available. The `delay` field expresses how much they differ from the schedule.
+
 With `passedStations: true` and `results: 1`, the response looks like this:
 
 ```js

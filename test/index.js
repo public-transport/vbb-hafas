@@ -81,7 +81,7 @@ test('journey part details', (t) => {
 		const part = journeys[0].parts[0]
 		t.ok(part.id, 'precondition failed')
 		t.ok(part.line.name, 'precondition failed')
-		return hafas.journeyPart(part.id, part.line.name)
+		return hafas.journeyPart(part.id, part.line.name, {when})
 	})
 	.then((part) => {
 		t.equal(typeof part.id, 'string')

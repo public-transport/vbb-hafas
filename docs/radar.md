@@ -14,6 +14,8 @@ With `opt`, you can override the default options, which look like this:
 
 ## Response
 
+*Note*: The `departure` and `arrival` fields contain realtime information if available. The `delay` field expresses how much they differ from the schedule.
+
 With `52.52411, 13.41002, 52.51942, 13.41709`, the response may look like this:
 
 ```js

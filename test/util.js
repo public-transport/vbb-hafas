@@ -83,7 +83,10 @@ const assertValidLine = (t, l) => {
 
 const minute = 60 * 1000
 const hour = 60 * minute
-const when = new Date(+floor(new Date(), 'day') + 10 * hour)
+const day = 24 * hour
+const week = 7 * day
+// next Monday
+const when = new Date(+floor(new Date(), 'week') + week + 10 * hour)
 
 const assertValidWhen = (t, w, tolerance = 2 * hour) => {
 	t.equal(typeof w, 'string')
