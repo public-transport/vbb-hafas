@@ -1,6 +1,10 @@
 # `journeys(from, to, [opt])`
 
-`from` and `to` must be station ids like `'900000013102'`.
+`from` and `to` each must be in one of these format:
+
+- a station ID like `'900000013102'`
+- a POI: `{type: 'poi', latitude: 1.23, longitude: 3.21, id: '1234', name: 'foo'}`
+- an address: `{type: 'address', latitude: 1.23, longitude: 3.21, name: 'Foo-Str. 1'}`
 
 With `opt`, you can override the default options, which look like this:
 
