@@ -163,6 +163,8 @@ test('departures', (t) => {
 		t.ok(Array.isArray(deps))
 		t.deepEqual(deps, deps.sort((a, b) => t.when > b.when))
 		for (let dep of deps) {
+			t.equal(typeof dep.ref, 'string')
+			t.ok(dep.ref)
 
 			t.equal(dep.station.name, 'U Spichernstr.')
 			assertValidStation(t, dep.station)

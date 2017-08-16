@@ -16,10 +16,13 @@ With `opt`, you can override the default options, which look like this:
 
 *Note*: The `when` field contains realtime information if available. The `delay` field expresses how much it differs from the schedule.
 
+You may pass the `ref` field into [`journeyPart(ref, lineName, [opt])`](journey-part.md) to get details on the vehicle's journey.
+
 With `duration: 1`, the response may look like this:
 
 ```js
 [{
+	ref: '1|25436|1|86|16082017',
 	station: {
 		type: 'station',
 		id: '900000013102',
