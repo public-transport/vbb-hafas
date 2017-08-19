@@ -17,9 +17,9 @@
 	"dependencies": {
 		"hafas-client": "^1.2.0",
 		"vbb-util": "^0.10.1",
-		"vbb-short-station-name": "^0.2.0",
+		"vbb-short-station-name": "^0.3.0",
 		"pad-right": "^0.2.2",
-		"got": "^6.6.3",
+		"got": "^7.1.0",
 		"moment-timezone": "^0.5.10",
 		"vbb-parse-line": "^0.2.2",
 		"lodash.omit": "^4.5",
