@@ -179,6 +179,16 @@ test('departures', (t) => {
 	.then(() => t.end())
 })
 
+test('departures at 7-digit station', (t) => {
+	const eisenach = '8010097' // see derhuerst/vbb-hafas#22
+	hafas.departures(eisenach, {when})
+	.then(() => {
+		t.pass('did not fail')
+		t.end()
+	})
+	.catch(t.ifError)
+})
+
 
 
 test('nearby', (t) => {

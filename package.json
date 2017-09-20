@@ -1,41 +1,53 @@
 {
-	"name":         "vbb-hafas",
-	"description":  "JavaScript client for the VBB HAFAS API.",
-	"version":      "2.2.0",
-	"main":         "index.js",
-	"files":        ["index.js", "lib/*"],
-	"author":       "Jannis R <mail@jannisr.de>",
-	"homepage":     "https://github.com/derhuerst/vbb-hafas",
-	"repository":   "derhuerst/vbb-hafas",
-	"bugs":         "https://github.com/derhuerst/vbb-hafas/issues",
-	"license":      "ISC",
-	"keywords": [
-		"vbb", "bvg", "berlin", "brandenburg", "public transport",
-		"api", "open data", "hafas", "http"
+	"name": "vbb-hafas",
+	"description": "JavaScript client for the VBB HAFAS API.",
+	"version": "2.2.0",
+	"main": "index.js",
+	"files": [
+		"index.js",
+		"lib/*"
 	],
-	"engines" :     {"node": ">=6"},
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/vbb-hafas",
+	"repository": "derhuerst/vbb-hafas",
+	"bugs": "https://github.com/derhuerst/vbb-hafas/issues",
+	"license": "ISC",
+	"keywords": [
+		"vbb",
+		"bvg",
+		"berlin",
+		"brandenburg",
+		"public transport",
+		"api",
+		"open data",
+		"hafas",
+		"http"
+	],
+	"engines": {
+		"node": ">=6"
+	},
 	"dependencies": {
-		"hafas-client": "^1.2.0",
-		"vbb-util": "^0.10.1",
-		"vbb-short-station-name": "^0.3.0",
-		"pad-right": "^0.2.2",
 		"got": "^7.1.0",
-		"moment-timezone": "^0.5.10",
-		"vbb-parse-line": "^0.2.2",
+		"hafas-client": "^1.2.0",
 		"lodash.omit": "^4.5",
-		"vbb-translate-ids": "^2.0.0",
+		"moment-timezone": "^0.5.10",
+		"pad-right": "^0.2.2",
 		"slugg": "^1.2.0",
-		"vbb-stations": "^5.2.0"
+		"vbb-parse-line": "^0.2.2",
+		"vbb-short-station-name": "^0.3.0",
+		"vbb-stations": "^5.2.0",
+		"vbb-translate-ids": "^3.1.0",
+		"vbb-util": "^0.10.1"
 	},
 	"devDependencies": {
-		"is-roughly-equal": "^0.1.0",
-		"vbb-stations-autocomplete": "^2.3.0",
 		"floordate": "^3.0.0",
+		"is-roughly-equal": "^0.1.0",
+		"tap-spec": "^4.1.1",
 		"tape": "^4.6.3",
-		"tap-spec": "^4.1.1"
+		"vbb-stations-autocomplete": "^2.3.0"
 	},
 	"scripts": {
 		"test": "node test/index.js | tap-spec",
-		"prepublish": "npm test"
+		"prepublishOnly": "npm test"
 	}
 }
