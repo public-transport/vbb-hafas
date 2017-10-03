@@ -72,6 +72,7 @@ const assertValidLine = (t, l) => {
 	t.ok(l.id)
 	t.strictEqual(typeof l.name, 'string')
 	t.ok(isValidMode(l.mode))
+	t.strictEqual(typeof l.public, 'boolean')
 	t.strictEqual(typeof l.product, 'string')
 	if (l.nr) t.strictEqual(typeof l.nr, 'number')
 	t.strictEqual(typeof l.metro, 'boolean')

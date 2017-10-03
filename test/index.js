@@ -97,6 +97,7 @@ test('journeys – only subway', (t) => {
 				if (part.line) {
 					t.equal(part.line.mode, 'train')
 					t.equal(part.line.product, 'subway')
+					t.equal(part.line.public, true)
 				}
 			}
 		}
