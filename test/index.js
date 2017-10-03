@@ -74,6 +74,57 @@ test('journeys – station to station', (t) => {
 	.then(() => t.end())
 })
 
+test('journeys – only subway', (t) => {
+	// U Spichernstr. to U Bismarckstr.
+	hafas.journeys('900000042101', '900000024201', {
+		results: 20, when,
+		products: {
+			suburban: false,
+			subway:   true,
+			tram:     false,
+			bus:      false,
+			ferry:    false,
+			express:  false,
+			regional: false
+		}
+	})
+	.then((journeys) => {
+		t.ok(Array.isArray(journeys))
+		t.ok(journeys.length > 1)
+
+		for (let journey of journeys) {
+			for (let part of journey.parts) {
+				if (part.line) {
+					t.equal(part.line.mode, 'train')
+					t.equal(part.line.product, 'subway')
+				}
+			}
+		}
+	})
+	.catch(t.ifError)
+	.then(() => t.end())
+})
+
+test('journeys – fails with no product', (t) => {
+	// U Spichernstr. to U Bismarckstr.
+	hafas.journeys('900000042101', '900000024201', {
+		when,
+		products: {
+			suburban: false,
+			subway:   false,
+			tram:     false,
+			bus:      false,
+			ferry:    false,
+			express:  false,
+			regional: false
+		}
+	})
+	.catch((err) => {
+		t.ok(err, 'error thrown')
+		t.end()
+	})
+})
+
 test('journey part details', (t) => {
 	// U Spichernstr. to U Amrumer Str.
 	hafas.journeys('900000042101', '900000009101', {results: 1, when})
