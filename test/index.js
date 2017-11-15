@@ -241,6 +241,21 @@ test('departures at 7-digit station', (t) => {
 	.catch(t.ifError)
 })
 
+test('departures should be sorted', (t) => {
+	hafas.departures('900000230091', { // Portsdam Sternwarte
+		when,
+		duration: 120 // see derhuerst/vbb-rest#18
+	})
+	.then((deps) => {
+		const sorted = deps.sort((a, b) => {
+			return new Date(a.when) - new Date(b.when)
+		})
+		t.deepEqual(sorted, deps, 'deps are not sorted by when field')
+		t.end()
+	})
+	.catch(t.ifError)
+})
+
 
 
 test('nearby', (t) => {
