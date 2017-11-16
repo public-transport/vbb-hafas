@@ -27,7 +27,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"got": "^7.1.0",
+		"got": "^8.0.0",
 		"hafas-client": "^1.2.0",
 		"lodash.omit": "^4.5",
 		"moment-timezone": "^0.5.10",
