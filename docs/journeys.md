@@ -26,7 +26,8 @@ With `opt`, you can override the default options, which look like this:
 		ferry:      true,
 		express:    true,
 		regional:   true
-	}
+	},
+	tickets:        false // return tickets?
 }
 ```
 
@@ -182,5 +183,45 @@ With `passedStations: true` and `results: 1`, the response looks like this:
 		},
 		arrival: '2017-05-16T13:26:00+02:00'
 	}
+]
+```
+
+If you pass `tickets: true`, each `journey` will have a tickets array that looks like this:
+
+```js
+[ {
+	name: 'Berlin Tarifgebiet A-B: Einzelfahrausweis – Regeltarif',
+	price: 2.8,
+	tariff: 'Berlin',
+	coverage: 'AB',
+	variant: 'adult',
+	amount: 1
+}, { name: 'Berlin Tarifgebiet A-B: Einzelfahrausweis – Ermäßigungstarif',
+	price: 1.7,
+	tariff: 'Berlin',
+	coverage: 'AB',
+	variant: 'reduced',
+	amount: 1,
+	reduced: true
+},
+// …
+{ name: 'Berlin Tarifgebiet A-B: Tageskarte – Fahrrad',
+	price: 4.8,
+	tariff: 'Berlin',
+	coverage: 'AB',
+	variant: '1 day, bike',
+	amount: 1,
+	bike: true,
+	fullDay: true
+},
+// …
+{ name: 'Berlin Tarifgebiet A-B: 4-Fahrten-Karte – Regeltarif',
+	price: 9,
+	tariff: 'Berlin',
+	coverage: 'AB',
+	variant: '4x adult',
+	amount: 4
+}
+// …
 ]
 ```
