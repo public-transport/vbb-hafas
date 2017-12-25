@@ -1,13 +1,13 @@
 # vbb-hafas
 
-**A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward promise-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) API.
+**A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward interface on top of a verbose API.
+
+This project is basically a thin wrapper around [`hafas-client`](https://github.com/derhuerst/vbb-hafas/tree/new-hafas-client#vbb-hafas). [Its docs](https://github.com/derhuerst/hafas-client/tree/any-endpoint/docs) document the API in general.
 
 *Note*: Almost certainly, [vbb-client](https://github.com/derhuerst/vbb-client) is what you are looking for (it queries [vbb-rest](https://github.com/derhuerst/vbb-rest)). It is more feature-rich and lightweight.
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
-[![build status](https://img.shields.io/travis/derhuerst/vbb-hafas.svg)](https://travis-ci.org/derhuerst/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
-[![dev dependency status](https://img.shields.io/david/dev/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas#info=devDependencies)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-hafas.svg)
 
 
@@ -24,13 +24,6 @@ npm install vbb-hafas
 const hafas = require('vbb-hafas')
 ```
 
-- [`journeys(from, to, [opt])`](docs/journeys.md) to get journeys between locations
-- [`journeyPart(ref, name, [opt])`](docs/journey-part.md) to get details for a part of a journey
-- [`departures(station, [opt])`](docs/departures.md) to query the next departures at a station
-- [`nearby(latitude, longitude, [opt])`](docs/nearby.md) to show stations & POIs around
-- [`locations(query, [opt])`](docs/locations.md) to find stations, POIs and addresses
-- [`radar(query, [opt])`](docs/radar.md) to find all vehicles currently in a certain area
-
 As an example, we will search for a journey [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
 ```javascript
@@ -41,66 +34,111 @@ client.journeys('900000003201', '900000024101', {results: 1})
 The output will be in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format):
 
 ```javascript
-[
-	{
-		type: 'journey',
-		// taken from the first part
+[ {
+	parts: [ {
+		id: '1|50420|0|86|25122017',
 		origin: {
 			type: 'station',
 			id: '900000003201',
 			name: 'S+U Berlin Hauptbahnhof',
-			coordinates: {latitude: 52.52585, longitude: 13.368928},
-			products: // …
+			location: {
+				type: 'location',
+				latitude: 52.52585,
+				longitude: 13.368928
+			},
+			products: {
+				suburban: true,
+				subway: true,
+				tram: true,
+				bus: true,
+				ferry: false,
+				express: true,
+				regional: true
+			}
 		},
-		departure: '2017-05-16T13:31:00+02:00',
-		// taken from the last part
+		departure: '2017-12-26T00:41:00.000+01:00',
+		departurePlatform: '14',
+		delay: 0,
 		destination: {
 			type: 'station',
 			id: '900000024101',
 			name: 'S Charlottenburg',
-			coordinates: {latitude: 52.505049, longitude: 13.305213},
-			products: // …
-		},
-		arrival: '2017-05-16T13:41:00+02:00',
-		parts: [{
-			origin: {
-				type: 'station',
-				id: '900000003201',
-				name: 'S+U Berlin Hauptbahnhof',
-				coordinates: {latitude: 52.52585, longitude: 13.368928},
-				products: // …
+			location: {
+				type: 'location',
+				latitude: 52.504806,
+				longitude: 13.303846
 			},
-			departure: '2017-05-16T13:31:00+02:00',
-			departurePlatform: '16',
-			destination: {
-				type: 'station',
-				id: '900000024101',
-				name: 'S Charlottenburg',
-				coordinates: {latitude: 52.505049, longitude: 13.305213},
-				products: // …
-			},
-			arrival: '2017-05-16T13:41:00+02:00',
-			delay: 0,
-			line: {
-				type: 'line',
-				id: 's75',
-				name: 'S75',
-				mode: 'train',
-				product: 'suburban',
-				class: 1,
-				productCode: 0,
-				productName: 'S-7',
-				symbol: 'S',
-				nr: 75,
-				metro: false,
+			products: {
+				suburban: true,
+				subway: false,
+				tram: false,
+				bus: true,
+				ferry: false,
 				express: false,
-				night: false
-			},
-			arrivalPlatform: '8'
-			direction: 'S Westkreuz',
-		}]
-	}
-]
+				regional: true
+			}
+		},
+		arrival: '2017-12-26T00:50:00.000+01:00',
+		arrivalPlatform: '4',
+		line: {
+			type: 'line',
+			id: '10',
+			name: 'RE1',
+			public: true,
+			mode: 'train',
+			product: 'regional',
+			symbol: 'RE',
+			nr: 1,
+			metro: false,
+			express: true,
+			night: false,
+			class: 64,
+			productCode: 6
+		},
+		direction: 'Brandenburg, Hbf'
+	} ],
+	// all these are from the first part
+	origin: {
+		type: 'station',
+		id: '900000003201',
+		name: 'S+U Berlin Hauptbahnhof',
+		location: {
+			type: 'location',
+			latitude: 52.52585,
+			longitude: 13.368928
+		},
+		products: {
+			suburban: true,
+			subway: true,
+			tram: true,
+			bus: true,
+			ferry: false,
+			express: true,
+			regional: true
+		}
+	},
+	departure: '2017-12-26T00:41:00.000+01:00',
+	destination: {
+		type: 'station',
+		id: '900000024101',
+		name: 'S Charlottenburg',
+		location: {
+			type: 'location',
+			latitude: 52.504806,
+			longitude: 13.303846
+		},
+		products: {
+			suburban: true,
+			subway: false,
+			tram: false,
+			bus: true,
+			ferry: false,
+			express: false,
+			regional: true
+		}
+	},
+	arrival: '2017-12-26T00:50:00.000+01:00'
+} ]
 ```
 
 
