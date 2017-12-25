@@ -1,10 +1,8 @@
 'use strict'
 
-module.exports = {
-	  journeys: require('./lib/journeys')
-	, departures: require('./lib/departures')
-	, nearby:     require('./lib/nearby')
-	, locations:  require('./lib/locations')
-	, radar:      require('./lib/radar')
-	, journeyPart: require('./lib/journey-part')
-}
+const createClient = require('hafas-client')
+const vbbProfile = require('hafas-client/p/vbb')
+
+const client = createClient(vbbProfile)
+
+module.exports = client
