@@ -2,13 +2,14 @@
 
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward interface on top of a verbose API.
 
-This project is basically a thin wrapper around [`hafas-client`](https://github.com/derhuerst/vbb-hafas/tree/new-hafas-client#vbb-hafas). [Its docs](https://github.com/derhuerst/hafas-client/tree/any-endpoint/docs) document the API in general.
+This project is basically a thin wrapper around [`hafas-client`](https://github.com/derhuerst/hafas-client/tree/any-endpoint#hafas-client). [Its docs](https://github.com/derhuerst/hafas-client/tree/any-endpoint/docs) document the API in general.
 
 *Note*: Almost certainly, [vbb-client](https://github.com/derhuerst/vbb-client) is what you are looking for (it queries [vbb-rest](https://github.com/derhuerst/vbb-rest)). It is more feature-rich and lightweight.
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-hafas.svg)
+[![chat on gitter](https://badges.gitter.im/derhuerst.svg)](https://gitter.im/derhuerst)
 
 
 ## Installing
@@ -35,7 +36,7 @@ The output will be in the [*Friendly Public Transport Format*](https://github.co
 
 ```javascript
 [ {
-	parts: [ {
+	legs: [ {
 		id: '1|50420|0|86|25122017',
 		origin: {
 			type: 'station',
@@ -97,7 +98,7 @@ The output will be in the [*Friendly Public Transport Format*](https://github.co
 		},
 		direction: 'Brandenburg, Hbf'
 	} ],
-	// all these are from the first part
+	// all these are from the first leg
 	origin: {
 		type: 'station',
 		id: '900000003201',
