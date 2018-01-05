@@ -2,9 +2,11 @@
 
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward interface on top of a verbose API.
 
-This project is basically a thin wrapper around [`hafas-client`](https://github.com/derhuerst/hafas-client/tree/any-endpoint#hafas-client). [Its docs](https://github.com/derhuerst/hafas-client/tree/any-endpoint/docs) document the API in general.
+This project is actually a thin wrapper around [`hafas-client`](https://github.com/derhuerst/hafas-client#hafas-client). [Its docs](https://github.com/derhuerst/hafas-client/tree/master/docs) document the API in general.
 
-*Note*: Almost certainly, [vbb-client](https://github.com/derhuerst/vbb-client) is what you are looking for (it queries [vbb-rest](https://github.com/derhuerst/vbb-rest)). It is more feature-rich and lightweight.
+*Note*: You may not want to query the VBB API by yourself. [`vbb-client`](https://github.com/derhuerst/vbb-client) is an API-compatible client for [`vbb-rest`](https://github.com/derhuerst/vbb-rest), my wrapper API. It also works in the browser.
+
+![vbb-rest architecture diagram](https://rawgit.com/derhuerst/vbb-rest/hafas-rest-api/architecture.svg)
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
@@ -30,9 +32,10 @@ As an example, we will search for a journey [from *Berlin Hauptbahnhof* to *Berl
 ```javascript
 client.journeys('900000003201', '900000024101', {results: 1})
 .then((journeys) => console.log(journeys[0]))
+.catch(console.error)
 ```
 
-The output will be in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format):
+The output will be a [`journey` object in the *Friendly Public Transport Format* `1.0.1` format](https://github.com/public-transport/friendly-public-transport-format/tree/1.0.1/spec#journey):
 
 ```javascript
 [ {
@@ -94,7 +97,12 @@ The output will be in the [*Friendly Public Transport Format*](https://github.co
 			express: true,
 			night: false,
 			class: 64,
-			productCode: 6
+			productCode: 6,
+			operator: {
+				type: 'operator',
+				id: 'db-regio-ag',
+				name: 'DB Regio AG'
+			}
 		},
 		direction: 'Brandenburg, Hbf'
 	} ],
@@ -141,6 +149,10 @@ The output will be in the [*Friendly Public Transport Format*](https://github.co
 	arrival: '2017-12-26T00:50:00.000+01:00'
 } ]
 ```
+
+## API
+
+Check [the docs for `hafas-client`](https://github.com/derhuerst/hafas-client/tree/any-endpoint/docs) as well as [the VBB-specific customisations](https://github.com/derhuerst/hafas-client/blob/master/p/vbb/readme.md).
 
 
 ## Contributing
