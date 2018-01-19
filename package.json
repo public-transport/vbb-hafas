@@ -1,7 +1,7 @@
 {
 	"name": "vbb-hafas",
 	"description": "JavaScript client for the VBB HAFAS API.",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"main": "index.js",
 	"files": [
 		"index.js"
@@ -29,7 +29,7 @@
 		"hafas-client": "^2.0.0"
 	},
 	"scripts": {
-		"test": "node example.js >/dev/null",
+		"test": "env NODE_ENV=dev node example.js >/dev/null",
 		"prepublishOnly": "npm test"
 	}
 }

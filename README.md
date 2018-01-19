@@ -21,6 +21,11 @@ npm install vbb-hafas
 ```
 
 
+## API
+
+Check [the docs for `hafas-client`](https://github.com/derhuerst/hafas-client/tree/master/docs) as well as [its VBB-specific customisations](https://github.com/derhuerst/hafas-client/blob/master/p/vbb/readme.md).
+
+
 ## Getting Started
 
 ```javascript
@@ -149,10 +154,6 @@ The output will be a [`journey` object in the *Friendly Public Transport Format*
 	arrival: '2017-12-26T00:50:00.000+01:00'
 } ]
 ```
-
-## API
-
-Check [the docs for `hafas-client`](https://github.com/derhuerst/hafas-client/tree/any-endpoint/docs) as well as [the VBB-specific customisations](https://github.com/derhuerst/hafas-client/blob/master/p/vbb/readme.md).
 
 
 ## Contributing
