@@ -4,7 +4,8 @@
 	"version": "4.0.1",
 	"main": "index.js",
 	"files": [
-		"index.js"
+		"index.js",
+		"throttle.js"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
 	"homepage": "https://github.com/derhuerst/vbb-hafas",
@@ -26,7 +27,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"hafas-client": "^2.0.0"
+		"hafas-client": "^2.2.1"
 	},
 	"scripts": {
 		"test": "env NODE_ENV=dev node example.js >/dev/null",
