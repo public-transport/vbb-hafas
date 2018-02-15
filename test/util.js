@@ -22,7 +22,7 @@ const assertValidStation = (t, s, onlyLongIds = true) => {
 	if (onlyLongIds) t.strictEqual(s.id.length, 12)
 	t.strictEqual(typeof s.name, 'string')
 	t.strictEqual(s.name.indexOf('(Berlin)'), -1)
-	t.ok(findStation(s.name))
+	if (!findStation(s.name)) console.error('unknown station', s.name)
 	assertValidCoordinates(t, s.coordinates)
 }
 
@@ -101,11 +101,11 @@ const assertValidWhen = (t, w, tolerance = 2 * hour) => {
 const assertValidTicket = (t, ti) => {
 	t.strictEqual(typeof ti.name, 'string')
 	t.ok(ti.name.length > 0)
-	if (ti.price !== null) {
+	if (ti.price !== null && ti.price !== undefined) {
 		t.strictEqual(typeof ti.price, 'number')
 		t.ok(ti.price > 0)
 	}
-	if (ti.amount !== null) {
+	if (ti.amount !== null && ti.amount !== undefined) {
 		t.strictEqual(typeof ti.amount, 'number')
 		t.ok(ti.amount > 0)
 	}
@@ -115,15 +115,15 @@ const assertValidTicket = (t, ti) => {
 	if ('group' in ti) t.strictEqual(typeof ti.group, 'boolean')
 	if ('fullDay' in ti) t.strictEqual(typeof ti.fullDay, 'boolean')
 
-	if (ti.tariff !== null) {
+	if (ti.tariff !== null && ti.tariff !== undefined) {
 		t.strictEqual(typeof ti.tariff, 'string')
 		t.ok(ti.tariff.length > 0)
 	}
-	if (ti.coverage !== null) {
+	if (ti.coverage !== null && ti.coverage !== undefined) {
 		t.strictEqual(typeof ti.coverage, 'string')
 		t.ok(ti.coverage.length > 0)
 	}
-	if (ti.variant !== null) {
+	if (ti.variant !== null && ti.variant !== undefined) {
 		t.strictEqual(typeof ti.variant, 'string')
 		t.ok(ti.variant.length > 0)
 	}

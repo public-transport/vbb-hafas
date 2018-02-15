@@ -25,7 +25,7 @@ const onError = (err) => {
 	process.exit(1)
 }
 
-const findStation = (query) => stations(query, true, false)
+const findStation = (query) => stations(query, 1, false, false)[0]
 
 
 
@@ -64,7 +64,7 @@ test('journeys – station to station', (t) => {
 			assertValidWhen(t, part.arrival)
 
 			assertValidLine(t, part.line)
-			t.ok(findStation(part.direction))
+			if (!findStation(part.direction)) console.error('unknown station', part.direction)
 			t.ok(part.direction.indexOf('(Berlin)') === -1)
 
 			t.ok(Array.isArray(part.passed))
@@ -227,7 +227,7 @@ test('departures', (t) => {
 			t.strictEqual(dep.station.id, '900000042101')
 
 			assertValidWhen(t, dep.when)
-			t.ok(findStation(dep.direction))
+			if (!findStation(dep.direction)) console.error('unknown station', dep.direction)
 			assertValidLine(t, dep.line)
 		}
 	})
@@ -308,7 +308,7 @@ test('radar', (t) => {
 		t.ok(vehicles.length > 0)
 		for (let v of vehicles) {
 
-			t.ok(findStation(v.direction))
+			if (!findStation(v.direction)) console.error('unknown station', v.direction)
 			assertValidLine(t, v.line)
 
 			t.equal(typeof v.coordinates.latitude, 'number')
