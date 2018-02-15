@@ -285,11 +285,11 @@ test('nearby', (t) => {
 
 
 test('locations', (t) => {
-	hafas.locations('Alexanderplatz', {results: 10})
+	hafas.locations('Alexanderplatz', {results: 20})
 	.then((locations) => {
 		t.ok(Array.isArray(locations))
 		t.ok(locations.length > 0)
-		t.ok(locations.length <= 10)
+		t.ok(locations.length <= 20)
 		for (let l of locations) assertValidLocation(t, l)
 		t.ok(locations.find((s) => s.type === 'station'))
 		t.ok(locations.find((s) => s.type === 'poi'))
