@@ -2,7 +2,7 @@
 
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward interface on top of a verbose API.
 
-This project is actually a thin wrapper around [`hafas-client`](https://github.com/derhuerst/hafas-client#hafas-client). [Its docs](https://github.com/derhuerst/hafas-client/tree/master/docs) document the API in general.
+This project is actually a thin wrapper around [`hafas-client`](https://github.com/public-transport/hafas-client#hafas-client). [Its docs](https://github.com/public-transport/hafas-client/tree/master/docs) document the API in general.
 
 *Note*: You may not want to query the VBB API by yourself. [`vbb-client`](https://github.com/derhuerst/vbb-client) is an API-compatible client for [`vbb-rest`](https://github.com/derhuerst/vbb-rest), my wrapper API. It also works in the browser.
 
@@ -24,7 +24,7 @@ npm install vbb-hafas
 
 ## API
 
-Check [the docs for `hafas-client`](https://github.com/derhuerst/hafas-client/tree/master/docs) as well as [its VBB-specific customisations](https://github.com/derhuerst/hafas-client/blob/master/p/vbb/readme.md).
+Check [the docs for `hafas-client`](https://github.com/public-transport/hafas-client/tree/master/docs) as well as [its VBB-specific customisations](https://github.com/public-transport/hafas-client/blob/master/p/vbb/readme.md).
 
 
 ## Getting Started
@@ -33,7 +33,7 @@ Check [the docs for `hafas-client`](https://github.com/derhuerst/hafas-client/tr
 const hafas = require('vbb-hafas')
 ```
 
-As an example, we will search for a journey [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station ids, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
+As an example, we will search for a journey [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station IDs, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
 ```javascript
 client.journeys('900000003201', '900000024101', {results: 1})
@@ -41,7 +41,7 @@ client.journeys('900000003201', '900000024101', {results: 1})
 .catch(console.error)
 ```
 
-The output will be a [`journey` object in the *Friendly Public Transport Format* `1.0.1` format](https://github.com/public-transport/friendly-public-transport-format/tree/1.0.1/spec#journey):
+The output will be an array of [`journey` objects in the *Friendly Public Transport Format* `1.0.1` format](https://github.com/public-transport/friendly-public-transport-format/tree/1.0.1/spec#journey):
 
 ```javascript
 [ {
