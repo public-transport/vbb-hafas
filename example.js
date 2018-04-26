@@ -2,7 +2,15 @@
 
 const hafas = require('.')
 
-hafas.journeys('900000003201', '900000024101', {results: 1, tickets: true})
+const spichernstr = '900000042101'
+const bismarckstr = '900000024201'
+
+hafas.journeys(spichernstr, bismarckstr, {
+	results: 1,
+	tickets: true,
+	passedStations: true,
+	transferInfo: true
+})
 // hafas.journeys({
 // 	type: 'location',
 // 	id: '900981377',

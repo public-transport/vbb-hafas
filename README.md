@@ -157,6 +157,13 @@ The output will be an array of [`journey` objects in the *Friendly Public Transp
 ```
 
 
+## Transfer information for journeys
+
+`vbb-hafas` will try to add transfer information from [`vbb-change-positions`](https://github.com/juliuste/vbb-change-positions) if you pass `transferInfo: true` as an option.
+
+If it identifies a known transfer, the previous leg will have a `arrivalPosition` and the next leg will have a `departurePosition`, indicating the optimal transfer between both platforms. Check out the markup in [`vbb-change-positions`](https://github.com/juliuste/vbb-change-positions) for more details.
+
+
 ## Contributing
 
 If you **have a question**, **found a bug** or want to **propose a feature**, have a look at [the issues page](https://github.com/derhuerst/vbb-hafas/issues).
