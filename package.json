@@ -28,7 +28,8 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"hafas-client": "^2.3.2"
+		"hafas-client": "^2.3.2",
+		"vbb-change-positions": "^1.1.0"
 	},
 	"scripts": {
 		"test": "env NODE_ENV=dev node example.js >/dev/null",
