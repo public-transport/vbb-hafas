@@ -1,0 +1,100 @@
+'use strict'
+
+const getStations = require('vbb-stations')
+const assert = require('assert')
+
+const addTransferInfoToJourney = require('../lib/add-transfer-info')
+
+const kotti = getStations('900000013102')[0]
+const prinzenstr = getStations('900000013103')[0]
+const halleschesTor = getStations('900000012103')[0]
+const mehringdamm = getStations('900000017101')[0]
+const kottiDep = '2018-05-05T05:05:00.000+02:00'
+const halleschesTorArr = '2018-05-05T05:08:00.000+02:00'
+const halleschesTorDep = '2018-05-05T05:12:00.000+02:00'
+const mehringdammArr = '2018-05-05T05:13:00.000+02:00'
+
+const a = {
+	id: '123|234|345|456|567',
+	origin: kotti,
+	departure: kottiDep,
+	departurePlatform: '3', // this is imaginary
+	departureDelay: 30,
+	destination: halleschesTor,
+	arrival: halleschesTorArr,
+	arrivalPlatform: '2', // this is imaginary
+	arrivalDelay: 0,
+	line: {
+		type: 'line',
+		id: '123',
+		name: 'U1',
+		public: true,
+		mode: 'train',
+		product: 'subway'
+	},
+	direction: 'U Uhlandstr.',
+	passed: [{
+		station: kotti,
+		arrival: null,
+		departure: kottiDep
+	}, {
+		station: prinzenstr,
+		arrival: '2018-05-05T05:06:00.000+02:00',
+		departure: '2018-05-05T05:07:00.000+02:00'
+	}, {
+		station: halleschesTor,
+		arrival: halleschesTorArr,
+		departure: halleschesTorArr
+	}]
+}
+
+const b = {
+	id: '321|432|543|654|765',
+	origin: halleschesTor,
+	departure: halleschesTorDep,
+	departurePlatform: '4', // this is imaginary
+	departureDelay: null,
+	destination: mehringdamm,
+	arrival: mehringdammArr,
+	arrivalPlatform: '3', // this is imaginary
+	arrivalDelay: 0,
+	line: {
+		type: 'line',
+		id: '321',
+		name: 'U6',
+		public: true,
+		mode: 'train',
+		product: 'subway'
+	},
+	direction: 'U Alt-Mariendorf',
+	passed: [{
+		station: halleschesTor,
+		arrival: null,
+		departure: halleschesTorDep
+	}, {
+		station: mehringdamm,
+		arrival: mehringdammArr,
+		departure: mehringdammArr
+	}]
+}
+
+const j = {
+	legs: [a, b],
+	origin: a.origin,
+	departure: a.departure,
+	departureDelay: a.departureDelay,
+	destination: a.destination,
+	arrival: a.arrival,
+	arrivalDelay: a.arrivalDelay
+}
+
+addTransferInfoToJourney.import
+.then(() => {
+	addTransferInfoToJourney(j)
+	assert.strictEqual(a.arrivalPosition, 0.3) // in the back, going to the starts
+	assert.strictEqual(b.departurePosition, 1) // in the front, coming from the stairs
+})
+.catch((err) => {
+	console.error(err)
+	process.exitCode = 1
+})

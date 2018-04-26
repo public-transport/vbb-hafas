@@ -32,7 +32,8 @@
 		"vbb-change-positions": "^1.1.0"
 	},
 	"scripts": {
-		"test": "env NODE_ENV=dev node example.js >/dev/null",
+		"demo": "env NODE_ENV=dev node example.js >/dev/null",
+		"test": "npm run demo && node test/add-transfer-info.js",
 		"prepublishOnly": "npm test"
 	}
 }

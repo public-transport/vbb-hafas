@@ -25,4 +25,8 @@ hafas.journeys(spichernstr, bismarckstr, {
 // hafas.radar(52.52411, 13.41002, 52.51942, 13.41709, {results: 10})
 .then((data) => {
 	console.log(require('util').inspect(data, {depth: null}))
-}, console.error)
+})
+.catch((err) => {
+	console.error(err)
+	process.exitCode = 1
+})
