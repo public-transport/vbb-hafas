@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"hafas-client": "^2.3.2",
+		"merged-vbb-stations": "^1.6.0",
 		"vbb-change-positions": "^1.1.0"
 	},
 	"scripts": {
