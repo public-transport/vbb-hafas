@@ -1,7 +1,7 @@
 {
 	"name": "vbb-hafas",
 	"description": "JavaScript client for the VBB HAFAS API.",
-	"version": "4.2.1",
+	"version": "5.0.0-alpha.3",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -28,7 +28,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"hafas-client": "^2.3.2",
+		"hafas-client": "^3.0.0-alpha.3",
 		"merged-vbb-stations": "^1.6.0",
 		"vbb-change-positions": "^1.1.0"
 	},
