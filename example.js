@@ -20,7 +20,7 @@ hafas.journeys(spichernstr, bismarckstr, {
 // }, '900000192001', {results: 1})
 // hafas.departures('900000013102', {duration: 1})
 // hafas.locations('Alexanderplatz', {results: 2})
-// hafas.location('900000017104')
+// hafas.station('900000017104')
 // hafas.nearby(52.5137344, 13.4744798, {distance: 60})
 // hafas.radar({
 // 	north: 52.52411,
