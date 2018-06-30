@@ -9,7 +9,7 @@ const client = createClient(vbbProfile)
 
 const origJourneys = client.journeys
 const journeysWithTransfers = (from, to, opt = {}) => {
-	if (opt && opt.transferInfo) opt.passedStations = true
+	if (opt && opt.transferInfo) opt.stopovers = true
 	const p = origJourneys(from, to, opt)
 
 	if (opt && opt.transferInfo) {
@@ -20,6 +20,6 @@ const journeysWithTransfers = (from, to, opt = {}) => {
 	}
 	return p
 }
-client.journeys = journeysWithTransfers
 
+client.journeys = journeysWithTransfers
 module.exports = client

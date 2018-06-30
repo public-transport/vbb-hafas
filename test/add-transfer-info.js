@@ -33,16 +33,16 @@ const a = {
 		product: 'subway'
 	},
 	direction: 'U Uhlandstr.',
-	passed: [{
-		station: kotti,
+	stopovers: [{
+		stop: kotti,
 		arrival: null,
 		departure: kottiDep
 	}, {
-		station: prinzenstr,
+		stop: prinzenstr,
 		arrival: '2018-05-05T05:06:00.000+02:00',
 		departure: '2018-05-05T05:07:00.000+02:00'
 	}, {
-		station: halleschesTor,
+		stop: halleschesTor,
 		arrival: halleschesTorArr,
 		departure: halleschesTorArr
 	}]
@@ -67,25 +67,19 @@ const b = {
 		product: 'subway'
 	},
 	direction: 'U Alt-Mariendorf',
-	passed: [{
-		station: halleschesTor,
+	stopovers: [{
+		stop: halleschesTor,
 		arrival: null,
 		departure: halleschesTorDep
 	}, {
-		station: mehringdamm,
+		stop: mehringdamm,
 		arrival: mehringdammArr,
 		departure: mehringdammArr
 	}]
 }
 
 const j = {
-	legs: [a, b],
-	origin: a.origin,
-	departure: a.departure,
-	departureDelay: a.departureDelay,
-	destination: a.destination,
-	arrival: a.arrival,
-	arrivalDelay: a.arrivalDelay
+	legs: [a, b]
 }
 
 addTransferInfoToJourney.import

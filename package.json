@@ -28,7 +28,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"hafas-client": "^3.0.0-alpha.7",
+		"hafas-client": "^3.0.0-alpha.15",
 		"merged-vbb-stations": "^1.6.0",
 		"vbb-change-positions": "^1.1.0"
 	},
