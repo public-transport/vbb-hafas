@@ -1,6 +1,8 @@
 'use strict'
 
-const hafas = require('.')
+const createHafas = require('.')
+
+const hafas = createHafas('vbb-hafas-example')
 
 const spichernstr = '900000042101'
 const bismarckstr = '900000024201'

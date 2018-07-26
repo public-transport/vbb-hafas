@@ -30,13 +30,15 @@ Check [the docs for `hafas-client`](https://github.com/public-transport/hafas-cl
 ## Getting Started
 
 ```javascript
-const hafas = require('vbb-hafas')
+const createHafas = require('vbb-hafas')
+
+const hafas = createHafas('my-awesome-program')
 ```
 
 As an example, we will search for a journey [from *Berlin Hauptbahnhof* to *Berlin Charlottenburg*](https://www.google.de/maps/dir/Berlin+Hauptbahnhof,+Europaplatz,+Berlin/S+Berlin-Charlottenburg/@52.5212391,13.3287227,13z). To get the station IDs, [use `vbb-stations`](https://github.com/derhuerst/vbb-stations#usage).
 
 ```javascript
-client.journeys('900000003201', '900000024101', {results: 1})
+hafas.journeys('900000003201', '900000024101', {results: 1})
 .then((journeys) => console.log(journeys[0]))
 .catch(console.error)
 ```
