@@ -13,6 +13,10 @@ hafas.journeys(spichernstr, bismarckstr, {
 	passedStations: true,
 	transferInfo: true
 })
+// .then(([journey]) => {
+// 	return hafas.refreshJourney(journey.refreshToken, {transferInfo: true})
+// })
+
 // hafas.journeys({
 // 	type: 'location',
 // 	id: '900981377',
@@ -30,6 +34,7 @@ hafas.journeys(spichernstr, bismarckstr, {
 // 	south: 52.51942,
 // 	east: 13.41709
 // }, {results: 10})
+
 .then((data) => {
 	console.log(require('util').inspect(data, {depth: null}))
 })

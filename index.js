@@ -21,8 +21,23 @@ const createVbbHafas = (userAgent) => {
 		}
 		return p
 	}
-
 	hafas.journeys = journeysWithTransfers
+
+	const origRefreshJourney = hafas.refreshJourney
+	const refreshJourneyWithTransfers = (ref, opt = {}) => {
+		if (opt && opt.transferInfo) opt.stopovers = true
+		const p = origRefreshJourney(ref, opt)
+
+		if (opt && opt.transferInfo) {
+			return p.then(j => {
+				addTransferInfoToJourney(j)
+				return j
+			})
+		}
+		return p
+	}
+	hafas.refreshJourney = refreshJourneyWithTransfers
+
 	return hafas
 }
 
