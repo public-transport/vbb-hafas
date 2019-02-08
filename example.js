@@ -2,9 +2,11 @@
 
 const createHafas = require('.')
 // const createThrottledHafas = require('./throttle')
+// const createHafasWithRetry = require('./retry')
 
 const hafas = createHafas('vbb-hafas-example')
 // const hafas = createThrottledHafas('vbb-hafas-example', 5, 100)
+// const hafas = createHafasWithRetry('vbb-hafas-example', {retries: 2})
 
 const spichernstr = '900000042101'
 const bismarckstr = '900000024201'

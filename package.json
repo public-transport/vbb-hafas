@@ -6,6 +6,7 @@
 	"files": [
 		"index.js",
 		"throttle.js",
+		"retry.js",
 		"lib"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
@@ -28,7 +29,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"hafas-client": "^3.0.0",
+		"hafas-client": "^3.9.1",
 		"merged-vbb-stations": "^1.6.0",
 		"vbb-change-positions": "^1.1.0"
 	},
