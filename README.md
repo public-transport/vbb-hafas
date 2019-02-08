@@ -27,7 +27,7 @@ npm install vbb-hafas
 Check [the docs for `hafas-client`](https://github.com/public-transport/hafas-client/tree/master/docs) as well as [its VBB-specific customisations](https://github.com/public-transport/hafas-client/blob/master/p/vbb/readme.md).
 
 
-## Getting Started
+## Usage
 
 ```javascript
 const createHafas = require('vbb-hafas')
@@ -159,11 +159,16 @@ The output will be an array of [`journey` objects in the *Friendly Public Transp
 ```
 
 
-## Transfer information for journeys
+### Transfer information for journeys
 
 `vbb-hafas` will try to add transfer information from [`vbb-change-positions`](https://github.com/juliuste/vbb-change-positions) if you pass `transferInfo: true` as an option.
 
 If it identifies a known transfer, the previous leg will have a `arrivalPosition` and the next leg will have a `departurePosition`, indicating the optimal transfer between both platforms. Check out the markup in [`vbb-change-positions`](https://github.com/juliuste/vbb-change-positions) for more details.
+
+
+## Related
+
+Check [`hafas-client`'s related libs](https://github.com/public-transport/hafas-client/blob/master/readme.md#related).
 
 
 ## Contributing
