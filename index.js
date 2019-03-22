@@ -14,9 +14,9 @@ const createVbbHafas = (userAgent) => {
 		const p = origJourneys(from, to, opt)
 
 		if (opt && opt.transferInfo) {
-			return p.then((journeys) => {
-				for (let journey of journeys) addTransferInfoToJourney(journey)
-				return journeys
+			return p.then((res) => {
+				for (let journey of res.journeys) addTransferInfoToJourney(journey)
+				return res
 			})
 		}
 		return p

@@ -14,7 +14,7 @@ const bismarckstr = '900000024201'
 hafas.journeys(spichernstr, bismarckstr, {
 	results: 1,
 	tickets: true,
-	passedStations: true,
+	stopovers: true,
 	transferInfo: true
 })
 // .then(([journey]) => {
@@ -30,7 +30,7 @@ hafas.journeys(spichernstr, bismarckstr, {
 // }, '900000192001', {results: 1})
 // hafas.departures('900000013102', {duration: 1})
 // hafas.locations('Alexanderplatz', {results: 2})
-// hafas.station('900000017104')
+// hafas.stop('900000017104')
 // hafas.nearby(52.5137344, 13.4744798, {distance: 60})
 // hafas.radar({
 // 	north: 52.52411,

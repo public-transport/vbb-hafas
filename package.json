@@ -26,10 +26,10 @@
 		"http"
 	],
 	"engines": {
-		"node": ">=6"
+		"node": ">=8"
 	},
 	"dependencies": {
-		"hafas-client": "^3.9.1",
+		"hafas-client": "^4.0.1",
 		"merged-vbb-stations": "^1.6.0",
 		"vbb-change-positions": "^1.1.0"
 	},

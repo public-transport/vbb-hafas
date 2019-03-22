@@ -2,7 +2,7 @@
 
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward interface on top of a verbose API.
 
-This project is actually a thin wrapper around [`hafas-client`](https://github.com/public-transport/hafas-client#hafas-client). [Its docs](https://github.com/public-transport/hafas-client/tree/master/docs) document the API in general.
+This project is actually a thin wrapper around [`hafas-client@4`](https://github.com/public-transport/hafas-client/tree/4#hafas-client). [Its docs](https://github.com/public-transport/hafas-client/tree/4/docs) document the API in general.
 
 *Note*: You may not want to query the VBB API by yourself. [`vbb-client`](https://github.com/derhuerst/vbb-client) is an API-compatible client for [`vbb-rest`](https://github.com/derhuerst/vbb-rest), my wrapper API. It also works in the browser.
 
@@ -24,7 +24,7 @@ npm install vbb-hafas
 
 ## API
 
-Check [the docs for `hafas-client`](https://github.com/public-transport/hafas-client/tree/master/docs) as well as [its VBB-specific customisations](https://github.com/public-transport/hafas-client/blob/master/p/vbb/readme.md).
+Check [the docs for `hafas-client`](https://github.com/public-transport/hafas-client/tree/4/docs) as well as [its VBB-specific customisations](https://github.com/public-transport/hafas-client/blob/4/p/vbb/readme.md).
 
 
 ## Usage
@@ -168,7 +168,7 @@ If it identifies a known transfer, the previous leg will have a `arrivalPosition
 
 ## Related
 
-Check [`hafas-client`'s related libs](https://github.com/public-transport/hafas-client/blob/master/readme.md#related).
+Check [`hafas-client`'s related libs](https://github.com/public-transport/hafas-client/blob/4/readme.md#related).
 
 
 ## Contributing
