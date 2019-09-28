@@ -1,7 +1,7 @@
 {
 	"name": "vbb-hafas",
 	"description": "JavaScript client for the VBB HAFAS API.",
-	"version": "6.0.0",
+	"version": "6.1.0",
 	"main": "index.js",
 	"files": [
 		"index.js",

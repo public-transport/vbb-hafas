@@ -5,8 +5,14 @@ const vbbProfile = require('hafas-client/p/vbb')
 
 const addTransferInfoToJourney = require('./lib/add-transfer-info')
 
-const createVbbHafas = (userAgent) => {
-	const hafas = createClient(vbbProfile, userAgent)
+const defaults = {
+	profile: vbbProfile
+}
+
+const createVbbHafas = (userAgent, opt = {}) => {
+	const {profile} = {...defaults, ...opt}
+
+	const hafas = createClient(profile, userAgent)
 
 	const origJourneys = hafas.journeys
 	const journeysWithTransfers = (from, to, opt = {}) => {
@@ -41,4 +47,5 @@ const createVbbHafas = (userAgent) => {
 	return hafas
 }
 
+createVbbHafas.defaults = defaults
 module.exports = createVbbHafas
