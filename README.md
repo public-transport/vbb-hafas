@@ -1,8 +1,12 @@
 # vbb-hafas
 
+**Deprecated. Use [`vbb-hafas@latest`](https://github.com/derhuerst/vbb-hafas).**
+
+---
+
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward interface on top of a verbose API.
 
-This project is actually a thin wrapper around [`hafas-client`](https://github.com/public-transport/hafas-client#hafas-client). [Its docs](https://github.com/public-transport/hafas-client/tree/master/docs) document the API in general.
+This project is actually a thin wrapper around [`hafas-client@2`](https://github.com/public-transport/hafas-client/tree/2). [Its docs](https://github.com/public-transport/hafas-client/blob/2/docs/readme.md) document the API in general.
 
 *Note*: You may not want to query the VBB API by yourself. [`vbb-client`](https://github.com/derhuerst/vbb-client) is an API-compatible client for [`vbb-rest`](https://github.com/derhuerst/vbb-rest), my wrapper API. It also works in the browser.
 
