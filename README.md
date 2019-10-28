@@ -1,5 +1,9 @@
 # vbb-hafas
 
+**Deprecated. Use [`vbb-hafas@latest`](https://github.com/derhuerst/vbb-hafas).**
+
+---
+
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward promise-based interface on top of the verbose [HAFAS](http://hacon.de/hafas) API.
 
 *Note*: Almost certainly, [vbb-client](https://github.com/derhuerst/vbb-client) is what you are looking for (it queries [vbb-rest](https://github.com/derhuerst/vbb-rest)). It is more feature-rich and lightweight.
