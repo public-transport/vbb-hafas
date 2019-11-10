@@ -2,11 +2,32 @@
 
 const createClient = require('hafas-client')
 const vbbProfile = require('hafas-client/p/vbb')
+const colors = require('vbb-line-colors')
 
 const addTransferInfoToJourney = require('./lib/add-transfer-info')
 
+const {parseLine: _createParseLine} = vbbProfile
+const createParseLine = (profile, opt, data) => {
+	const parseLine = _createParseLine(profile, opt, data)
+
+	const parseLineWithColor = (l) => {
+		const res = parseLine(l)
+
+		const c = colors[res.product] && colors[res.product][res.name]
+		if (c) res.color = c
+
+		return res
+	}
+	return parseLineWithColor
+}
+
+const customVbbProfile = {
+	...vbbProfile,
+	parseLine: createParseLine
+}
+
 const defaults = {
-	profile: vbbProfile
+	profile: customVbbProfile
 }
 
 const createVbbHafas = (userAgent, opt = {}) => {
