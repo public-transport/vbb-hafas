@@ -1,29 +1,24 @@
 'use strict'
 
+const {parseHook} = require('hafas-client/lib/profile-hooks')
 const createClient = require('hafas-client')
 const vbbProfile = require('hafas-client/p/vbb')
 const colors = require('vbb-line-colors')
 
 const addTransferInfoToJourney = require('./lib/add-transfer-info')
 
-const {parseLine: _createParseLine} = vbbProfile
-const createParseLine = (profile, opt, data) => {
-	const parseLine = _createParseLine(profile, opt, data)
+const {parseLine: _parseLine} = vbbProfile
+const parseLineWithColor = ({parsed}, l) => {
+	const {product, name} = parsed
+	const c = colors[product] && colors[product][name]
+	if (c) parsed.color = c
 
-	const parseLineWithColor = (l) => {
-		const res = parseLine(l)
-
-		const c = colors[res.product] && colors[res.product][res.name]
-		if (c) res.color = c
-
-		return res
-	}
-	return parseLineWithColor
+	return parsed
 }
 
 const customVbbProfile = {
 	...vbbProfile,
-	parseLine: createParseLine
+	parseLine: parseHook(_parseLine, parseLineWithColor)
 }
 
 const defaults = {
@@ -51,9 +46,9 @@ const createVbbHafas = (userAgent, opt = {}) => {
 	hafas.journeys = journeysWithTransfers
 
 	const origRefreshJourney = hafas.refreshJourney
-	const refreshJourneyWithTransfers = (ref, opt = {}) => {
+	const refreshJourneyWithTransfers = (refreshToken, opt = {}) => {
 		if (opt && opt.transferInfo) opt.stopovers = true
-		const p = origRefreshJourney(ref, opt)
+		const p = origRefreshJourney(refreshToken, opt)
 
 		if (opt && opt.transferInfo) {
 			return p.then(j => {
