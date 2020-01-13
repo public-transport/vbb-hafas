@@ -1,4 +1,8 @@
-# vbb-hafas
+# `vbb-hafas@6`
+
+**Deprecated. Use [`vbb-hafas@latest`](https://github.com/derhuerst/vbb-hafas).**
+
+---
 
 **A client for the Berlin & Brandenburg public transport service (VBB).** It acts as a consistent and straightforward interface on top of a verbose API.
 
