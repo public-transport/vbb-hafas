@@ -85,8 +85,10 @@ const j = {
 addTransferInfoToJourney.import
 .then(() => {
 	addTransferInfoToJourney(j)
-	assert.strictEqual(a.arrivalPosition, 0.3) // in the back, going to the starts
-	assert.strictEqual(b.departurePosition, 1) // in the front, coming from the stairs
+	// in the back, leading to the stairs
+	assert.strictEqual(a.bestArrivalPosition, 0.3)
+	// in the front, coming from the stairs
+	assert.strictEqual(b.departurePosition, 1)
 })
 .catch((err) => {
 	console.error(err)
