@@ -43,7 +43,7 @@ hafas.journeys('900000003201', '900000024101', {results: 1})
 .catch(console.error)
 ```
 
-The output will be an array of [`journey` objects in the *Friendly Public Transport Format* `1.0.1` format](https://github.com/public-transport/friendly-public-transport-format/tree/1.0.1/spec#journey):
+The output will be an array of [`journey` objects in the *Friendly Public Transport Format* `1.2.1` format](https://github.com/public-transport/friendly-public-transport-format/tree/1.2.1/spec#journey):
 
 ```javascript
 [ {

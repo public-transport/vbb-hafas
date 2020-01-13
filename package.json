@@ -1,7 +1,7 @@
 {
 	"name": "vbb-hafas",
 	"description": "JavaScript client for the VBB HAFAS API.",
-	"version": "6.2.0",
+	"version": "7.0.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -35,8 +35,8 @@
 		"vbb-line-colors": "^1.0.2"
 	},
 	"scripts": {
-		"demo": "env NODE_ENV=dev node example.js >/dev/null",
-		"test": "npm run demo && node test/add-transfer-info.js",
+		"smoke-test": "env NODE_ENV=dev node example.js >/dev/null",
+		"test": "npm run smoke-test && node test/add-transfer-info.js",
 		"prepublishOnly": "npm test"
 	}
 }
