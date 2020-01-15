@@ -4,7 +4,8 @@ node_js:
   - 'lts/*'
   - '10'
 script:
-  - 'npm run prepublishOnly'
+  - 'npm run test'
+  - 'npm run smoke-test'
 cache: npm
 notifications:
   email:

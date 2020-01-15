@@ -1,16 +1,17 @@
 {
 	"name": "vbb-hafas",
 	"description": "JavaScript client for the VBB HAFAS API.",
-	"version": "7.0.0",
+	"version": "7.0.1",
 	"main": "index.js",
 	"files": [
 		"index.js",
 		"throttle.js",
 		"retry.js",
+		"example.js",
 		"lib"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
-	"homepage": "https://github.com/derhuerst/vbb-hafas",
+	"homepage": "https://github.com/derhuerst/vbb-hafas/tree/7",
 	"repository": "derhuerst/vbb-hafas",
 	"bugs": "https://github.com/derhuerst/vbb-hafas/issues",
 	"license": "ISC",
@@ -36,7 +37,7 @@
 	},
 	"scripts": {
 		"smoke-test": "env NODE_ENV=dev node example.js >/dev/null",
-		"test": "npm run smoke-test && node test/add-transfer-info.js",
-		"prepublishOnly": "npm test"
+		"test": "node test/add-transfer-info.js",
+		"prepublishOnly": "npm test && npm run smoke-test"
 	}
 }

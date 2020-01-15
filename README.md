@@ -12,6 +12,7 @@ This project is actually a thin wrapper around [`hafas-client@5`](https://github
 [![build status](https://api.travis-ci.org/derhuerst/vbb-hafas.svg?branch=master)](https://travis-ci.org/derhuerst/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-hafas.svg)
+![minimum Node.js version](https://img.shields.io/node/v/vbb-hafas.svg)
 [![chat on gitter](https://badges.gitter.im/derhuerst.svg)](https://gitter.im/derhuerst)
 [![support me on Patreon](https://img.shields.io/badge/support%20me-on%20patreon-fa7664.svg)](https://patreon.com/derhuerst)
 
