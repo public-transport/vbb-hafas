@@ -48,50 +48,8 @@ The output will be an array of [`journey` objects in the *Friendly Public Transp
 ```javascript
 [ {
 	legs: [ {
-		id: '1|50420|0|86|25122017',
-		origin: {
-			type: 'station',
-			id: '900000003201',
-			name: 'S+U Berlin Hauptbahnhof',
-			location: {
-				type: 'location',
-				latitude: 52.52585,
-				longitude: 13.368928
-			},
-			products: {
-				suburban: true,
-				subway: true,
-				tram: true,
-				bus: true,
-				ferry: false,
-				express: true,
-				regional: true
-			}
-		},
-		departure: '2017-12-26T00:41:00.000+01:00',
-		departurePlatform: '14',
-		delay: 0,
-		destination: {
-			type: 'station',
-			id: '900000024101',
-			name: 'S Charlottenburg',
-			location: {
-				type: 'location',
-				latitude: 52.504806,
-				longitude: 13.303846
-			},
-			products: {
-				suburban: true,
-				subway: false,
-				tram: false,
-				bus: true,
-				ferry: false,
-				express: false,
-				regional: true
-			}
-		},
-		arrival: '2017-12-26T00:50:00.000+01:00',
-		arrivalPlatform: '4',
+		tripId: '1|50420|0|86|25122017',
+		direction: 'Brandenburg, Hbf',
 		line: {
 			type: 'line',
 			id: '10',
@@ -112,49 +70,85 @@ The output will be an array of [`journey` objects in the *Friendly Public Transp
 				name: 'DB Regio AG'
 			}
 		},
-		direction: 'Brandenburg, Hbf'
+
+		origin: {
+			type: 'station',
+			id: '900000003201',
+			name: 'S+U Berlin Hauptbahnhof',
+			location: {
+				type: 'location',
+				latitude: 52.52585,
+				longitude: 13.368928
+			},
+			products: {
+				suburban: true,
+				subway: true,
+				tram: true,
+				bus: true,
+				ferry: false,
+				express: true,
+				regional: true
+			}
+		},
+		departure: '2017-12-26T00:41:00.000+01:00',
+		plannedDeparture: '2017-12-26T00:41:00.000+01:00',
+		departureDelay: 0,
+		departurePlatform: '14',
+		plannedDeparturePlatform: '13',
+
+		destination: {
+			type: 'station',
+			id: '900000024101',
+			name: 'S Charlottenburg',
+			location: {
+				type: 'location',
+				latitude: 52.504806,
+				longitude: 13.303846
+			},
+			products: {
+				suburban: true,
+				subway: false,
+				tram: false,
+				bus: true,
+				ferry: false,
+				express: false,
+				regional: true
+			}
+		},
+		arrival: '2017-12-26T00:50:00.000+01:00',
+		plannedArrival: '2017-12-26T00:50:00.000+01:00',
+		arrivalDelay: null,
+		arrivalPlatform: '4',
+		plannedArrivalPlatform: '4'
 	} ],
+
 	// all these are from the first leg
 	origin: {
 		type: 'station',
 		id: '900000003201',
-		name: 'S+U Berlin Hauptbahnhof',
-		location: {
-			type: 'location',
-			latitude: 52.52585,
-			longitude: 13.368928
-		},
-		products: {
-			suburban: true,
-			subway: true,
-			tram: true,
-			bus: true,
-			ferry: false,
-			express: true,
-			regional: true
-		}
+		name: 'S+U Berlin Hauptbahnhof'
+		// …
 	},
 	departure: '2017-12-26T00:41:00.000+01:00',
+	plannedDeparture: '2017-12-26T00:41:00.000+01:00',
+	departureDelay: 0,
+	departurePlatform: '14',
+	plannedDeparturePlatform: '13',
+
+	// all these are from the last leg
 	destination: {
 		type: 'station',
 		id: '900000024101',
-		name: 'S Charlottenburg',
-		location: {
-			type: 'location',
-			latitude: 52.504806,
-			longitude: 13.303846
-		},
-		products: {
-			suburban: true,
-			subway: false,
-			tram: false,
-			bus: true,
-			ferry: false,
-			express: false,
-			regional: true
-		}
+		name: 'S Charlottenburg'
+		// …
 	},
-	arrival: '2017-12-26T00:50:00.000+01:00'
+	arrival: '2017-12-26T00:50:00.000+01:00',
+	plannedArrival: '2017-12-26T00:50:00.000+01:00',
+	arrivalDelay: null,
+	arrivalPlatform: '4',
+	plannedArrivalPlatform: '4'
+
+	// …
 } ]
 ```
 
@@ -163,7 +157,7 @@ The output will be an array of [`journey` objects in the *Friendly Public Transp
 
 `vbb-hafas` will try to add transfer information from [`vbb-change-positions`](https://github.com/juliuste/vbb-change-positions) if you pass `transferInfo: true` as an option.
 
-If it identifies a known transfer, the previous leg will have a `arrivalPosition` and the next leg will have a `departurePosition`, indicating the optimal transfer between both platforms. Check out the markup in [`vbb-change-positions`](https://github.com/juliuste/vbb-change-positions) for more details.
+If it identifies a known transfer, the previous leg will have a `bestArrivalPosition` and the next leg will have a `departurePosition`, indicating the optimal transfer between both platforms. Check out the markup in [`vbb-change-positions`](https://github.com/juliuste/vbb-change-positions) for more details.
 
 
 ## Related
