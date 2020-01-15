@@ -9,6 +9,7 @@ This project is actually a thin wrapper around [`hafas-client@5`](https://github
 ![vbb-rest architecture diagram](https://rawgit.com/derhuerst/vbb-rest/hafas-rest-api/architecture.svg)
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
+[![build status](https://api.travis-ci.org/derhuerst/vbb-hafas.svg?branch=master)](https://travis-ci.org/derhuerst/vbb-hafas)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-hafas.svg)
 [![chat on gitter](https://badges.gitter.im/derhuerst.svg)](https://gitter.im/derhuerst)
