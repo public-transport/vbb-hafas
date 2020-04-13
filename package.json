@@ -11,9 +11,9 @@
 		"lib"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
-	"homepage": "https://github.com/derhuerst/vbb-hafas/tree/7",
-	"repository": "derhuerst/vbb-hafas",
-	"bugs": "https://github.com/derhuerst/vbb-hafas/issues",
+	"homepage": "https://github.com/public-transport/vbb-hafas/tree/7",
+	"repository": "public-transport/vbb-hafas",
+	"bugs": "https://github.com/public-transport/vbb-hafas/issues",
 	"license": "ISC",
 	"keywords": [
 		"vbb",

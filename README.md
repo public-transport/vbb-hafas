@@ -9,12 +9,11 @@ This project is actually a thin wrapper around [`hafas-client@5`](https://github
 ![vbb-rest architecture diagram](https://rawgit.com/derhuerst/vbb-rest/hafas-rest-api/architecture.svg)
 
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
-[![build status](https://api.travis-ci.org/derhuerst/vbb-hafas.svg?branch=master)](https://travis-ci.org/derhuerst/vbb-hafas)
-[![dependency status](https://img.shields.io/david/derhuerst/vbb-hafas.svg)](https://david-dm.org/derhuerst/vbb-hafas)
-![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-hafas.svg)
+[![build status](https://api.travis-ci.org/public-transport/vbb-hafas.svg?branch=master)](https://travis-ci.org/public-transport/vbb-hafas)
+![ISC-licensed](https://img.shields.io/github/license/public-transport/vbb-hafas.svg)
 ![minimum Node.js version](https://img.shields.io/node/v/vbb-hafas.svg)
-[![chat on gitter](https://badges.gitter.im/derhuerst.svg)](https://gitter.im/derhuerst)
-[![support me on Patreon](https://img.shields.io/badge/support%20me-on%20patreon-fa7664.svg)](https://patreon.com/derhuerst)
+[![chat on gitter](https://badges.gitter.im/public-transport/Lobby.svg)](https://gitter.im/public-transport/Lobby)
+[![support Jannis via GitHub Sponsors](https://img.shields.io/badge/support%20Jannis-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
 
 
 ## Installing
@@ -169,4 +168,4 @@ Check [`hafas-client`'s related libs](https://github.com/public-transport/hafas-
 
 ## Contributing
 
-If you **have a question**, **found a bug** or want to **propose a feature**, have a look at [the issues page](https://github.com/derhuerst/vbb-hafas/issues).
+If you **have a question**, **found a bug** or want to **propose a feature**, have a look at [the issues page](https://github.com/public-transport/vbb-hafas/issues).
