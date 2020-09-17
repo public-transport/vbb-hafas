@@ -15,27 +15,42 @@ hafas.journeys(spichernstr, bismarckstr, {
 	results: 1,
 	tickets: true,
 	stopovers: true,
-	transferInfo: true
+	transferInfo: true,
+	polylines: true,
 })
-// .then(([journey]) => {
-// 	return hafas.refreshJourney(journey.refreshToken, {transferInfo: true})
+// .then(({journeys}) => {
+// 	const [journey] = journeys
+// 	return hafas.refreshJourney(journey.refreshToken, {
+// 		stopovers: true,
+// 		transferInfo: true,
+// 	})
+// })
+// .then(({journeys}) => {
+// 	const [journey] = journeys
+// 	const leg = journey.legs[0]
+// 	return hafas.trip(leg.tripId, leg.line.name, {polyline: true})
 // })
 
-// hafas.journeys({
-// 	type: 'location',
-// 	id: '900981377',
-// 	name: 'Berlin, HTW-Berlin Campus Wilhelminenhof',
-// 	latitude: 52.458359,
-// 	longitude: 13.526635
-// }, '900000192001', {results: 1})
-// hafas.departures('900000013102', {duration: 1})
-// hafas.locations('Alexanderplatz', {results: 2})
-// hafas.stop('900000017104')
+// hafas.departures('spichernstr', {duration: 1})
+// hafas.arrivals('spichernstr', {duration: 10, linesOfStops: true})
+
+// hafas.locations('spichernstr', {results: 2})
 // hafas.nearby({
 // 	type: 'location',
 // 	latitude: 52.5137344,
 // 	longitude: 13.4744798
 // }, {distance: 60})
+// hafas.reachableFrom({
+// 	type: 'location',
+// 	address: '13353 Berlin-Wedding, Torfstr. 17',
+// 	latitude: 52.541797,
+// 	longitude: 13.350042
+// }, {
+// 	when: new Date('2018-08-27T10:00:00+0200'),
+// 	maxDuration: 10
+// })
+// hafas.stop(spichernstr, {linesOfStops: true})
+
 // hafas.radar({
 // 	north: 52.52411,
 // 	west: 13.41002,
