@@ -12,8 +12,8 @@ This project is actually a thin wrapper around [`hafas-client@5`](https://github
 [![build status](https://api.travis-ci.org/public-transport/vbb-hafas.svg?branch=master)](https://travis-ci.org/public-transport/vbb-hafas)
 ![ISC-licensed](https://img.shields.io/github/license/public-transport/vbb-hafas.svg)
 ![minimum Node.js version](https://img.shields.io/node/v/vbb-hafas.svg)
-[![chat on gitter](https://badges.gitter.im/public-transport/Lobby.svg)](https://gitter.im/public-transport/Lobby)
 [![support Jannis via GitHub Sponsors](https://img.shields.io/badge/support%20Jannis-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
+[![chat with Jannis on Twitter](https://img.shields.io/badge/chat%20with%20Jannis-on%20Twitter-1da1f2.svg)](https://twitter.com/derhuerst)
 
 
 ## Installing
@@ -25,7 +25,7 @@ npm install vbb-hafas
 
 ## API
 
-Check [the docs for `hafas-client`](https://github.com/public-transport/hafas-client/tree/5/docs) as well as [its VBB-specific customisations](https://github.com/public-transport/hafas-client/blob/4/p/vbb/readme.md).
+Check [the docs for `hafas-client`](https://github.com/public-transport/hafas-client/tree/5/docs) as well as [its VBB-specific customisations](https://github.com/public-transport/hafas-client/blob/5/p/vbb/readme.md).
 
 
 ## Usage
@@ -163,7 +163,7 @@ If it identifies a known transfer, the previous leg will have a `bestArrivalPosi
 
 ## Related
 
-Check [`hafas-client`'s related libs](https://github.com/public-transport/hafas-client/blob/4/readme.md#related).
+Check [`hafas-client`'s related projects](https://github.com/public-transport/hafas-client/blob/5/readme.md#related-projects).
 
 
 ## Contributing
