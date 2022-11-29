@@ -30,13 +30,14 @@
 		"node": ">=18"
 	},
 	"dependencies": {
-		"hafas-client": "^5.0.0",
+		"hafas-client": "^6.0.0",
 		"merged-vbb-stations": "^2.0.0",
-		"vbb-change-positions": "^1.2.0",
+		"vbb-change-positions": "github:derhuerst/vbb-change-positions#2.0.0-alpha.1",
 		"vbb-line-colors": "^1.0.2"
 	},
 	"devDependencies": {
-		"eslint": "^8.28.0"
+		"eslint": "^8.28.0",
+		"vbb-stations": "^8.3.1"
 	},
 	"scripts": {
 		"lint": "eslint .",

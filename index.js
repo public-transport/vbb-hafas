@@ -1,7 +1,6 @@
-import _profileHooks from 'hafas-client/lib/profile-hooks.js'
-const {parseHook} = _profileHooks
-import createClient from 'hafas-client'
-import vbbProfile from 'hafas-client/p/vbb/index.js'
+import {parseHook} from 'hafas-client/lib/profile-hooks.js'
+import {createClient} from 'hafas-client'
+import {profile as vbbProfile} from 'hafas-client/p/vbb/index.js'
 import colors from 'vbb-line-colors'
 
 import {addTransferInfoToJourney} from './lib/add-transfer-info.js'

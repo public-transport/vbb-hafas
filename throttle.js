@@ -1,6 +1,6 @@
-import createClient from 'hafas-client'
-import withThrottling from 'hafas-client/throttle.js'
-import vbbProfile from 'hafas-client/p/vbb/index.js'
+import {createClient} from 'hafas-client'
+import {withThrottling} from 'hafas-client/throttle.js'
+import {profile as vbbProfile} from 'hafas-client/p/vbb/index.js'
 
 const createThrottledClient = (userAgent, opt = {}) => {
 	const {
