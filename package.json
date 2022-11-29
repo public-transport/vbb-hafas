@@ -34,9 +34,13 @@
 		"vbb-change-positions": "^1.2.0",
 		"vbb-line-colors": "^1.0.2"
 	},
+	"devDependencies": {
+		"eslint": "^8.28.0"
+	},
 	"scripts": {
+		"lint": "eslint .",
 		"smoke-test": "env NODE_ENV=dev node example.js >/dev/null",
 		"test": "node test/add-transfer-info.js",
-		"prepublishOnly": "npm test && npm run smoke-test"
+		"prepublishOnly": "npm run lint && npm test && npm run smoke-test"
 	}
 }
