@@ -7,8 +7,8 @@ const hafas = createHafas('vbb-hafas-example')
 // const hafas = createThrottledHafas('vbb-hafas-example', 5, 100)
 // const hafas = createHafasWithRetry('vbb-hafas-example', {retries: 2})
 
-const spichernstr = '900000042101'
-const bismarckstr = '900000024201'
+const spichernstr = '900042101'
+const bismarckstr = '900024201'
 
 let data = await hafas.journeys(spichernstr, bismarckstr, {
 	results: 1,

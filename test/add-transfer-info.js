@@ -1,12 +1,22 @@
-import getStations from 'vbb-stations'
+// todo: use import assertions once they're supported by Node.js & ESLint
+// https://github.com/tc39/proposal-import-assertions
+import {createRequire} from 'module'
+const require = createRequire(import.meta.url)
+
+const allStations = require('vbb-stations/full.json')
 import assert from 'assert'
 
 import {addTransferInfoToJourney} from '../lib/add-transfer-info.js'
 
-const kotti = getStations('900000013102')[0]
-const prinzenstr = getStations('900000013103')[0]
-const halleschesTor = getStations('900000012103')[0]
-const mehringdamm = getStations('900000017101')[0]
+const kotti = allStations['de:11000:900013102']
+assert.ok(kotti, 'precondition: kotti missing/unknown')
+const prinzenstr = allStations['de:11000:900013103']
+assert.ok(prinzenstr, 'precondition: prinzenstr missing/unknown')
+const halleschesTor = allStations['de:11000:900012103']
+assert.ok(halleschesTor, 'precondition: halleschesTor missing/unknown')
+const mehringdamm = allStations['de:11000:900017101']
+assert.ok(mehringdamm, 'precondition: mehringdamm missing/unknown')
+
 const kottiDep = '2018-05-05T05:05:00.000+02:00'
 const halleschesTorArr = '2018-05-05T05:08:00.000+02:00'
 const halleschesTorDep = '2018-05-05T05:12:00.000+02:00'
