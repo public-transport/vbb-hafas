@@ -1,8 +1,7 @@
-'use strict'
-
-const createHafas = require('.')
-// const createThrottledHafas = require('./throttle')
-// const createHafasWithRetry = require('./retry')
+import {inspect} from 'util'
+import {createVbbHafas as createHafas} from './index.js'
+// import {createThrottledHafas} from './throttle.js'
+// import {createHafasWithRetry} from './retry.js'
 
 const hafas = createHafas('vbb-hafas-example')
 // const hafas = createThrottledHafas('vbb-hafas-example', 5, 100)

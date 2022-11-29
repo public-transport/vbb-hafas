@@ -1,8 +1,6 @@
-'use strict'
-
-const createClient = require('hafas-client')
-const withRetrying = require('hafas-client/retry')
-const vbbProfile = require('hafas-client/p/vbb')
+import createClient from 'hafas-client'
+import withRetrying from 'hafas-client/retry.js'
+import vbbProfile from 'hafas-client/p/vbb/index.js'
 
 const createRetryingClient = (userAgent, opt = {}) => {
 	const {retryOpts} = {retryOpts: {}, ...opt}
@@ -11,4 +9,6 @@ const createRetryingClient = (userAgent, opt = {}) => {
 	return createClient(retryingProfile, userAgent, opt)
 }
 
-module.exports = createRetryingClient
+export {
+	createRetryingClient,
+}

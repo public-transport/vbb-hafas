@@ -1,9 +1,7 @@
-'use strict'
+import getStations from 'vbb-stations'
+import assert from 'assert'
 
-const getStations = require('vbb-stations')
-const assert = require('assert')
-
-const addTransferInfoToJourney = require('../lib/add-transfer-info')
+import {addTransferInfoToJourney} from '../lib/add-transfer-info.js'
 
 const kotti = getStations('900000013102')[0]
 const prinzenstr = getStations('900000013103')[0]

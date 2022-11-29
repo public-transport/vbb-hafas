@@ -1,11 +1,10 @@
-'use strict'
+import _profileHooks from 'hafas-client/lib/profile-hooks.js'
+const {parseHook} = _profileHooks
+import createClient from 'hafas-client'
+import vbbProfile from 'hafas-client/p/vbb/index.js'
+import colors from 'vbb-line-colors'
 
-const {parseHook} = require('hafas-client/lib/profile-hooks')
-const createClient = require('hafas-client')
-const vbbProfile = require('hafas-client/p/vbb')
-const colors = require('vbb-line-colors')
-
-const addTransferInfoToJourney = require('./lib/add-transfer-info')
+import {addTransferInfoToJourney} from './lib/add-transfer-info.js'
 
 const {parseLine: _parseLine} = vbbProfile
 const parseLineWithColor = ({parsed}, l) => {
@@ -63,5 +62,7 @@ const createVbbHafas = (userAgent, opt = {}) => {
 	return hafas
 }
 
-createVbbHafas.defaults = defaults
-module.exports = createVbbHafas
+export {
+	defaults,
+	createVbbHafas,
+}
