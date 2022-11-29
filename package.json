@@ -1,7 +1,7 @@
 {
 	"name": "vbb-hafas",
 	"description": "JavaScript client for the VBB HAFAS API.",
-	"version": "7.0.4",
+	"version": "8.0.0",
 	"main": "index.js",
 	"type": "module",
 	"files": [
@@ -12,7 +12,7 @@
 		"lib"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
-	"homepage": "https://github.com/public-transport/vbb-hafas/tree/7",
+	"homepage": "https://github.com/public-transport/vbb-hafas/tree/8",
 	"repository": "public-transport/vbb-hafas",
 	"bugs": "https://github.com/public-transport/vbb-hafas/issues",
 	"license": "ISC",

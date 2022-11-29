@@ -6,8 +6,6 @@ This project is actually a thin wrapper around [`hafas-client@6`](https://github
 
 *Note*: You may not want to query the VBB API by yourself. [`vbb-client`](https://github.com/derhuerst/vbb-client) is an API-compatible client for [`vbb-rest`](https://github.com/derhuerst/vbb-rest), my wrapper API. It also works in the browser.
 
-![vbb-rest architecture diagram](https://rawgit.com/derhuerst/vbb-rest/hafas-rest-api/architecture.svg)
-
 [![npm version](https://img.shields.io/npm/v/vbb-hafas.svg)](https://www.npmjs.com/package/vbb-hafas)
 [![build status](https://api.travis-ci.org/public-transport/vbb-hafas.svg?branch=master)](https://travis-ci.org/public-transport/vbb-hafas)
 ![ISC-licensed](https://img.shields.io/github/license/public-transport/vbb-hafas.svg)
